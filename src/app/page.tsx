@@ -150,7 +150,8 @@ export default function Home() {
         </div>
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">
-          © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議
+          © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議 ·{' '}
+          <a href="/privacy" className="underline hover:text-[#0D9488]">隱私權政策</a>
         </p>
       </div>
     </main>
