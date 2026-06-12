@@ -1,65 +1,158 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter()
+  const [form, setForm] = useState({ name: '', date: '', time: '', gender: '' })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!form.name || !form.date || !form.gender) {
+      setError('請填寫姓名、出生日期和性別')
+      return
+    }
+    setLoading(true)
+    setError('')
+    const params = new URLSearchParams({
+      name: form.name,
+      date: form.date,
+      time: form.time,
+      gender: form.gender,
+    })
+    router.push(`/reading?${params.toString()}`)
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-white">
+      <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
+        <span className="text-xl font-medium tracking-wide">
+          悟<span className="text-[#0D9488]">明</span>
+        </span>
+        <span className="text-sm text-[#0D9488] cursor-pointer">登入</span>
+      </nav>
+
+      <div className="px-5 pt-6 pb-4 max-w-lg mx-auto">
+        <div className="inline-flex items-center gap-1 text-[11px] text-[#0D9488] bg-[#F0FDF9] rounded-full px-3 py-1 mb-4">
+          ✦ AI 命理 · 自我探索
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <h1 className="text-[28px] font-medium leading-snug text-[#0F2027] mb-2">
+          讀懂自己，<br />
+          <span className="text-[#0D9488]">導航人生</span>
+        </h1>
+        <p className="text-[13px] text-[#777] leading-relaxed mb-5">
+          結合八字與AI，了解你的天賦、職涯方向與最佳人生時機
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl overflow-hidden">
+            <div className="p-4 space-y-3">
+              <div>
+                <label className="block text-[12px] font-medium text-[#0D9488] mb-1.5">你的名字</label>
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Jazz"
+                  className="w-full h-11 bg-white border border-[#A7F3D0] rounded-xl px-3 text-[15px] text-[#0F2027] placeholder-[#CCC] outline-none focus:border-[#0D9488] transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-[#0D9488] mb-1.5">出生日期</label>
+                <input
+                  name="date"
+                  value={form.date}
+                  onChange={handleChange}
+                  type="date"
+                  className="w-full h-11 bg-white border border-[#A7F3D0] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#0D9488] transition-colors"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[12px] font-medium text-[#0D9488] mb-1.5">
+                    出生時間 <span className="text-[#AAA] font-normal text-[10px]">可略</span>
+                  </label>
+                  <input
+                    name="time"
+                    value={form.time}
+                    onChange={handleChange}
+                    type="time"
+                    className="w-full h-11 bg-white border border-[#A7F3D0] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#0D9488] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[12px] font-medium text-[#0D9488] mb-1.5">性別</label>
+                  <select
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                    className="w-full h-11 bg-white border border-[#A7F3D0] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#0D9488] transition-colors"
+                  >
+                    <option value="" disabled>請選擇</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {error && <p className="text-[12px] text-red-500 px-4 pb-2">{error}</p>}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-14 bg-[#0D9488] text-white text-[16px] font-medium flex items-center justify-center gap-2 disabled:opacity-70 active:opacity-90 transition-opacity"
+            >
+              {loading ? (
+                <>
+                  <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+                  生成中...
+                </>
+              ) : '✦ 解讀我的命盤'}
+            </button>
+          </div>
+        </form>
+
+        <div className="flex justify-center gap-5 py-3">
+          {['完全免費', '不儲存個資', '即時生成'].map(t => (
+            <span key={t} className="text-[11px] text-[#AAA] flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-[#0D9488] opacity-60 inline-block" />
+              {t}
+            </span>
+          ))}
         </div>
-      </main>
-    </div>
-  );
+
+        <div className="h-px bg-[#F0FAF8] my-1" />
+
+        <div className="py-4">
+          <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">你將獲得</p>
+          <div className="grid grid-cols-2 gap-2.5">
+            {[
+              { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
+              { icon: '💼', title: '職涯方向', desc: '適合產業與時機' },
+              { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
+              { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
+            ].map(f => (
+              <div key={f.title} className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-xl p-3.5">
+                <div className="text-lg mb-1.5">{f.icon}</div>
+                <div className="text-[13px] font-medium text-[#0F2027] mb-0.5">{f.title}</div>
+                <div className="text-[11px] text-[#888] leading-snug">{f.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center text-[10px] text-[#CCC] pb-6">
+          © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議
+        </p>
+      </div>
+    </main>
+  )
 }
