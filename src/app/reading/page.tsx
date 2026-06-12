@@ -242,30 +242,35 @@ function ReadingContent() {
                 <p className="text-[14px] font-medium text-[#0D9488]">命盤已儲存！每月運勢將寄至你的信箱</p>
               </div>
               <div className="p-4 bg-white">
-                <p className="text-[13px] font-medium text-[#0F2027] mb-1">想要更深入的解讀？</p>
-                <p className="text-[12px] text-[#777] mb-3">升級 悟明 Pro，解鎖完整命理分析</p>
-                <div className="space-y-2 mb-4">
-                  {PRO_FEATURES.map(f => (
-                    <div key={f.text} className="flex items-center gap-2.5">
-                      <span className="text-[15px]">{f.icon}</span>
-                      <span className="text-[13px] text-[#444]">{f.text}</span>
+                <p className="text-[15px] font-semibold text-[#0F2027] mb-0.5">你的命盤還藏著更多</p>
+                <p className="text-[12px] text-[#888] mb-4">這份解讀只是開始。悟明 Pro 幫你把命盤變成行動指南。</p>
+                <div className="space-y-3 mb-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">📅</div>
+                    <div>
+                      <p className="text-[13px] font-medium text-[#0F2027]">知道哪個月該出手</p>
+                      <p className="text-[11px] text-[#888] leading-relaxed">流年逐月分析，告訴你今年哪幾個月是你的黃金時機，哪幾個月要保守。</p>
                     </div>
-                  ))}
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">💼</div>
+                    <div>
+                      <p className="text-[13px] font-medium text-[#0F2027]">找到真正適合你的職涯路</p>
+                      <p className="text-[11px] text-[#888] leading-relaxed">深度分析你的命格與哪些產業、職位最契合，避開走彎路。</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">❤️</div>
+                    <div>
+                      <p className="text-[13px] font-medium text-[#0F2027]">感情與合作的最佳時機</p>
+                      <p className="text-[11px] text-[#888] leading-relaxed">合盤分析看你與另一半或合夥人的相容性，以及何時是關係推進的好時機。</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2.5 mb-2">
-                  <button className="h-11 bg-[#0D9488] text-white rounded-xl text-[13px] font-medium flex flex-col items-center justify-center leading-tight">
-                    <span>月繳方案</span>
-                    <span className="text-[11px] opacity-80">NTD $149 / 月</span>
-                  </button>
-                  <button className="h-11 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium flex flex-col items-center justify-center leading-tight relative overflow-hidden">
-                    <span className="absolute top-0 right-0 bg-[#0D9488] text-[9px] px-1.5 py-0.5 rounded-bl-lg">省44%</span>
-                    <span>年繳方案</span>
-                    <span className="text-[11px] opacity-80">NTD $1,290 / 年</span>
-                  </button>
-                </div>
-                <button className="w-full h-10 border border-[#CCFBF1] rounded-xl text-[12px] text-[#0D9488] bg-[#F0FDF9]">
-                  單次深度報告 NTD $299 →
+                <button className="w-full h-12 bg-[#0D9488] text-white rounded-xl text-[14px] font-semibold mb-2">
+                  解鎖完整命盤分析 →
                 </button>
+                <p className="text-center text-[11px] text-[#AAA]">月繳 NTD $149 · 年繳 NTD $1,290（省44%）· 單次報告 $299</p>
               </div>
             </div>
           ) : (
