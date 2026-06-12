@@ -85,7 +85,7 @@ function ReadingContent() {
     await fetch('/api/save-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name }),
+      body: JSON.stringify({ email, name, reading: data?.reading, bazi: data?.bazi, lifePath: data?.lifePath, lifePathInfo: data?.lifePathInfo }),
     })
     setEmailSent(true)
     setEmailLoading(false)

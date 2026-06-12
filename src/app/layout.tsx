@@ -29,6 +29,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW" className={`${geistSans.variable}`}>
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EY2T2LB478"></script>
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EY2T2LB478');
+        `}} />
+      </head>
       <body className="min-h-full bg-white text-[#0F2027]">{children}</body>
     </html>
   );
