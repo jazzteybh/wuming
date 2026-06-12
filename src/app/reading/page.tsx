@@ -164,7 +164,7 @@ function ReadingContent() {
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">五行命格</p>
             <p className="text-[20px] mb-0.5">{elementEmoji}</p>
-            <p className="text-[16px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
+            <p className="text-[16px] font-medium text-[#0F2027]">{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
             <div className="flex gap-1 mt-1.5 flex-wrap">
               {Object.entries(data.bazi.elements).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([el,count])=>(
                 <span key={el} className={`text-[10px] px-1.5 py-0.5 rounded-full border ${ELEMENT_COLOR[el]}`}>
@@ -179,7 +179,7 @@ function ReadingContent() {
             <p className="text-[10px] text-[#AAA] mb-1">星座</p>
             <p className="text-[20px] mb-0.5">{zodiac.emoji}</p>
             <p className="text-[16px] font-medium text-[#0F2027]">{zodiac.sign}</p>
-            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}日主 · {data.bazi.dayStemElement}行</p>
+            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}{data.bazi.dayStemElement} · {zodiac.sign}</p>
           </div>
 
           {/* Life Path */}
