@@ -8,6 +8,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: '/favicon.svg', shortcut: '/favicon.svg' },
   title: "悟明 — 讀懂自己，導航人生",
   description: "結合八字與AI，了解你的天賦、職涯方向與最佳人生時機。完全免費，即時生成。",
   keywords: "八字,命盤,AI算命,生命數字,職涯分析,流年運勢,自我探索",
