@@ -64,6 +64,7 @@ function ReadingContent() {
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
   const [emailLoading, setEmailLoading] = useState(false)
+  const [showComingSoon, setShowComingSoon] = useState(false)
 
   useEffect(() => {
     if (!name || !date || !gender) { router.push('/'); return }
@@ -77,6 +78,15 @@ function ReadingContent() {
       .catch(() => setError('網路錯誤，請重試'))
       .finally(() => setLoading(false))
   }, [])
+
+  function trackPayClick(plan: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(window as any).gtag('event', 'pay_click', { plan })
+    }
+    setShowComingSoon(true)
+  }
 
   async function handleSaveEmail(e: React.FormEvent) {
     e.preventDefault()
@@ -267,10 +277,33 @@ function ReadingContent() {
                     </div>
                   </div>
                 </div>
-                <button className="w-full h-12 bg-[#0D9488] text-white rounded-xl text-[14px] font-semibold mb-2">
-                  解鎖完整命盤分析 →
+                <div className="grid grid-cols-2 gap-2 mb-2">
+                  <button onClick={() => trackPayClick('monthly')} className="h-12 bg-[#0D9488] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight">
+                    <span>月繳方案</span>
+                    <span className="text-[11px] opacity-80">NTD $149 / 月</span>
+                  </button>
+                  <button onClick={() => trackPayClick('yearly')} className="h-12 bg-[#0F2027] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight relative overflow-hidden">
+                    <span className="absolute top-0 right-0 bg-[#0D9488] text-[9px] px-1.5 py-0.5 rounded-bl-lg">省44%</span>
+                    <span>年繳方案</span>
+                    <span className="text-[11px] opacity-80">NTD $1,290 / 年</span>
+                  </button>
+                </div>
+                <button onClick={() => trackPayClick('single')} className="w-full h-10 border border-[#CCFBF1] rounded-xl text-[12px] text-[#0D9488] bg-[#F0FDF9]">
+                  單次深度報告 NTD $299 →
                 </button>
-                <p className="text-center text-[11px] text-[#AAA]">月繳 NTD $149 · 年繳 NTD $1,290（省44%）· 單次報告 $299</p>
+
+                {showComingSoon && (
+                  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6" onClick={() => setShowComingSoon(false)}>
+                    <div className="bg-white rounded-2xl p-6 max-w-xs w-full text-center shadow-xl" onClick={e => e.stopPropagation()}>
+                      <p className="text-[28px] mb-2">🔔</p>
+                      <p className="text-[16px] font-semibold text-[#0F2027] mb-1">即將上線</p>
+                      <p className="text-[13px] text-[#666] leading-relaxed mb-4">付費功能正在開發中，上線後將第一時間通知你！</p>
+                      <button onClick={() => setShowComingSoon(false)} className="w-full h-10 bg-[#0D9488] text-white rounded-xl text-[13px] font-medium">
+                        好的，期待！
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
