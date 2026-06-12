@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
   try {
     await resend.emails.send({
-      from: '悟明 <noreply@wumingai.app>',
+      from: '悟明 <onboarding@resend.dev>',
       to: email,
       subject: `${name}，你的完整命盤解讀 ✦`,
       html: `

@@ -31,12 +31,17 @@ const ELEMENT_COLOR: Record<string, string> = {
   水: 'bg-blue-50 text-blue-700 border-blue-200',
 }
 
+const MAIN_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向']
+
 function parseReading(text: string): Record<string, string> {
   const sections: Record<string, string> = {}
-  const parts = text.split(/\*\*(.+?)\*\*/)
+  // Only split on main section headers, not sub-headers inside content
+  const pattern = new RegExp(`\\*\\*(${MAIN_SECTIONS.join('|')}|生命數字[^*]*)\\*\\*`)
+  const parts = text.split(pattern)
   for (let i = 1; i < parts.length; i += 2) {
     const title = parts[i].trim()
-    const content = parts[i + 1]?.trim() || ''
+    // Render remaining **bold** inside content as styled text, not new sections
+    const content = (parts[i + 1] || '').trim().replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     sections[title] = content
   }
   return sections
@@ -238,7 +243,7 @@ function ReadingContent() {
         {sectionKeys.map(title => (
           <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-3">
             <p className="text-[13px] font-medium text-[#0D9488] mb-2.5">{title}</p>
-            <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line">{sections[title]}</p>
+            <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: sections[title] }} />
           </div>
         ))}
 
