@@ -33,8 +33,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
-        <span className="text-xl font-medium tracking-wide">
-          悟<span className="text-[#0D9488]">明</span>
+        <div>
+          <span className="text-xl font-medium tracking-wide">悟<span className="text-[#0D9488]">明</span></span>
+          <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+        </div>
         </span>
         <span className="text-sm text-[#0D9488] cursor-pointer">登入</span>
       </nav>

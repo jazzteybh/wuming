@@ -1,6 +1,10 @@
 export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-white px-5 py-10 max-w-2xl mx-auto">
+      <div className="mb-6">
+        <div className="text-xl font-medium tracking-wide mb-0.5">悟<span className="text-[#0D9488]">明</span></div>
+        <p className="text-[11px] text-[#AAA]">讀懂自己，導航人生</p>
+      </div>
       <h1 className="text-[22px] font-semibold text-[#0F2027] mb-1">隱私權政策</h1>
       <p className="text-[12px] text-[#AAA] mb-8">最後更新：2026年6月</p>
 
