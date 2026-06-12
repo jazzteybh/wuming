@@ -71,6 +71,7 @@ export interface BaziResult {
   day: { stem: string; branch: string }
   hour: { stem: string; branch: string } | null
   dayStem: string
+  dayStemElement: string
   elements: Record<string, number>
   dominantElement: string
   dominantElementEn: string
@@ -113,6 +114,7 @@ export function calculateBazi(
     day: dayPillar,
     hour: hourPillar,
     dayStem: dayPillar.stem,
+    dayStemElement: STEM_ELEMENT[dayPillar.stem],
     elements,
     dominantElement,
     dominantElementEn: ELEMENT_EN[dominantElement],

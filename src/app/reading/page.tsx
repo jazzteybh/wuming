@@ -10,6 +10,7 @@ interface BaziResult {
   day: { stem: string; branch: string }
   hour: { stem: string; branch: string } | null
   dayStem: string
+  dayStemElement: string
   elements: Record<string, number>
   dominantElement: string
   missingElements: string[]
@@ -118,8 +119,8 @@ function ReadingContent() {
   const sections = parseReading(data.reading)
   const sectionKeys = Object.keys(sections)
   const zodiac = getZodiac(date)
-  const luckyColors = ELEMENT_LUCKY_COLORS[data.bazi.dominantElement]
-  const elementEmoji = ELEMENT_EMOJI[data.bazi.dominantElement]
+  const luckyColors = ELEMENT_LUCKY_COLORS[data.bazi.dayStemElement]
+  const elementEmoji = ELEMENT_EMOJI[data.bazi.dayStemElement]
   const tags = DAY_STEM_TAGS[data.bazi.dayStem] || []
 
   return (
@@ -148,7 +149,7 @@ function ReadingContent() {
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">五行命格</p>
             <p className="text-[20px] mb-0.5">{elementEmoji}</p>
-            <p className="text-[16px] font-medium text-[#0F2027]">{data.bazi.dominantElement}命人</p>
+            <p className="text-[16px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
             <div className="flex gap-1 mt-1.5 flex-wrap">
               {Object.entries(data.bazi.elements).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([el,count])=>(
                 <span key={el} className={`text-[10px] px-1.5 py-0.5 rounded-full border ${ELEMENT_COLOR[el]}`}>
@@ -163,7 +164,7 @@ function ReadingContent() {
             <p className="text-[10px] text-[#AAA] mb-1">星座</p>
             <p className="text-[20px] mb-0.5">{zodiac.emoji}</p>
             <p className="text-[16px] font-medium text-[#0F2027]">{zodiac.sign}</p>
-            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}日主 · {data.bazi.dominantElement}行</p>
+            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}日主 · {data.bazi.dayStemElement}行</p>
           </div>
 
           {/* Life Path */}
