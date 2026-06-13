@@ -1,3 +1,15 @@
+export const LIFE_PATH_BEST_PARTNER: Record<number, { num: number; desc: string }> = {
+  1: { num: 3, desc: '創意激發領導，相得益彰' },
+  2: { num: 8, desc: '溫柔遇見力量，完美互補' },
+  3: { num: 9, desc: '創意共鳴，啟發彼此' },
+  4: { num: 6, desc: '踏實同行，共建家園' },
+  5: { num: 1, desc: '自由與領導，互相激勵' },
+  6: { num: 2, desc: '愛與和諧，靈魂共鳴' },
+  7: { num: 5, desc: '智慧遇見自由，深度探索' },
+  8: { num: 2, desc: '力量與溫柔，天生一對' },
+  9: { num: 3, desc: '博愛遇見創意，感動世界' },
+}
+
 export function calculateLifePath(birthDate: string): number {
   const digits = birthDate.replace(/-/g, '').split('').map(Number)
   let sum = digits.reduce((a, b) => a + b, 0)

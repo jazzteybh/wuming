@@ -2,7 +2,8 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_CRYSTALS, DAY_STEM_BEST_PARTNER, getKeyAges, getMonthlyEnergy, getAge } from '@/lib/bazi'
+import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_CRYSTALS, DAY_STEM_BEST_PARTNER, getKeyAges, getMonthlyEnergy, getAge, getChineseZodiac, CHINESE_ZODIAC_BEST_PARTNER, ZODIAC_BEST_PARTNER } from '@/lib/bazi'
+import { LIFE_PATH_BEST_PARTNER } from '@/lib/numerology'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -177,6 +178,10 @@ function ReadingContent() {
   const crystal = ELEMENT_CRYSTALS[data.bazi.dayStemElement]
   const bestPartner = DAY_STEM_BEST_PARTNER[data.bazi.dayStem]
   const keyAges = getKeyAges(data.bazi.dayStem)
+  const chineseZodiac = getChineseZodiac(date)
+  const chineseZodiacPartner = CHINESE_ZODIAC_BEST_PARTNER[chineseZodiac.animal]
+  const zodiacPartner = ZODIAC_BEST_PARTNER[zodiac.sign]
+  const lifePathPartner = LIFE_PATH_BEST_PARTNER[data.lifePath]
   const monthlyEnergy = getMonthlyEnergy(date, data.bazi.dayStem)
   const age = getAge(date)
   const today = new Date()
@@ -239,15 +244,19 @@ function ReadingContent() {
           <div className="relative">
             <div className="absolute top-[10px] left-0 right-0 h-0.5 bg-[#CCFBF1]" />
             <div className="flex justify-between relative z-10">
-              {keyAges.map(({ age: a, label }, i) => (
+              {keyAges.map(({ age: a, label }, i) => {
+                const isPeak = label.includes('高峰')
+                const isPast = a <= age
+                return (
                 <div key={i} className="text-center">
-                  <div className={`w-5 h-5 rounded-full mx-auto mb-1 flex items-center justify-center ${a <= age ? 'bg-[#0D9488]' : 'bg-white border-2 border-[#CCFBF1]'}`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${a <= age ? 'bg-white' : 'bg-[#0D9488]'}`} />
+                  <div className={`w-5 h-5 rounded-full mx-auto mb-1 flex items-center justify-center ${isPast ? 'bg-[#0D9488]' : isPeak ? 'bg-[#FFFBEB] border-2 border-[#D97706]' : 'bg-white border-2 border-[#CCFBF1]'}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-white' : isPeak ? 'bg-[#D97706]' : 'bg-[#0D9488]'}`} />
                   </div>
-                  <p className={`text-[11px] font-medium ${a <= age ? 'text-[#0D9488]' : 'text-[#0F2027]'}`}>{a}歲</p>
-                  <p className="text-[9px] text-[#888] mt-0.5">{label}</p>
+                  <p className={`text-[11px] font-medium ${isPast ? 'text-[#0D9488]' : isPeak ? 'text-[#D97706]' : 'text-[#0F2027]'}`}>{a}歲</p>
+                  <p className={`text-[9px] mt-0.5 ${isPeak ? 'text-[#D97706]' : 'text-[#888]'}`}>{label}</p>
                 </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
@@ -279,19 +288,34 @@ function ReadingContent() {
           </div>
         </div>
 
-        {/* Row 4: 星座 + 最佳拍檔 */}
-        <div className="grid grid-cols-2 gap-2.5 mb-2.5">
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
-            <p className="text-[10px] text-[#AAA] mb-1">星座</p>
-            <p className="text-[20px] mb-0.5">{zodiac.emoji}</p>
-            <p className="text-[15px] font-medium text-[#0F2027]">{zodiac.sign}</p>
-            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}{data.bazi.dayStemElement} · {zodiac.sign}</p>
-          </div>
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
-            <p className="text-[10px] text-[#AAA] mb-1">最佳拍檔</p>
-            <p className="text-[20px] mb-0.5">{ELEMENT_EMOJI[bestPartner?.element || '水']}</p>
-            <p className="text-[15px] font-medium text-[#0F2027]">{bestPartner?.stem}{bestPartner?.element}日主</p>
-            <p className="text-[11px] text-[#888] mt-1">{bestPartner?.desc}</p>
+        {/* Row 4: 天作之合 2x2 */}
+        <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
+          <p className="text-[11px] text-[#0D9488] tracking-wide mb-3">天作之合</p>
+          <div className="grid grid-cols-2 gap-2.5">
+            <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-xl p-3">
+              <p className="text-[9.5px] text-[#0D9488] font-medium tracking-wide mb-2">五行配對</p>
+              <p className="text-[10px] text-[#AAA] mb-0.5">你：{data.bazi.dayStemElement}命人</p>
+              <p className="text-[15px] font-medium text-[#0F2027] mb-1">{bestPartner?.stem}{bestPartner?.element}人</p>
+              <p className="text-[10px] text-[#888] leading-snug">{bestPartner?.desc}</p>
+            </div>
+            <div className="bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-3">
+              <p className="text-[9.5px] text-[#D97706] font-medium tracking-wide mb-2">生命數字</p>
+              <p className="text-[10px] text-[#AAA] mb-0.5">你：{data.lifePath} 號人</p>
+              <p className="text-[15px] font-medium text-[#0F2027] mb-1">{lifePathPartner?.num} 號人</p>
+              <p className="text-[10px] text-[#888] leading-snug">{lifePathPartner?.desc}</p>
+            </div>
+            <div className="bg-[#F5F3FF] border border-[#DDD6FE] rounded-xl p-3">
+              <p className="text-[9.5px] text-[#7C3AED] font-medium tracking-wide mb-2">西洋星座</p>
+              <p className="text-[10px] text-[#AAA] mb-0.5">你：{zodiac.sign}</p>
+              <p className="text-[15px] font-medium text-[#0F2027] mb-1">{zodiacPartner?.sign}</p>
+              <p className="text-[10px] text-[#888] leading-snug">{zodiacPartner?.desc}</p>
+            </div>
+            <div className="bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3">
+              <p className="text-[9.5px] text-[#E11D48] font-medium tracking-wide mb-2">生肖配對</p>
+              <p className="text-[10px] text-[#AAA] mb-0.5">你：屬{chineseZodiac.animal}</p>
+              <p className="text-[15px] font-medium text-[#0F2027] mb-1">屬{chineseZodiacPartner?.animal}</p>
+              <p className="text-[10px] text-[#888] leading-snug">{chineseZodiacPartner?.desc}</p>
+            </div>
           </div>
         </div>
 

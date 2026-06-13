@@ -225,6 +225,45 @@ export function getMonthlyEnergy(birthDate: string, dayStem: string): { 人際�
   return { 人際運: r1, 財運: r2, 健康運: r3 }
 }
 
+const CHINESE_ZODIAC_ANIMALS = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬']
+
+export function getChineseZodiac(birthDate: string): { animal: string; emoji: string } {
+  const year = parseInt(birthDate.split('-')[0])
+  const idx = ((year - 1900) % 12 + 12) % 12
+  const emojis = ['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐓','🐶','🐷']
+  return { animal: CHINESE_ZODIAC_ANIMALS[idx], emoji: emojis[idx] }
+}
+
+export const CHINESE_ZODIAC_BEST_PARTNER: Record<string, { animal: string; desc: string }> = {
+  鼠: { animal: '龍', desc: '英雄相惜，共創大業' },
+  牛: { animal: '蛇', desc: '踏實相守，深厚情誼' },
+  虎: { animal: '馬', desc: '熱血同行，勇往直前' },
+  兔: { animal: '羊', desc: '溫柔相伴，和諧美滿' },
+  龍: { animal: '鼠', desc: '英雄相惜，共創大業' },
+  蛇: { animal: '雞', desc: '智慧共鳴，相輔相成' },
+  馬: { animal: '虎', desc: '熱血同行，勇往直前' },
+  羊: { animal: '兔', desc: '溫柔相伴，和諧美滿' },
+  猴: { animal: '鼠', desc: '機智共鳴，靈活配合' },
+  雞: { animal: '牛', desc: '務實互補，相得益彰' },
+  狗: { animal: '馬', desc: '忠誠相伴，並肩前行' },
+  豬: { animal: '兔', desc: '真誠溫暖，福氣相聚' },
+}
+
+export const ZODIAC_BEST_PARTNER: Record<string, { sign: string; desc: string }> = {
+  牡羊座: { sign: '獅子座', desc: '火象共鳴，熱情無限' },
+  金牛座: { sign: '處女座', desc: '踏實互補，穩健同行' },
+  雙子座: { sign: '天秤座', desc: '風象默契，思想共鳴' },
+  巨蟹座: { sign: '天蠍座', desc: '水象深情，靈魂契合' },
+  獅子座: { sign: '射手座', desc: '火象燃燒，共同冒險' },
+  處女座: { sign: '摩羯座', desc: '踏實共進，完美搭配' },
+  天秤座: { sign: '雙子座', desc: '風象默契，思想共鳴' },
+  天蠍座: { sign: '雙魚座', desc: '水象深情，靈魂契合' },
+  射手座: { sign: '牡羊座', desc: '火象共鳴，熱情無限' },
+  摩羯座: { sign: '金牛座', desc: '踏實互補，穩健同行' },
+  水瓶座: { sign: '天秤座', desc: '風象默契，思想共鳴' },
+  雙魚座: { sign: '巨蟹座', desc: '水象深情，靈魂契合' },
+}
+
 export function getAge(birthDate: string): number {
   const [y, m, d] = birthDate.split('-').map(Number)
   const today = new Date()
