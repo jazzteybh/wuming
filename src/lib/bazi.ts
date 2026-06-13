@@ -175,6 +175,64 @@ export const DAY_STEM_TAGS: Record<string, string[]> = {
   癸: ['直覺型','富有創意','感知者'],
 }
 
+export const ELEMENT_CRYSTALS: Record<string, { name: string; color: string; desc: string }> = {
+  木: { name: '綠幽靈', color: '#16A34A', desc: '促進成長與生命力' },
+  火: { name: '紅碧璽', color: '#DC2626', desc: '增強熱情與行動力' },
+  土: { name: '虎眼石', color: '#CA8A04', desc: '穩定根基與安全感' },
+  金: { name: '白水晶', color: '#9CA3AF', desc: '淨化能量與清晰思維' },
+  水: { name: '海藍寶', color: '#1D4ED8', desc: '增強直覺與溝通力' },
+}
+
+export const DAY_STEM_BEST_PARTNER: Record<string, { stem: string; element: string; desc: string }> = {
+  甲: { stem: '己', element: '土', desc: '互補相生，穩定支撐' },
+  乙: { stem: '庚', element: '金', desc: '剛柔並濟，相輔相成' },
+  丙: { stem: '壬', element: '水', desc: '水火相濟，激發潛能' },
+  丁: { stem: '壬', element: '水', desc: '溫潤相融，深度共鳴' },
+  戊: { stem: '癸', element: '水', desc: '滋養大地，共同成長' },
+  己: { stem: '甲', element: '木', desc: '木土共生，互相扶持' },
+  庚: { stem: '乙', element: '木', desc: '雕琢成器，激發創意' },
+  辛: { stem: '丙', element: '火', desc: '淬煉精金，光彩奪目' },
+  壬: { stem: '丙', element: '火', desc: '蒸騰昇華，共創輝煌' },
+  癸: { stem: '戊', element: '土', desc: '蓄水潤澤，相互依存' },
+}
+
+export function getKeyAges(dayStem: string): { age: number; label: string }[] {
+  const patterns: Record<string, { age: number; label: string }[]> = {
+    甲: [{ age: 25, label: '事業起飛' }, { age: 35, label: '領導機遇' }, { age: 45, label: '人生高峰' }, { age: 55, label: '智慧傳承' }],
+    乙: [{ age: 27, label: '貴人相助' }, { age: 37, label: '事業開花' }, { age: 47, label: '財富積累' }, { age: 57, label: '圓滿收成' }],
+    丙: [{ age: 28, label: '事業轉機' }, { age: 36, label: '財富積累' }, { age: 44, label: '人生高峰' }, { age: 52, label: '智慧傳承' }],
+    丁: [{ age: 26, label: '感情豐收' }, { age: 34, label: '事業穩定' }, { age: 42, label: '財富突破' }, { age: 50, label: '生命智慧' }],
+    戊: [{ age: 30, label: '根基穩固' }, { age: 40, label: '事業高峰' }, { age: 50, label: '財富豐盛' }, { age: 60, label: '傳承時刻' }],
+    己: [{ age: 28, label: '貴人出現' }, { age: 38, label: '穩定成長' }, { age: 48, label: '事業成熟' }, { age: 58, label: '智慧圓融' }],
+    庚: [{ age: 24, label: '決斷力顯現' }, { age: 34, label: '事業突破' }, { age: 44, label: '財富高峰' }, { age: 54, label: '影響力擴展' }],
+    辛: [{ age: 27, label: '才華展現' }, { age: 37, label: '品牌建立' }, { age: 47, label: '事業巔峰' }, { age: 57, label: '美好傳承' }],
+    壬: [{ age: 26, label: '謀略展現' }, { age: 36, label: '資源整合' }, { age: 46, label: '影響力巔峰' }, { age: 56, label: '智慧結晶' }],
+    癸: [{ age: 25, label: '直覺覺醒' }, { age: 35, label: '創意爆發' }, { age: 45, label: '事業成熟' }, { age: 55, label: '心靈圓滿' }],
+  }
+  return patterns[dayStem] || patterns['丙']
+}
+
+export function getMonthlyEnergy(birthDate: string, dayStem: string): { 人際運: number; 財運: number; 健康運: number } {
+  const today = new Date()
+  const month = today.getMonth() + 1
+  const year = today.getFullYear()
+  const stemIdx = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'].indexOf(dayStem)
+  // Deterministic but varied scores based on stem + current month/year
+  const base = (stemIdx * 7 + month * 13 + year) % 100
+  const r1 = ((base * 3 + 17) % 35) + 55  // 55-89
+  const r2 = ((base * 7 + 11) % 35) + 50  // 50-84
+  const r3 = ((base * 5 + 23) % 30) + 58  // 58-87
+  return { 人際運: r1, 財運: r2, 健康運: r3 }
+}
+
+export function getAge(birthDate: string): number {
+  const [y, m, d] = birthDate.split('-').map(Number)
+  const today = new Date()
+  let age = today.getFullYear() - y
+  if (today.getMonth() + 1 < m || (today.getMonth() + 1 === m && today.getDate() < d)) age--
+  return age
+}
+
 export function getDayStemDescription(stem: string): string {
   const descriptions: Record<string, string> = {
     甲:'甲木日主 — 正直、有抱負、天生領導者',

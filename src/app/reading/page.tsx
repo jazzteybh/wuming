@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS } from '@/lib/bazi'
+import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_CRYSTALS, DAY_STEM_BEST_PARTNER, getKeyAges, getMonthlyEnergy, getAge } from '@/lib/bazi'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -174,6 +174,14 @@ function ReadingContent() {
   const luckyColors = ELEMENT_LUCKY_COLORS[data.bazi.dayStemElement]
   const elementEmoji = ELEMENT_EMOJI[data.bazi.dayStemElement]
   const tags = DAY_STEM_TAGS[data.bazi.dayStem] || []
+  const crystal = ELEMENT_CRYSTALS[data.bazi.dayStemElement]
+  const bestPartner = DAY_STEM_BEST_PARTNER[data.bazi.dayStem]
+  const keyAges = getKeyAges(data.bazi.dayStem)
+  const monthlyEnergy = getMonthlyEnergy(date, data.bazi.dayStem)
+  const age = getAge(date)
+  const today = new Date()
+  const todayStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`
+  const monthStr = `${today.getFullYear()}年${today.getMonth()+1}月`
 
   return (
     <main className="min-h-screen bg-white">
@@ -192,56 +200,118 @@ function ReadingContent() {
           <div className="w-14 h-14 rounded-full bg-[#F0FDF9] border-2 border-[#0D9488] flex items-center justify-center text-[22px] font-medium text-[#0D9488] mx-auto mb-3">
             {name.charAt(0)}
           </div>
-          <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的命盤</h1>
-          <p className="text-[12px] text-[#AAA] mt-1">{date} · {gender} · {data.bazi.dayStem}日主</p>
+          <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
+          <p className="text-[12px] text-[#AAA] mt-1">{date} · {gender} · {age}歲</p>
+          <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr}</p>
+          <div className="inline-flex items-center gap-1 text-[10px] text-[#0D9488] bg-[#F0FDF9] border border-[#CCFBF1] rounded-full px-3 py-1 mt-2">
+            八字 × 星座 × 生命數字，三維度讀懂你
+          </div>
         </div>
 
-        {/* Identity Strip — the WOW moment */}
-        <div className="grid grid-cols-2 gap-2.5 mb-4">
-          {/* Element */}
+        {/* Row 1: 今月能量指數 */}
+        <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-4 mb-2.5">
+          <div className="flex justify-between items-center mb-3">
+            <p className="text-[10px] text-[#AAA]">今月能量指數</p>
+            <span className="text-[10px] text-[#0D9488] bg-white border border-[#CCFBF1] rounded-full px-2 py-0.5">{monthStr}</span>
+          </div>
+          <div className="space-y-2.5">
+            {([
+              { label: '人際運', value: monthlyEnergy['人際運'], color: '#0D9488', bg: '#E5F5F2' },
+              { label: '財運', value: monthlyEnergy['財運'], color: '#D97706', bg: '#FEF3C7' },
+              { label: '健康運', value: monthlyEnergy['健康運'], color: '#16A34A', bg: '#DCFCE7' },
+            ] as const).map(({ label, value, color, bg }) => (
+              <div key={label}>
+                <div className="flex justify-between mb-1">
+                  <span className="text-[12px] font-medium text-[#0F2027]">{label}</span>
+                  <span className="text-[12px] font-medium" style={{ color }}>{value}</span>
+                </div>
+                <div className="h-1.5 rounded-full" style={{ background: bg }}>
+                  <div className="h-full rounded-full transition-all" style={{ width: `${value}%`, background: color }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2: 人生關鍵年齡 */}
+        <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-4 mb-2.5">
+          <p className="text-[10px] text-[#AAA] mb-3">人生關鍵年齡</p>
+          <div className="relative">
+            <div className="absolute top-[10px] left-0 right-0 h-0.5 bg-[#CCFBF1]" />
+            <div className="flex justify-between relative z-10">
+              {keyAges.map(({ age: a, label }, i) => (
+                <div key={i} className="text-center">
+                  <div className={`w-5 h-5 rounded-full mx-auto mb-1 flex items-center justify-center ${a <= age ? 'bg-[#0D9488]' : 'bg-white border-2 border-[#CCFBF1]'}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${a <= age ? 'bg-white' : 'bg-[#0D9488]'}`} />
+                  </div>
+                  <p className={`text-[11px] font-medium ${a <= age ? 'text-[#0D9488]' : 'text-[#0F2027]'}`}>{a}歲</p>
+                  <p className="text-[9px] text-[#888] mt-0.5">{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Row 3: 五行命格 + 生命數字 */}
+        <div className="grid grid-cols-2 gap-2.5 mb-2.5">
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">五行命格</p>
             <p className="text-[20px] mb-0.5">{elementEmoji}</p>
-            <p className="text-[16px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人｜{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
+            <p className="text-[15px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
+            <p className="text-[11px] text-[#888]">{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
             <div className="flex gap-1 mt-1.5 flex-wrap">
               {Object.entries(data.bazi.elements).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([el,count])=>(
-                <span key={el} className={`text-[10px] px-1.5 py-0.5 rounded-full border ${ELEMENT_COLOR[el]}`}>
+                <span key={el} className={`text-[9px] px-1.5 py-0.5 rounded-full border ${ELEMENT_COLOR[el]}`}>
                   {el}{'▪'.repeat(count)}
                 </span>
               ))}
             </div>
           </div>
-
-          {/* Zodiac */}
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
-            <p className="text-[10px] text-[#AAA] mb-1">星座</p>
-            <p className="text-[20px] mb-0.5">{zodiac.emoji}</p>
-            <p className="text-[16px] font-medium text-[#0F2027]">{zodiac.sign}</p>
-            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}{data.bazi.dayStemElement} · {zodiac.sign}</p>
-          </div>
-
-          {/* Life Path */}
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">生命數字</p>
             <p className="text-[28px] font-medium text-[#0D9488] leading-none mb-1">{data.lifePath}</p>
             <p className="text-[13px] font-medium text-[#0F2027]">{data.lifePathInfo.title}</p>
             <div className="flex gap-1 mt-1.5 flex-wrap">
               {data.lifePathInfo.strengths.slice(0,2).map(s=>(
-                <span key={s} className="text-[10px] bg-white border border-[#A7F3D0] text-[#0D9488] px-2 py-0.5 rounded-full">{s}</span>
+                <span key={s} className="text-[9px] bg-white border border-[#A7F3D0] text-[#0D9488] px-1.5 py-0.5 rounded-full">{s}</span>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Lucky Colors */}
+        {/* Row 4: 星座 + 最佳拍檔 */}
+        <div className="grid grid-cols-2 gap-2.5 mb-2.5">
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
+            <p className="text-[10px] text-[#AAA] mb-1">星座</p>
+            <p className="text-[20px] mb-0.5">{zodiac.emoji}</p>
+            <p className="text-[15px] font-medium text-[#0F2027]">{zodiac.sign}</p>
+            <p className="text-[11px] text-[#888] mt-1">{data.bazi.dayStem}{data.bazi.dayStemElement} · {zodiac.sign}</p>
+          </div>
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
+            <p className="text-[10px] text-[#AAA] mb-1">最佳拍檔</p>
+            <p className="text-[20px] mb-0.5">{ELEMENT_EMOJI[bestPartner?.element || '水']}</p>
+            <p className="text-[15px] font-medium text-[#0F2027]">{bestPartner?.stem}{bestPartner?.element}日主</p>
+            <p className="text-[11px] text-[#888] mt-1">{bestPartner?.desc}</p>
+          </div>
+        </div>
+
+        {/* Row 5: 能量寶石 + 幸運色 */}
+        <div className="grid grid-cols-2 gap-2.5 mb-2.5">
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
+            <p className="text-[10px] text-[#AAA] mb-1">能量寶石</p>
+            <div className="w-7 h-7 rounded-full mb-1.5 border-2 border-white" style={{ background: crystal?.color }} />
+            <p className="text-[15px] font-medium text-[#0F2027]">{crystal?.name}</p>
+            <p className="text-[11px] text-[#888] mt-1">{crystal?.desc}</p>
+          </div>
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">幸運色</p>
-            <div className="flex gap-1.5 mb-2">
+            <div className="flex gap-1.5 mb-1.5">
               {luckyColors.hex.map((hex, i) => (
-                <div key={i} className="w-7 h-7 rounded-full border-2 border-white shadow-sm" style={{ background: hex }} />
+                <div key={i} className="w-7 h-7 rounded-full border-2 border-white" style={{ background: hex }} />
               ))}
             </div>
             <p className="text-[13px] font-medium text-[#0F2027]">{luckyColors.colors.join('・')}</p>
-            <p className="text-[10px] text-[#AAA] mt-1">根據五行{data.bazi.dominantElement}屬性</p>
+            <p className="text-[10px] text-[#AAA] mt-1">根據五行{data.bazi.dayStemElement}屬性</p>
           </div>
         </div>
 
