@@ -37,7 +37,6 @@ export default function Home() {
           <span className="text-xl font-medium tracking-wide">悟<span className="text-[#0D9488]">明</span></span>
           <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
         </div>
-        <span className="text-sm text-[#0D9488] cursor-pointer">登入</span>
       </nav>
 
       <div className="px-5 pt-6 pb-4 max-w-lg mx-auto">
