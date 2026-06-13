@@ -48,7 +48,7 @@ export default function Home() {
           <span className="text-[#0D9488]">導航人生</span>
         </h1>
         <p className="text-[13px] text-[#777] leading-relaxed mb-5">
-          結合八字與AI，了解你的天賦、職涯方向與最佳人生時機
+          30秒AI天賦分析，完全免費，無需註冊
         </p>
 
         <form onSubmit={handleSubmit}>

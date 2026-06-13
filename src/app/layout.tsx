@@ -10,11 +10,11 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg', shortcut: '/favicon.svg' },
   title: "悟明 — 讀懂自己，導航人生",
-  description: "結合八字與AI，了解你的天賦、職涯方向與最佳人生時機。完全免費，即時生成。",
+  description: "30秒AI天賦分析，完全免費，無需註冊。了解你的性格天賦、職涯方向與最佳人生時機。",
   keywords: "八字,命盤,AI算命,生命數字,職涯分析,流年運勢,自我探索",
   openGraph: {
     title: "悟明 — 讀懂自己，導航人生",
-    description: "結合八字與AI，了解你的天賦、職涯方向與最佳人生時機。",
+    description: "30秒AI天賦分析，完全免費，無需註冊。",
     url: "https://www.wumingai.app",
     siteName: "悟明",
     locale: "zh_TW",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "悟明 — 讀懂自己，導航人生",
-    description: "結合八字與AI，了解你的天賦、職涯方向與最佳人生時機。",
+    description: "30秒AI天賦分析，完全免費，無需註冊。",
     images: ["https://www.wumingai.app/opengraph-image"],
   },
 };

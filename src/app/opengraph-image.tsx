@@ -39,7 +39,7 @@ export default function Image() {
 
         {/* Description */}
         <div style={{ fontSize: 24, color: '#777', marginBottom: 32, display: 'flex' }}>
-          結合八字與AI，了解你的天賦、職涯方向與最佳人生時機
+          30秒AI天賦分析，完全免費，無需註冊
         </div>
 
         {/* URL */}
