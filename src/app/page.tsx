@@ -118,13 +118,13 @@ export default function Home() {
                   <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block" />
                   生成中...
                 </>
-              ) : '✦ 解讀我的命盤'}
+              ) : '✦ 解讀我的天賦'}
             </button>
           </div>
         </form>
 
         <div className="flex justify-center gap-5 py-3">
-          {['完全免費', '不儲存個資', '即時生成'].map(t => (
+          {['完全免費', '不儲存個資', '即時AI生成'].map(t => (
             <span key={t} className="text-[11px] text-[#AAA] flex items-center gap-1">
               <span className="w-1 h-1 rounded-full bg-[#0D9488] opacity-60 inline-block" />
               {t}
@@ -139,9 +139,9 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2.5">
             {[
               { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
+              { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
               { icon: '💼', title: '職涯方向', desc: '適合產業與時機' },
               { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
-              { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
             ].map(f => (
               <div key={f.title} className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-xl p-3.5">
                 <div className="text-lg mb-1.5">{f.icon}</div>

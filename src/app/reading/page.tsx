@@ -72,6 +72,7 @@ function ReadingContent() {
   const [emailLoading, setEmailLoading] = useState(false)
   const [showComingSoon, setShowComingSoon] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
+  const [copied, setCopied] = useState(false)
 
   const LOADING_STEPS = [
     { icon: '🔥', title: `正在解讀 ${name} 的日主`, tip: '日主是八字的核心，代表你天生的能量型態' },
@@ -381,6 +382,21 @@ function ReadingContent() {
               <div className="bg-[#F0FDF9] p-4 text-center border-b border-[#CCFBF1]">
                 <p className="text-[20px] mb-1">✓</p>
                 <p className="text-[14px] font-medium text-[#0D9488]">命盤已儲存！每月運勢將寄至你的信箱</p>
+                <button
+                  onClick={async () => {
+                    const shareText = `我剛用悟明AI解讀了自己的八字天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
+                    if (navigator.share) {
+                      await navigator.share({ text: shareText })
+                    } else {
+                      await navigator.clipboard.writeText(shareText)
+                      setCopied(true)
+                      setTimeout(() => setCopied(false), 2500)
+                    }
+                  }}
+                  className="mt-3 w-full h-10 border border-[#CCFBF1] rounded-xl text-[13px] text-[#0D9488] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
+                >
+                  {copied ? '✓ 已複製連結！' : '✦ 分享給朋友'}
+                </button>
               </div>
               <div className="p-4 bg-white">
                 <p className="text-[15px] font-semibold text-[#0F2027] mb-0.5">你的命盤還藏著更多</p>
