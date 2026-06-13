@@ -47,9 +47,12 @@ export default function Home() {
           讀懂自己，<br />
           <span className="text-[#0D9488]">導航人生</span>
         </h1>
-        <p className="text-[13px] text-[#777] leading-relaxed mb-5">
+        <p className="text-[13px] text-[#777] leading-relaxed mb-3">
           30秒AI天賦分析，完全免費，無需註冊
         </p>
+        <div className="inline-flex items-center gap-2 text-[12px] text-[#0D9488] bg-[#F0FDF9] border border-[#CCFBF1] rounded-full px-3 py-1.5 mb-5">
+          <span>八字 × 星座 × 生命數字，三維度讀懂你</span>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl overflow-hidden">

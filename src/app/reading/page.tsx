@@ -70,6 +70,24 @@ function ReadingContent() {
   const [emailSent, setEmailSent] = useState(false)
   const [emailLoading, setEmailLoading] = useState(false)
   const [showComingSoon, setShowComingSoon] = useState(false)
+  const [loadingStep, setLoadingStep] = useState(0)
+
+  const LOADING_STEPS = [
+    { icon: '🔥', title: `正在解讀 ${name} 的日主`, tip: '日主是八字的核心，代表你天生的能量型態' },
+    { icon: '⚖️', title: '分析五行平衡', tip: '五行的分佈決定了你的優勢與成長空間' },
+    { icon: '✨', title: '計算生命數字', tip: '每個數字背後都有一套專屬的人生功課' },
+    { icon: '🌐', title: '對照星座特質', tip: '東西方系統交叉，讓解讀更立體準確' },
+    { icon: '🤖', title: 'AI 整合三套系統', tip: '悟明同時分析八字、星座、生命數字' },
+    { icon: '📝', title: '撰寫你的專屬解讀', tip: '你的命盤即將揭曉，請稍候片刻' },
+  ]
+
+  useEffect(() => {
+    if (!loading) return
+    const interval = setInterval(() => {
+      setLoadingStep(s => (s + 1) % LOADING_STEPS.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [loading])
 
   useEffect(() => {
     if (!name || !date || !gender) { router.push('/'); return }
@@ -107,12 +125,31 @@ function ReadingContent() {
   }
 
   if (loading) {
+    const step = LOADING_STEPS[loadingStep]
     return (
       <main className="min-h-screen bg-white flex flex-col items-center justify-center px-5">
-        <div className="text-center">
-          <div className="w-12 h-12 border-2 border-[#0D9488] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[15px] text-[#0F2027] font-medium mb-1">正在解讀 {name} 的命盤</p>
-          <p className="text-[13px] text-[#AAA]">AI 分析中，約需 10-20 秒...</p>
+        <div className="text-center max-w-xs w-full">
+          {/* Logo */}
+          <div className="text-[18px] font-medium mb-8">悟<span className="text-[#0D9488]">明</span></div>
+
+          {/* Spinner */}
+          <div className="w-14 h-14 border-2 border-[#CCFBF1] border-t-[#0D9488] rounded-full animate-spin mx-auto mb-6" />
+
+          {/* Step card */}
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-5 mb-4 transition-all duration-500">
+            <p className="text-[24px] mb-2">{step.icon}</p>
+            <p className="text-[15px] font-medium text-[#0F2027] mb-1">{step.title}</p>
+            <p className="text-[12px] text-[#888] leading-relaxed">{step.tip}</p>
+          </div>
+
+          {/* Progress dots */}
+          <div className="flex justify-center gap-1.5 mb-4">
+            {LOADING_STEPS.map((_, i) => (
+              <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === loadingStep ? 'bg-[#0D9488] w-4' : 'bg-[#CCFBF1]'}`} />
+            ))}
+          </div>
+
+          <p className="text-[11px] text-[#CCC]">AI 深度分析中，約需 15-20 秒</p>
         </div>
       </main>
     )
