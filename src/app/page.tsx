@@ -79,9 +79,8 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[12px] font-medium text-[#0D9488] mb-1.5">
-                    出生時間 <span className="text-[#AAA] font-normal text-[10px]">可略</span>
-                  </label>
+                  <label className="block text-[12px] font-medium text-[#0D9488] mb-1">出生時間</label>
+                  <p className="text-[10px] text-[#AAA] leading-snug mb-1.5">不記得？沒關係，<br/>跳過也能生成準確結果</p>
                   <input
                     name="time"
                     value={form.time}
