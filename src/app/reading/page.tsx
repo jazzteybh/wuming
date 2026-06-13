@@ -119,7 +119,7 @@ function ReadingContent() {
     await fetch('/api/save-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, reading: data?.reading, bazi: data?.bazi, lifePath: data?.lifePath, lifePathInfo: data?.lifePathInfo }),
+      body: JSON.stringify({ email, name, date, reading: data?.reading, bazi: data?.bazi, lifePath: data?.lifePath, lifePathInfo: data?.lifePathInfo }),
     })
     setEmailSent(true)
     setEmailLoading(false)
@@ -261,30 +261,24 @@ function ReadingContent() {
           </div>
         </div>
 
-        {/* Row 3: 五行命格 + 生命數字 */}
-        <div className="grid grid-cols-2 gap-2.5 mb-2.5">
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
-            <p className="text-[10px] text-[#AAA] mb-1">五行命格</p>
-            <p className="text-[20px] mb-0.5">{elementEmoji}</p>
-            <p className="text-[15px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
-            <p className="text-[11px] text-[#888]">{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
-            <div className="flex gap-1 mt-1.5 flex-wrap">
-              {Object.entries(data.bazi.elements).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([el,count])=>(
-                <span key={el} className={`text-[9px] px-1.5 py-0.5 rounded-full border ${ELEMENT_COLOR[el]}`}>
-                  {el}{'▪'.repeat(count)}
-                </span>
-              ))}
-            </div>
+        {/* Row 3: 五行命格 + 生命數字 + 星座 */}
+        <div className="grid grid-cols-3 gap-2 mb-2.5">
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+            <p className="text-[9px] text-[#AAA] mb-1">五行命格</p>
+            <p className="text-[18px] mb-0.5">{elementEmoji}</p>
+            <p className="text-[13px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
+            <p className="text-[10px] text-[#888] mt-0.5">{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
           </div>
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
-            <p className="text-[10px] text-[#AAA] mb-1">生命數字</p>
-            <p className="text-[28px] font-medium text-[#0D9488] leading-none mb-1">{data.lifePath}</p>
-            <p className="text-[13px] font-medium text-[#0F2027]">{data.lifePathInfo.title}</p>
-            <div className="flex gap-1 mt-1.5 flex-wrap">
-              {data.lifePathInfo.strengths.slice(0,2).map(s=>(
-                <span key={s} className="text-[9px] bg-white border border-[#A7F3D0] text-[#0D9488] px-1.5 py-0.5 rounded-full">{s}</span>
-              ))}
-            </div>
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+            <p className="text-[9px] text-[#AAA] mb-1">生命數字</p>
+            <p className="text-[26px] font-medium text-[#0D9488] leading-none mb-1">{data.lifePath}</p>
+            <p className="text-[12px] font-medium text-[#0F2027]">{data.lifePathInfo.title}</p>
+          </div>
+          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+            <p className="text-[9px] text-[#AAA] mb-1">西洋星座</p>
+            <p className="text-[18px] mb-0.5">{zodiac.emoji}</p>
+            <p className="text-[13px] font-medium text-[#0F2027]">{zodiac.sign}</p>
+            <p className="text-[10px] text-[#888] mt-0.5">{chineseZodiac.emoji}屬{chineseZodiac.animal}</p>
           </div>
         </div>
 
