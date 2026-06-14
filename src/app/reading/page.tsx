@@ -24,37 +24,23 @@ interface ReadingData {
   lifePathInfo: { title: string; description: string; strengths: string[] }
 }
 
-const ELEMENT_COLOR: Record<string, string> = {
-  木: 'bg-green-50 text-green-700 border-green-200',
-  火: 'bg-orange-50 text-orange-700 border-orange-200',
-  土: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-  金: 'bg-gray-50 text-gray-600 border-gray-200',
-  水: 'bg-blue-50 text-blue-700 border-blue-200',
-}
 
-const MAIN_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向']
+const MAIN_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向', '職涯關鍵字']
 
 function parseReading(text: string): Record<string, string> {
   const sections: Record<string, string> = {}
-  // Only split on main section headers, not sub-headers inside content
   const pattern = new RegExp(`\\*\\*(${MAIN_SECTIONS.join('|')}|生命數字[^*]*)\\*\\*`)
   const parts = text.split(pattern)
   for (let i = 1; i < parts.length; i += 2) {
     const title = parts[i].trim()
-    // Render remaining **bold** inside content as styled text, not new sections
     const content = (parts[i + 1] || '').trim().replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     sections[title] = content
   }
   return sections
 }
 
-const PRO_FEATURES = [
-  { icon: '📊', text: '流年逐月詳細分析' },
-  { icon: '💬', text: '無限 AI 命盤提問' },
-  { icon: '👥', text: '合盤相容性分析' },
-  { icon: '📄', text: 'PDF 精美命盤報告' },
-  { icon: '🔔', text: '每月專屬運勢推播' },
-]
+const WANT_MORE_OPTIONS = ['未來12個月每月運程', '詳細職涯分析', '感情／伴侶配對', '生意夥伴合盤', 'MBTI 性格測試', '更多關於我的八字']
+const SOURCE_OPTIONS = ['YouTube', '朋友推薦', 'Google 搜尋', '社群媒體']
 
 function ReadingContent() {
   const searchParams = useSearchParams()
@@ -69,9 +55,27 @@ function ReadingContent() {
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
   const [emailLoading, setEmailLoading] = useState(false)
-  const [showComingSoon, setShowComingSoon] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [copied, setCopied] = useState(false)
+  const [feedbackWantMore, setFeedbackWantMore] = useState<string[]>([])
+  const [feedbackSource, setFeedbackSource] = useState<string[]>([])
+  const [feedbackText, setFeedbackText] = useState('')
+  const [feedbackEmail, setFeedbackEmail] = useState('')
+  const [feedbackSent, setFeedbackSent] = useState(false)
+
+  function toggleOption(list: string[], setList: (v: string[]) => void, val: string) {
+    setList(list.includes(val) ? list.filter(x => x !== val) : [...list, val])
+  }
+
+  async function handleFeedback(e: React.FormEvent) {
+    e.preventDefault()
+    await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, wantMore: feedbackWantMore, source: feedbackSource, freeText: feedbackText, email: feedbackEmail }),
+    })
+    setFeedbackSent(true)
+  }
 
   const LOADING_STEPS = [
     { icon: '🔥', title: `正在解讀 ${name} 的日主`, tip: '日主是八字的核心，代表你天生的能量型態' },
@@ -102,15 +106,6 @@ function ReadingContent() {
       .catch(() => setError('網路錯誤，請重試'))
       .finally(() => setLoading(false))
   }, [])
-
-  function trackPayClick(plan: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(window as any).gtag('event', 'pay_click', { plan })
-    }
-    setShowComingSoon(true)
-  }
 
   async function handleSaveEmail(e: React.FormEvent) {
     e.preventDefault()
@@ -170,7 +165,9 @@ function ReadingContent() {
   if (!data) return null
 
   const sections = parseReading(data.reading)
-  const sectionKeys = Object.keys(sections)
+  const careerKeywords = (sections['職涯關鍵字'] || '').replace(/<[^>]+>/g, '').split('·').map(s => s.trim()).filter(Boolean)
+  const READING_ORDER = ['生命數字', '性格天賦', '成長方向', '2026年運勢']
+  const orderedSections = READING_ORDER.map(k => Object.keys(sections).find(s => s.startsWith(k))).filter(Boolean) as string[]
   const zodiac = getZodiac(date)
   const luckyColors = ELEMENT_LUCKY_COLORS[data.bazi.dayStemElement]
   const elementEmoji = ELEMENT_EMOJI[data.bazi.dayStemElement]
@@ -337,15 +334,24 @@ function ReadingContent() {
           </div>
         </div>
 
-        {/* Personality Tags */}
-        <div className="flex gap-2 mb-4 flex-wrap">
-          {tags.map(tag => (
-            <span key={tag} className="text-[12px] bg-[#059669] text-white px-3 py-1 rounded-full">{tag}</span>
-          ))}
+        {/* Row 6: 職涯方向 Lite */}
+        <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
+          <div className="flex justify-between items-center mb-3">
+            <p className="text-[11px] text-[#059669] tracking-wide">職涯方向</p>
+            <span className="text-[10px] text-[#AAA]">適合你的職業</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {careerKeywords.length > 0 ? careerKeywords.map(k => (
+              <span key={k} className="text-[13px] bg-[#F0FDF4] border border-[#BBF7D0] text-[#059669] px-3 py-1.5 rounded-full font-medium">{k}</span>
+            )) : (
+              <span className="text-[13px] text-[#AAA]">解讀生成中...</span>
+            )}
+          </div>
+          <p className="text-[10px] text-[#AAA] mt-3">更多詳細職涯分析 — 即將推出 ✦</p>
         </div>
 
-        {/* BaZi Chart */}
-        <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-3">
+        {/* Row 7: 八字四柱 */}
+        <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
           <p className="text-[11px] text-[#059669] tracking-wide mb-3">八字四柱</p>
           <div className="grid grid-cols-4 gap-2">
             {[
@@ -367,11 +373,16 @@ function ReadingContent() {
               </div>
             ))}
           </div>
+          <div className="flex gap-2 mt-3 flex-wrap">
+            {tags.map(tag => (
+              <span key={tag} className="text-[11px] bg-[#059669] text-white px-2.5 py-0.5 rounded-full">{tag}</span>
+            ))}
+          </div>
         </div>
 
-        {/* AI Reading Sections */}
-        {sectionKeys.map(title => (
-          <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-3">
+        {/* Rows 8-11: AI Reading Sections in order */}
+        {orderedSections.map(title => (
+          <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
             <p className="text-[13px] font-medium text-[#059669] mb-2.5">{title}</p>
             <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: sections[title] }} />
           </div>
@@ -380,81 +391,24 @@ function ReadingContent() {
         {/* Email Capture */}
         <div className="border border-[#BBF7D0] rounded-2xl overflow-hidden mb-4">
           {emailSent ? (
-            // POST-EMAIL UPSELL — peak intent moment
-            <div>
-              <div className="bg-[#F0FDF4] p-4 text-center border-b border-[#BBF7D0]">
-                <p className="text-[20px] mb-1">✓</p>
-                <p className="text-[14px] font-medium text-[#059669]">命盤已儲存！每月運勢將寄至你的信箱</p>
-                <button
-                  onClick={async () => {
-                    const shareText = `我剛用悟明解讀了自己的天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
-                    if (navigator.share) {
-                      await navigator.share({ text: shareText })
-                    } else {
-                      await navigator.clipboard.writeText(shareText)
-                      setCopied(true)
-                      setTimeout(() => setCopied(false), 2500)
-                    }
-                  }}
-                  className="mt-3 w-full h-10 border border-[#BBF7D0] rounded-xl text-[13px] text-[#059669] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
-                >
-                  {copied ? '✓ 已複製連結！' : '✦ 分享給朋友'}
-                </button>
-              </div>
-              <div className="p-4 bg-white">
-                <p className="text-[15px] font-semibold text-[#0F2027] mb-0.5">你的命盤還藏著更多</p>
-                <p className="text-[12px] text-[#888] mb-4">這份解讀只是開始。悟明 Pro 幫你把命盤變成行動指南。</p>
-                <div className="space-y-3 mb-5">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">📅</div>
-                    <div>
-                      <p className="text-[13px] font-medium text-[#0F2027]">知道哪個月該出手</p>
-                      <p className="text-[11px] text-[#888] leading-relaxed">流年逐月分析，告訴你今年哪幾個月是你的黃金時機，哪幾個月要保守。</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">💼</div>
-                    <div>
-                      <p className="text-[13px] font-medium text-[#0F2027]">找到真正適合你的職涯路</p>
-                      <p className="text-[11px] text-[#888] leading-relaxed">深度分析你的命格與哪些產業、職位最契合，避開走彎路。</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">❤️</div>
-                    <div>
-                      <p className="text-[13px] font-medium text-[#0F2027]">感情與合作的最佳時機</p>
-                      <p className="text-[11px] text-[#888] leading-relaxed">合盤分析看你與另一半或合夥人的相容性，以及何時是關係推進的好時機。</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mb-2">
-                  <button onClick={() => trackPayClick('monthly')} className="h-12 bg-[#059669] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight">
-                    <span>月繳方案</span>
-                    <span className="text-[11px] opacity-80">NTD $149 / 月</span>
-                  </button>
-                  <button onClick={() => trackPayClick('yearly')} className="h-12 bg-[#0F2027] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight relative overflow-hidden">
-                    <span className="absolute top-0 right-0 bg-[#059669] text-[9px] px-1.5 py-0.5 rounded-bl-lg">省44%</span>
-                    <span>年繳方案</span>
-                    <span className="text-[11px] opacity-80">NTD $1,290 / 年</span>
-                  </button>
-                </div>
-                <button onClick={() => trackPayClick('single')} className="w-full h-10 border border-[#BBF7D0] rounded-xl text-[12px] text-[#059669] bg-[#F0FDF4]">
-                  單次深度報告 NTD $299 →
-                </button>
-
-                {showComingSoon && (
-                  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6" onClick={() => setShowComingSoon(false)}>
-                    <div className="bg-white rounded-2xl p-6 max-w-xs w-full text-center shadow-xl" onClick={e => e.stopPropagation()}>
-                      <p className="text-[28px] mb-2">🔔</p>
-                      <p className="text-[16px] font-semibold text-[#0F2027] mb-1">即將上線</p>
-                      <p className="text-[13px] text-[#666] leading-relaxed mb-4">付費功能正在開發中，上線後將第一時間通知你！</p>
-                      <button onClick={() => setShowComingSoon(false)} className="w-full h-10 bg-[#059669] text-white rounded-xl text-[13px] font-medium">
-                        好的，期待！
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+            <div className="bg-[#F0FDF4] p-4 text-center">
+              <p className="text-[20px] mb-1">✓</p>
+              <p className="text-[14px] font-medium text-[#059669] mb-3">命盤已儲存！</p>
+              <button
+                onClick={async () => {
+                  const shareText = `我剛用悟明解讀了自己的天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
+                  if (navigator.share) {
+                    await navigator.share({ text: shareText })
+                  } else {
+                    await navigator.clipboard.writeText(shareText)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 2500)
+                  }
+                }}
+                className="w-full h-10 border border-[#BBF7D0] rounded-xl text-[13px] text-[#059669] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
+              >
+                {copied ? '✓ 已複製連結！' : '✦ 分享給朋友'}
+              </button>
             </div>
           ) : (
             <div className="bg-[#F0FDF4] p-4">
@@ -463,8 +417,8 @@ function ReadingContent() {
                 <div>
                   <p className="text-[14px] font-medium text-[#0F2027] mb-0.5">免費寄送完整命盤到你的信箱</p>
                   <p className="text-[12px] text-[#777] leading-relaxed">
-                    留下 Email，我們將把你的完整命盤報告寄給你。<br/>
-                    <span className="text-[#E57373] font-medium">不儲存的話，離開後資料將被清除。</span>
+                    留下 Email，完整命盤報告將寄給你。<br/>
+                    <span className="text-[#E57373] font-medium">離開後資料將被清除。</span>
                   </p>
                 </div>
               </div>
@@ -481,11 +435,66 @@ function ReadingContent() {
                   {emailLoading ? '...' : '儲存'}
                 </button>
               </form>
-              <p className="text-[10px] text-[#AAA] text-center mt-2">每月運勢更新 · 隨時可取消訂閱 · 完全免費</p>
-              <button onClick={() => router.push('/')} className="w-full text-center text-[11px] text-[#CCC] mt-1">
-                不了，捨棄我的命盤
-              </button>
+              <p className="text-[10px] text-[#AAA] text-center mt-2">完全免費 · 隨時可取消訂閱</p>
             </div>
+          )}
+        </div>
+
+        {/* Feedback Form */}
+        <div className="border border-[#E5E7EB] rounded-2xl overflow-hidden mb-6">
+          {feedbackSent ? (
+            <div className="p-5 text-center">
+              <p className="text-[20px] mb-1">🙏</p>
+              <p className="text-[14px] font-medium text-[#0F2027]">謝謝你的回饋！</p>
+              <p className="text-[12px] text-[#888] mt-1">我們會根據大家的需求持續優化悟明。</p>
+            </div>
+          ) : (
+            <form onSubmit={handleFeedback} className="p-4">
+              <p className="text-[13px] font-medium text-[#0F2027] mb-1">幫我們做得更好 👋</p>
+              <p className="text-[11px] text-[#AAA] mb-4">你的回饋決定我們下一步建什麼</p>
+
+              <p className="text-[12px] font-medium text-[#0F2027] mb-2">你還想探索什麼？（可多選）</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {WANT_MORE_OPTIONS.map(opt => (
+                  <button key={opt} type="button"
+                    onClick={() => toggleOption(feedbackWantMore, setFeedbackWantMore, opt)}
+                    className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${feedbackWantMore.includes(opt) ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#555] border-[#E5E7EB]'}`}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-[12px] font-medium text-[#0F2027] mb-2">你從哪裡知道悟明？</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {SOURCE_OPTIONS.map(opt => (
+                  <button key={opt} type="button"
+                    onClick={() => toggleOption(feedbackSource, setFeedbackSource, opt)}
+                    className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${feedbackSource.includes(opt) ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#555] border-[#E5E7EB]'}`}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-[12px] font-medium text-[#0F2027] mb-2">還有什麼想告訴我們？</p>
+              <textarea
+                value={feedbackText}
+                onChange={e => setFeedbackText(e.target.value)}
+                placeholder="任何建議或想法都歡迎..."
+                rows={3}
+                className="w-full bg-white border border-[#E5E7EB] rounded-xl px-3 py-2.5 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] resize-none mb-3"
+              />
+              <input
+                type="email"
+                value={feedbackEmail}
+                onChange={e => setFeedbackEmail(e.target.value)}
+                placeholder="Email（選填，讓我們可以回覆你）"
+                className="w-full h-10 bg-white border border-[#E5E7EB] rounded-xl px-3 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] mb-3"
+              />
+              <button type="submit"
+                className="w-full h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium active:opacity-80 transition-opacity">
+                送出回饋
+              </button>
+            </form>
           )}
         </div>
 

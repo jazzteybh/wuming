@@ -56,7 +56,7 @@ export default function PrivacyPage() {
 
         <section>
           <h2 className="text-[16px] font-medium text-[#0F2027] mb-2">8. 聯絡我們</h2>
-          <p>如有任何隱私相關問題，請寄信至：<a href="mailto:tboonho93@gmail.com" className="text-[#059669] underline">tboonho93@gmail.com</a></p>
+          <p>如有任何隱私相關問題，請寄信至：<a href="mailto:wumingai.app@gmail.com" className="text-[#059669] underline">wumingai.app@gmail.com</a></p>
         </section>
 
       </div>
