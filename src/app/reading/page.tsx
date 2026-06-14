@@ -192,9 +192,13 @@ function ReadingContent() {
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
-        <button onClick={() => router.push('/')} className="text-left">
-          <div className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></div>
-          <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+        <button onClick={() => router.push('/')} className="text-left flex items-center gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="悟明" className="h-8 w-8" />
+          <div>
+            <div className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></div>
+            <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+          </div>
         </button>
         <button onClick={() => router.push('/')} className="text-[13px] text-[#059669]">重新解讀</button>
       </nav>
