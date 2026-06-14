@@ -148,10 +148,11 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="text-center text-[10px] text-[#CCC] pb-6">
-          © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議 ·{' '}
-          <a href="/privacy" className="underline hover:text-[#059669]">隱私權政策</a>
-        </p>
+        <div className="text-center pb-6">
+          <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>
+          <p className="text-[10px] text-[#CCC]">© 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議 ·{' '}
+          <a href="/privacy" className="underline hover:text-[#059669]">隱私權政策</a></p>
+        </div>
       </div>
     </main>
   )

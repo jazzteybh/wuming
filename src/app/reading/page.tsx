@@ -39,7 +39,7 @@ function parseReading(text: string): Record<string, string> {
   return sections
 }
 
-const WANT_MORE_OPTIONS = ['未來12個月每月運程', '詳細職涯分析', '感情／伴侶配對', '生意夥伴合盤', 'MBTI 性格測試', '更多關於我的八字']
+const WANT_MORE_OPTIONS = ['詳細職涯分析', '感情／伴侶配對', '生意夥伴合盤', 'MBTI 性格測試', '更多關於我的八字']
 const SOURCE_OPTIONS = ['YouTube', '朋友推薦', 'Google 搜尋', '社群媒體']
 
 function ReadingContent() {
@@ -410,9 +410,12 @@ function ReadingContent() {
         {/* Email Capture */}
         <div className="border border-[#BBF7D0] rounded-2xl overflow-hidden mb-4">
           {emailSent ? (
-            <div className="bg-[#F0FDF4] p-4 text-center">
-              <p className="text-[20px] mb-1">✓</p>
-              <p className="text-[14px] font-medium text-[#059669] mb-3">命盤已儲存！</p>
+            <div className="p-4">
+              <div className="text-center mb-4">
+                <p className="text-[20px] mb-1">✓</p>
+                <p className="text-[14px] font-medium text-[#059669]">命盤已儲存！</p>
+                <p className="text-[12px] text-[#888] mt-1">把悟明分享給朋友，讓他們也來解讀</p>
+              </div>
               <button
                 onClick={async () => {
                   const shareText = `我剛用悟明解讀了自己的天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
@@ -424,10 +427,19 @@ function ReadingContent() {
                     setTimeout(() => setCopied(false), 2500)
                   }
                 }}
-                className="w-full h-10 border border-[#BBF7D0] rounded-xl text-[13px] text-[#059669] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
+                className="w-full h-11 bg-[#059669] text-white rounded-xl text-[14px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity mb-2.5"
               >
                 {copied ? '✓ 已複製連結！' : '✦ 分享給朋友'}
               </button>
+              <a
+                href="https://www.instagram.com/wuming.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full h-10 border border-[#E5E7EB] rounded-xl text-[13px] text-[#888] flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
+              >
+                <span>追蹤悟明 Instagram</span>
+                <span className="text-[#C13584]">@wuming.app</span>
+              </a>
             </div>
           ) : (
             <div className="bg-[#F0FDF4] p-4">
@@ -528,9 +540,10 @@ function ReadingContent() {
           )}
         </div>
 
-        <p className="text-center text-[10px] text-[#CCC] pb-6">
-          © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議
-        </p>
+        <div className="text-center pb-6">
+          <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>
+          <p className="text-[10px] text-[#CCC]">© 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議</p>
+        </div>
       </div>
     </main>
   )
