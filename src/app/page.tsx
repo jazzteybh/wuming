@@ -140,7 +140,6 @@ export default function Home() {
               { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
               { icon: '📅', title: '未來12個月每月運程', desc: '掌握每月能量走勢，提前佈局' },
               { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適職涯路線與工作風格' },
-              { icon: '☯', title: '命格合盤配對', desc: '輸入兩人生日，解讀緣分與互補' },
             ].map(f => (
               <div key={f.title} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-xl p-3">
                 <span className="text-[18px]">{f.icon}</span>
@@ -151,6 +150,17 @@ export default function Home() {
                 <span className="ml-auto text-[10px] text-[#CCC]">免費</span>
               </div>
             ))}
+            <button
+              onClick={() => router.push('/compatibility')}
+              className="w-full flex items-center gap-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3 active:opacity-70 transition-opacity text-left"
+            >
+              <span className="text-[18px]">☯</span>
+              <div className="flex-1">
+                <div className="text-[12px] font-medium text-[#0F2027]">命格合盤配對</div>
+                <div className="text-[11px] text-[#888]">輸入兩人生日，解讀緣分與互補</div>
+              </div>
+              <span className="text-[11px] text-[#E11D48] font-medium">立即試 →</span>
+            </button>
           </div>
         </div>
 
