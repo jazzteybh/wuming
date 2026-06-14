@@ -132,24 +132,12 @@ export default function Home() {
 
         <div className="py-4">
           <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">你將獲得</p>
-          <div className="grid grid-cols-2 gap-2.5 mb-4">
+          <div className="space-y-2">
             {[
               { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
               { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
               { icon: '💼', title: '職涯方向', desc: '適合產業與時機' },
               { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
-            ].map(f => (
-              <div key={f.title} className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3.5">
-                <div className="text-lg mb-1.5">{f.icon}</div>
-                <div className="text-[13px] font-medium text-[#0F2027] mb-0.5">{f.title}</div>
-                <div className="text-[11px] text-[#888] leading-snug">{f.desc}</div>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">解讀完成後還可以...</p>
-          <div className="space-y-2">
-            {[
               { icon: '📅', title: '未來12個月每月運程', desc: '掌握每月能量走勢，提前佈局' },
               { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適職涯路線與工作風格' },
               { icon: '☯', title: '命格合盤配對', desc: '輸入兩人生日，解讀緣分與互補' },
