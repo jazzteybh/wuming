@@ -79,7 +79,7 @@ function ReadingContent() {
     { icon: '⚖️', title: '分析五行平衡', tip: '五行的分佈決定了你的優勢與成長空間' },
     { icon: '✨', title: '計算生命數字', tip: '每個數字背後都有一套專屬的人生功課' },
     { icon: '🌐', title: '對照星座特質', tip: '東西方系統交叉，讓解讀更立體準確' },
-    { icon: '🤖', title: 'AI 整合三套系統', tip: '悟明同時分析八字、星座、生命數字' },
+    { icon: '🤖', title: '整合三套智慧系統', tip: '悟明同時分析八字、星座、生命數字' },
     { icon: '📝', title: '撰寫你的專屬解讀', tip: '你的命盤即將揭曉，請稍候片刻' },
   ]
 
@@ -132,13 +132,13 @@ function ReadingContent() {
       <main className="min-h-screen bg-white flex flex-col items-center justify-center px-5">
         <div className="text-center max-w-xs w-full">
           {/* Logo */}
-          <div className="text-[18px] font-medium mb-8">悟<span className="text-[#0D9488]">明</span></div>
+          <div className="text-[18px] font-medium mb-8">悟<span className="text-[#059669]">明</span></div>
 
           {/* Spinner */}
-          <div className="w-14 h-14 border-2 border-[#CCFBF1] border-t-[#0D9488] rounded-full animate-spin mx-auto mb-6" />
+          <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />
 
           {/* Step card */}
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-5 mb-4 transition-all duration-500">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-5 mb-4 transition-all duration-500">
             <p className="text-[24px] mb-2">{step.icon}</p>
             <p className="text-[15px] font-medium text-[#0F2027] mb-1">{step.title}</p>
             <p className="text-[12px] text-[#888] leading-relaxed">{step.tip}</p>
@@ -147,11 +147,11 @@ function ReadingContent() {
           {/* Progress dots */}
           <div className="flex justify-center gap-1.5 mb-4">
             {LOADING_STEPS.map((_, i) => (
-              <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === loadingStep ? 'bg-[#0D9488] w-4' : 'bg-[#CCFBF1]'}`} />
+              <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === loadingStep ? 'bg-[#059669] w-4' : 'bg-[#BBF7D0]'}`} />
             ))}
           </div>
 
-          <p className="text-[11px] text-[#CCC]">AI 深度分析中，約需 15-20 秒</p>
+          <p className="text-[11px] text-[#CCC]">深度解讀中，約需 15-20 秒</p>
         </div>
       </main>
     )
@@ -162,7 +162,7 @@ function ReadingContent() {
       <main className="min-h-screen bg-white flex flex-col items-center justify-center px-5">
         <div className="text-center">
           <p className="text-[15px] text-red-500 mb-4">{error}</p>
-          <button onClick={() => router.push('/')} className="text-[#0D9488] underline text-[14px]">返回首頁</button>
+          <button onClick={() => router.push('/')} className="text-[#059669] underline text-[14px]">返回首頁</button>
         </div>
       </main>
     )
@@ -193,36 +193,36 @@ function ReadingContent() {
     <main className="min-h-screen bg-white">
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <button onClick={() => router.push('/')} className="text-left">
-          <div className="text-xl font-medium tracking-wide">悟<span className="text-[#0D9488]">明</span></div>
+          <div className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></div>
           <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
         </button>
-        <button onClick={() => router.push('/')} className="text-[13px] text-[#0D9488]">重新解讀</button>
+        <button onClick={() => router.push('/')} className="text-[13px] text-[#059669]">重新解讀</button>
       </nav>
 
       <div className="px-5 py-5 max-w-lg mx-auto">
 
         {/* Profile */}
         <div className="text-center mb-4">
-          <div className="w-14 h-14 rounded-full bg-[#F0FDF9] border-2 border-[#0D9488] flex items-center justify-center text-[22px] font-medium text-[#0D9488] mx-auto mb-3">
+          <div className="w-14 h-14 rounded-full bg-[#F0FDF4] border-2 border-[#059669] flex items-center justify-center text-[22px] font-medium text-[#059669] mx-auto mb-3">
             {name.charAt(0)}
           </div>
           <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
           <p className="text-[12px] text-[#AAA] mt-1">{date} · {gender} · {age}歲</p>
           <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr}</p>
-          <div className="inline-flex items-center gap-1 text-[10px] text-[#0D9488] bg-[#F0FDF9] border border-[#CCFBF1] rounded-full px-3 py-1 mt-2">
+          <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
             八字 × 星座 × 生命數字，三維度讀懂你
           </div>
         </div>
 
         {/* Row 1: 今月能量指數 */}
-        <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-4 mb-2.5">
+        <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-4 mb-2.5">
           <div className="flex justify-between items-center mb-3">
             <p className="text-[10px] text-[#AAA]">今月能量指數</p>
-            <span className="text-[10px] text-[#0D9488] bg-white border border-[#CCFBF1] rounded-full px-2 py-0.5">{monthStr}</span>
+            <span className="text-[10px] text-[#059669] bg-white border border-[#BBF7D0] rounded-full px-2 py-0.5">{monthStr}</span>
           </div>
           <div className="space-y-2.5">
             {([
-              { label: '人際運', value: monthlyEnergy['人際運'], color: '#0D9488', bg: '#E5F5F2' },
+              { label: '人際運', value: monthlyEnergy['人際運'], color: '#059669', bg: '#DCFCE7' },
               { label: '財運', value: monthlyEnergy['財運'], color: '#D97706', bg: '#FEF3C7' },
               { label: '健康運', value: monthlyEnergy['健康運'], color: '#16A34A', bg: '#DCFCE7' },
             ] as const).map(({ label, value, color, bg }) => (
@@ -240,20 +240,20 @@ function ReadingContent() {
         </div>
 
         {/* Row 2: 人生關鍵年齡 */}
-        <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-4 mb-2.5">
+        <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-4 mb-2.5">
           <p className="text-[10px] text-[#AAA] mb-3">人生關鍵年齡</p>
           <div className="relative">
-            <div className="absolute top-[10px] left-0 right-0 h-0.5 bg-[#CCFBF1]" />
+            <div className="absolute top-[10px] left-0 right-0 h-0.5 bg-[#BBF7D0]" />
             <div className="flex justify-between relative z-10">
               {keyAges.map(({ age: a, label }, i) => {
                 const isPeak = label.includes('高峰')
                 const isPast = a <= age
                 return (
                 <div key={i} className="text-center">
-                  <div className={`w-5 h-5 rounded-full mx-auto mb-1 flex items-center justify-center ${isPast ? 'bg-[#0D9488]' : isPeak ? 'bg-[#FFFBEB] border-2 border-[#D97706]' : 'bg-white border-2 border-[#CCFBF1]'}`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-white' : isPeak ? 'bg-[#D97706]' : 'bg-[#0D9488]'}`} />
+                  <div className={`w-5 h-5 rounded-full mx-auto mb-1 flex items-center justify-center ${isPast ? 'bg-[#059669]' : isPeak ? 'bg-[#FFFBEB] border-2 border-[#D97706]' : 'bg-white border-2 border-[#BBF7D0]'}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-white' : isPeak ? 'bg-[#D97706]' : 'bg-[#059669]'}`} />
                   </div>
-                  <p className={`text-[11px] font-medium ${isPast ? 'text-[#0D9488]' : isPeak ? 'text-[#D97706]' : 'text-[#0F2027]'}`}>{a}歲</p>
+                  <p className={`text-[11px] font-medium ${isPast ? 'text-[#059669]' : isPeak ? 'text-[#D97706]' : 'text-[#0F2027]'}`}>{a}歲</p>
                   <p className={`text-[9px] mt-0.5 ${isPeak ? 'text-[#D97706]' : 'text-[#888]'}`}>{label}</p>
                 </div>
                 )
@@ -264,18 +264,18 @@ function ReadingContent() {
 
         {/* Row 3: 五行命格 + 生命數字 + 星座 */}
         <div className="grid grid-cols-3 gap-2 mb-2.5">
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3">
             <p className="text-[9px] text-[#AAA] mb-1">五行命格</p>
             <p className="text-[18px] mb-0.5">{elementEmoji}</p>
             <p className="text-[13px] font-medium text-[#0F2027]">{data.bazi.dayStemElement}命人</p>
             <p className="text-[10px] text-[#888] mt-0.5">{data.bazi.dayStem}{data.bazi.dayStemElement}日主</p>
           </div>
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3">
             <p className="text-[9px] text-[#AAA] mb-1">生命數字</p>
-            <p className="text-[26px] font-medium text-[#0D9488] leading-none mb-1">{data.lifePath}</p>
+            <p className="text-[26px] font-medium text-[#059669] leading-none mb-1">{data.lifePath}</p>
             <p className="text-[12px] font-medium text-[#0F2027]">{data.lifePathInfo.title}</p>
           </div>
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3">
             <p className="text-[9px] text-[#AAA] mb-1">西洋星座</p>
             <p className="text-[18px] mb-0.5">{zodiac.emoji}</p>
             <p className="text-[13px] font-medium text-[#0F2027]">{zodiac.sign}</p>
@@ -285,10 +285,10 @@ function ReadingContent() {
 
         {/* Row 4: 天作之合 2x2 */}
         <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
-          <p className="text-[11px] text-[#0D9488] tracking-wide mb-3">天作之合</p>
+          <p className="text-[11px] text-[#059669] tracking-wide mb-3">天作之合</p>
           <div className="grid grid-cols-2 gap-2.5">
-            <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-xl p-3">
-              <p className="text-[9.5px] text-[#0D9488] font-medium tracking-wide mb-2">五行配對</p>
+            <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3">
+              <p className="text-[9.5px] text-[#059669] font-medium tracking-wide mb-2">五行配對</p>
               <p className="text-[10px] text-[#AAA] mb-0.5">你：{data.bazi.dayStemElement}命人</p>
               <p className="text-[15px] font-medium text-[#0F2027] mb-1">{bestPartner?.stem}{bestPartner?.element}人</p>
               <p className="text-[10px] text-[#888] leading-snug">{bestPartner?.desc}</p>
@@ -316,13 +316,13 @@ function ReadingContent() {
 
         {/* Row 5: 能量寶石 + 幸運色 */}
         <div className="grid grid-cols-2 gap-2.5 mb-2.5">
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">能量寶石</p>
             <div className="w-7 h-7 rounded-full mb-1.5 border-2 border-white" style={{ background: crystal?.color }} />
             <p className="text-[15px] font-medium text-[#0F2027]">{crystal?.name}</p>
             <p className="text-[11px] text-[#888] mt-1">{crystal?.desc}</p>
           </div>
-          <div className="bg-[#F0FDF9] border border-[#CCFBF1] rounded-2xl p-3.5">
+          <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3.5">
             <p className="text-[10px] text-[#AAA] mb-1">幸運色</p>
             <div className="flex gap-1.5 mb-1.5">
               {luckyColors.hex.map((hex, i) => (
@@ -337,13 +337,13 @@ function ReadingContent() {
         {/* Personality Tags */}
         <div className="flex gap-2 mb-4 flex-wrap">
           {tags.map(tag => (
-            <span key={tag} className="text-[12px] bg-[#0D9488] text-white px-3 py-1 rounded-full">{tag}</span>
+            <span key={tag} className="text-[12px] bg-[#059669] text-white px-3 py-1 rounded-full">{tag}</span>
           ))}
         </div>
 
         {/* BaZi Chart */}
         <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-3">
-          <p className="text-[11px] text-[#0D9488] tracking-wide mb-3">八字四柱</p>
+          <p className="text-[11px] text-[#059669] tracking-wide mb-3">八字四柱</p>
           <div className="grid grid-cols-4 gap-2">
             {[
               { label: '年柱', pillar: data.bazi.year },
@@ -354,11 +354,11 @@ function ReadingContent() {
               <div key={label} className="text-center">
                 <p className="text-[10px] text-[#AAA] mb-1.5">{label}</p>
                 <div className={`h-9 rounded-t-lg flex items-center justify-center text-[18px] font-medium border ${
-                  label === '日柱' ? 'bg-[#0D9488] text-white border-[#0D9488]' : 'bg-[#F0FDF9] text-[#0D9488] border-[#A7F3D0]'
+                  label === '日柱' ? 'bg-[#059669] text-white border-[#059669]' : 'bg-[#F0FDF4] text-[#059669] border-[#86EFAC]'
                 }`}>
                   {pillar?.stem ?? '—'}
                 </div>
-                <div className="h-9 rounded-b-lg flex items-center justify-center text-[18px] font-medium bg-[#FAFFFE] border border-t-0 border-[#CCFBF1] text-[#0F2027]">
+                <div className="h-9 rounded-b-lg flex items-center justify-center text-[18px] font-medium bg-[#FAFFFE] border border-t-0 border-[#BBF7D0] text-[#0F2027]">
                   {pillar?.branch ?? '—'}
                 </div>
               </div>
@@ -369,22 +369,22 @@ function ReadingContent() {
         {/* AI Reading Sections */}
         {sectionKeys.map(title => (
           <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-3">
-            <p className="text-[13px] font-medium text-[#0D9488] mb-2.5">{title}</p>
+            <p className="text-[13px] font-medium text-[#059669] mb-2.5">{title}</p>
             <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: sections[title] }} />
           </div>
         ))}
 
         {/* Email Capture */}
-        <div className="border border-[#CCFBF1] rounded-2xl overflow-hidden mb-4">
+        <div className="border border-[#BBF7D0] rounded-2xl overflow-hidden mb-4">
           {emailSent ? (
             // POST-EMAIL UPSELL — peak intent moment
             <div>
-              <div className="bg-[#F0FDF9] p-4 text-center border-b border-[#CCFBF1]">
+              <div className="bg-[#F0FDF4] p-4 text-center border-b border-[#BBF7D0]">
                 <p className="text-[20px] mb-1">✓</p>
-                <p className="text-[14px] font-medium text-[#0D9488]">命盤已儲存！每月運勢將寄至你的信箱</p>
+                <p className="text-[14px] font-medium text-[#059669]">命盤已儲存！每月運勢將寄至你的信箱</p>
                 <button
                   onClick={async () => {
-                    const shareText = `我剛用悟明AI解讀了自己的八字天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
+                    const shareText = `我剛用悟明解讀了自己的天賦，發現了很多關於自己的事！完全免費，你也來試試 👉 https://wumingai.app`
                     if (navigator.share) {
                       await navigator.share({ text: shareText })
                     } else {
@@ -393,7 +393,7 @@ function ReadingContent() {
                       setTimeout(() => setCopied(false), 2500)
                     }
                   }}
-                  className="mt-3 w-full h-10 border border-[#CCFBF1] rounded-xl text-[13px] text-[#0D9488] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
+                  className="mt-3 w-full h-10 border border-[#BBF7D0] rounded-xl text-[13px] text-[#059669] bg-white flex items-center justify-center gap-2 active:opacity-70 transition-opacity"
                 >
                   {copied ? '✓ 已複製連結！' : '✦ 分享給朋友'}
                 </button>
@@ -403,21 +403,21 @@ function ReadingContent() {
                 <p className="text-[12px] text-[#888] mb-4">這份解讀只是開始。悟明 Pro 幫你把命盤變成行動指南。</p>
                 <div className="space-y-3 mb-5">
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">📅</div>
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">📅</div>
                     <div>
                       <p className="text-[13px] font-medium text-[#0F2027]">知道哪個月該出手</p>
                       <p className="text-[11px] text-[#888] leading-relaxed">流年逐月分析，告訴你今年哪幾個月是你的黃金時機，哪幾個月要保守。</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">💼</div>
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">💼</div>
                     <div>
                       <p className="text-[13px] font-medium text-[#0F2027]">找到真正適合你的職涯路</p>
                       <p className="text-[11px] text-[#888] leading-relaxed">深度分析你的命格與哪些產業、職位最契合，避開走彎路。</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[15px] shrink-0">❤️</div>
+                    <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] flex items-center justify-center text-[15px] shrink-0">❤️</div>
                     <div>
                       <p className="text-[13px] font-medium text-[#0F2027]">感情與合作的最佳時機</p>
                       <p className="text-[11px] text-[#888] leading-relaxed">合盤分析看你與另一半或合夥人的相容性，以及何時是關係推進的好時機。</p>
@@ -425,17 +425,17 @@ function ReadingContent() {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 mb-2">
-                  <button onClick={() => trackPayClick('monthly')} className="h-12 bg-[#0D9488] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight">
+                  <button onClick={() => trackPayClick('monthly')} className="h-12 bg-[#059669] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight">
                     <span>月繳方案</span>
                     <span className="text-[11px] opacity-80">NTD $149 / 月</span>
                   </button>
                   <button onClick={() => trackPayClick('yearly')} className="h-12 bg-[#0F2027] text-white rounded-xl text-[13px] font-semibold flex flex-col items-center justify-center leading-tight relative overflow-hidden">
-                    <span className="absolute top-0 right-0 bg-[#0D9488] text-[9px] px-1.5 py-0.5 rounded-bl-lg">省44%</span>
+                    <span className="absolute top-0 right-0 bg-[#059669] text-[9px] px-1.5 py-0.5 rounded-bl-lg">省44%</span>
                     <span>年繳方案</span>
                     <span className="text-[11px] opacity-80">NTD $1,290 / 年</span>
                   </button>
                 </div>
-                <button onClick={() => trackPayClick('single')} className="w-full h-10 border border-[#CCFBF1] rounded-xl text-[12px] text-[#0D9488] bg-[#F0FDF9]">
+                <button onClick={() => trackPayClick('single')} className="w-full h-10 border border-[#BBF7D0] rounded-xl text-[12px] text-[#059669] bg-[#F0FDF4]">
                   單次深度報告 NTD $299 →
                 </button>
 
@@ -445,7 +445,7 @@ function ReadingContent() {
                       <p className="text-[28px] mb-2">🔔</p>
                       <p className="text-[16px] font-semibold text-[#0F2027] mb-1">即將上線</p>
                       <p className="text-[13px] text-[#666] leading-relaxed mb-4">付費功能正在開發中，上線後將第一時間通知你！</p>
-                      <button onClick={() => setShowComingSoon(false)} className="w-full h-10 bg-[#0D9488] text-white rounded-xl text-[13px] font-medium">
+                      <button onClick={() => setShowComingSoon(false)} className="w-full h-10 bg-[#059669] text-white rounded-xl text-[13px] font-medium">
                         好的，期待！
                       </button>
                     </div>
@@ -454,7 +454,7 @@ function ReadingContent() {
               </div>
             </div>
           ) : (
-            <div className="bg-[#F0FDF9] p-4">
+            <div className="bg-[#F0FDF4] p-4">
               <div className="flex items-start gap-2 mb-3">
                 <span className="text-[18px] leading-none mt-0.5">📩</span>
                 <div>
@@ -471,10 +471,10 @@ function ReadingContent() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="flex-1 h-10 bg-white border border-[#A7F3D0] rounded-xl px-3 text-[14px] text-[#0F2027] outline-none focus:border-[#0D9488]"
+                  className="flex-1 h-10 bg-white border border-[#86EFAC] rounded-xl px-3 text-[14px] text-[#0F2027] outline-none focus:border-[#059669]"
                 />
                 <button type="submit" disabled={emailLoading}
-                  className="h-10 px-4 bg-[#0D9488] text-white rounded-xl text-[13px] font-medium disabled:opacity-70">
+                  className="h-10 px-4 bg-[#059669] text-white rounded-xl text-[13px] font-medium disabled:opacity-70">
                   {emailLoading ? '...' : '儲存'}
                 </button>
               </form>
@@ -498,7 +498,7 @@ export default function ReadingPage() {
   return (
     <Suspense fallback={
       <main className="min-h-screen bg-white flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-[#0D9488] border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-[#059669] border-t-transparent rounded-full animate-spin" />
       </main>
     }>
       <ReadingContent />

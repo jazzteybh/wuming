@@ -22,20 +22,20 @@ export default function Image() {
         }}
       >
         {/* Background tint */}
-        <div style={{ position: 'absolute', inset: 0, background: '#F0FDF9', opacity: 0.4, display: 'flex' }} />
+        <div style={{ position: 'absolute', inset: 0, background: '#F0FDF4', opacity: 0.4, display: 'flex' }} />
 
         {/* Logo */}
         <div style={{ fontSize: 100, fontWeight: 500, color: '#0F2027', display: 'flex', marginBottom: 16 }}>
-          悟<span style={{ color: '#0D9488' }}>明</span>
+          悟<span style={{ color: '#059669' }}>明</span>
         </div>
 
         {/* Tagline */}
-        <div style={{ fontSize: 38, color: '#0D9488', marginBottom: 24, display: 'flex' }}>
+        <div style={{ fontSize: 38, color: '#059669', marginBottom: 24, display: 'flex' }}>
           讀懂自己，導航人生
         </div>
 
         {/* Divider */}
-        <div style={{ width: 240, height: 2, background: '#CCFBF1', marginBottom: 24, display: 'flex' }} />
+        <div style={{ width: 240, height: 2, background: '#BBF7D0', marginBottom: 24, display: 'flex' }} />
 
         {/* Description */}
         <div style={{ fontSize: 24, color: '#777', marginBottom: 32, display: 'flex' }}>

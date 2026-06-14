@@ -2,7 +2,7 @@ export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-white px-5 py-10 max-w-2xl mx-auto">
       <div className="mb-6">
-        <div className="text-xl font-medium tracking-wide mb-0.5">悟<span className="text-[#0D9488]">明</span></div>
+        <div className="text-xl font-medium tracking-wide mb-0.5">悟<span className="text-[#059669]">明</span></div>
         <p className="text-[11px] text-[#AAA]">讀懂自己，導航人生</p>
       </div>
       <h1 className="text-[22px] font-semibold text-[#0F2027] mb-1">隱私權政策</h1>
@@ -56,13 +56,13 @@ export default function PrivacyPage() {
 
         <section>
           <h2 className="text-[16px] font-medium text-[#0F2027] mb-2">8. 聯絡我們</h2>
-          <p>如有任何隱私相關問題，請寄信至：<a href="mailto:tboonho93@gmail.com" className="text-[#0D9488] underline">tboonho93@gmail.com</a></p>
+          <p>如有任何隱私相關問題，請寄信至：<a href="mailto:tboonho93@gmail.com" className="text-[#059669] underline">tboonho93@gmail.com</a></p>
         </section>
 
       </div>
 
       <div className="mt-10 pt-6 border-t border-gray-100">
-        <a href="/" className="text-[13px] text-[#0D9488]">← 返回悟明</a>
+        <a href="/" className="text-[13px] text-[#059669]">← 返回悟明</a>
       </div>
     </main>
   )

@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#FFFFFF"/>
-  <rect width="1200" height="630" fill="#F0FDF9" opacity="0.5"/>
+  <rect width="1200" height="630" fill="#F0FDF4" opacity="0.5"/>
 
   <!-- Decorative circles -->
-  <circle cx="1050" cy="100" r="200" fill="#0D9488" opacity="0.06"/>
-  <circle cx="150" cy="530" r="150" fill="#0D9488" opacity="0.06"/>
+  <circle cx="1050" cy="100" r="200" fill="#059669" opacity="0.06"/>
+  <circle cx="150" cy="530" r="150" fill="#059669" opacity="0.06"/>
 
   <!-- Logo -->
-  <text x="600" y="220" font-family="serif" font-size="96" font-weight="500" fill="#0F2027" text-anchor="middle">悟<tspan fill="#0D9488">明</tspan></text>
+  <text x="600" y="220" font-family="serif" font-size="96" font-weight="500" fill="#0F2027" text-anchor="middle">悟<tspan fill="#059669">明</tspan></text>
 
   <!-- Tagline -->
-  <text x="600" y="310" font-family="sans-serif" font-size="36" fill="#0D9488" text-anchor="middle">讀懂自己，導航人生</text>
+  <text x="600" y="310" font-family="sans-serif" font-size="36" fill="#059669" text-anchor="middle">讀懂自己，導航人生</text>
 
   <!-- Divider -->
-  <line x1="480" y1="350" x2="720" y2="350" stroke="#CCFBF1" stroke-width="2"/>
+  <line x1="480" y1="350" x2="720" y2="350" stroke="#BBF7D0" stroke-width="2"/>
 
   <!-- Description -->
   <text x="600" y="410" font-family="sans-serif" font-size="24" fill="#777" text-anchor="middle">結合八字與AI，了解你的天賦、職涯方向與最佳人生時機</text>
@@ -22,8 +22,8 @@
   <text x="600" y="480" font-family="sans-serif" font-size="20" fill="#AAA" text-anchor="middle">wumingai.app</text>
 
   <!-- Element tags -->
-  <rect x="340" y="520" width="80" height="32" rx="16" fill="#F0FDF9" stroke="#CCFBF1"/>
-  <text x="380" y="541" font-family="sans-serif" font-size="14" fill="#0D9488" text-anchor="middle">🌿 木</text>
+  <rect x="340" y="520" width="80" height="32" rx="16" fill="#F0FDF4" stroke="#BBF7D0"/>
+  <text x="380" y="541" font-family="sans-serif" font-size="14" fill="#059669" text-anchor="middle">🌿 木</text>
   <rect x="436" y="520" width="80" height="32" rx="16" fill="#FFF7ED" stroke="#FED7AA"/>
   <text x="476" y="541" font-family="sans-serif" font-size="14" fill="#EA580C" text-anchor="middle">🔥 火</text>
   <rect x="532" y="520" width="80" height="32" rx="16" fill="#FEFCE8" stroke="#FEF08A"/>

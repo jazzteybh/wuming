@@ -10,10 +10,10 @@ const STEM_ELEMENT: Record<string, string> = {
 
 function formatReadingHtml(reading: string): string {
   if (!reading) return ''
-  let html = reading.replace(/(\d+)\.\s*\*\*(.+?)\*\*/g, '<br/><strong style="color:#0D9488;">$1. $2</strong>')
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#0D9488;">$1</strong>')
-  html = html.replace(/<strong style="color:#0D9488;">(性格天賦|職涯方向|2026年運勢|成長方向|生命數字[^<]*)<\/strong>/g,
-    '<h3 style="font-size:15px;font-weight:600;color:#0D9488;margin:24px 0 6px;">$1</h3>')
+  let html = reading.replace(/(\d+)\.\s*\*\*(.+?)\*\*/g, '<br/><strong style="color:#059669;">$1. $2</strong>')
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#059669;">$1</strong>')
+  html = html.replace(/<strong style="color:#059669;">(性格天賦|職涯方向|2026年運勢|成長方向|生命數字[^<]*)<\/strong>/g,
+    '<h3 style="font-size:15px;font-weight:600;color:#059669;margin:24px 0 6px;">$1</h3>')
   html = html.replace(/\n\n/g, '</p><p style="font-size:14px;color:#444;line-height:1.8;margin:6px 0;">')
   html = html.replace(/\n/g, '<br/>')
   return `<p style="font-size:14px;color:#444;line-height:1.8;margin:6px 0;">${html}</p>`
@@ -40,20 +40,20 @@ export async function POST(req: Request) {
   const identityHtml = bazi ? `
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
       <tr>
-        <td width="32%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:12px;padding:12px;vertical-align:top;">
+        <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">五行命格</div>
           <div style="font-size:20px;margin-bottom:4px;">${elementEmoji}</div>
           <div style="font-size:14px;font-weight:600;color:#0F2027;">${dayStemElement}命人</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">${bazi.dayStem}${dayStemElement}日主</div>
         </td>
         <td width="2%"></td>
-        <td width="32%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:12px;padding:12px;vertical-align:top;">
+        <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">生命數字</div>
-          <div style="font-size:26px;font-weight:600;color:#0D9488;line-height:1;">${lifePath}</div>
+          <div style="font-size:26px;font-weight:600;color:#059669;line-height:1;">${lifePath}</div>
           <div style="font-size:12px;font-weight:500;color:#0F2027;margin-top:4px;">${lifePathInfo?.title || ''}</div>
         </td>
         <td width="2%"></td>
-        <td width="32%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:12px;padding:12px;vertical-align:top;">
+        <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">西洋星座</div>
           <div style="font-size:20px;margin-bottom:4px;">${zodiac?.emoji || ''}</div>
           <div style="font-size:14px;font-weight:600;color:#0F2027;">${zodiac?.sign || ''}</div>
@@ -64,20 +64,20 @@ export async function POST(req: Request) {
 
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0;">
       <tr>
-        <td width="48%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:12px;padding:12px;vertical-align:top;">
+        <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:6px;">八字四柱</div>
           ${[
             { label: '年柱', val: bazi.year.stem + bazi.year.branch },
             { label: '月柱', val: bazi.month.stem + bazi.month.branch },
             { label: '日柱', val: bazi.day.stem + bazi.day.branch },
             ...(bazi.hour ? [{ label: '時柱', val: bazi.hour.stem + bazi.hour.branch }] : []),
-          ].map(p => `<span style="display:inline-block;text-align:center;background:white;border:1px solid #CCFBF1;border-radius:6px;padding:4px 7px;font-size:13px;font-weight:600;color:#0F2027;margin-right:4px;">${p.val}<br/><span style="font-size:9px;color:#AAA;font-weight:400;">${p.label}</span></span>`).join('')}
+          ].map(p => `<span style="display:inline-block;text-align:center;background:white;border:1px solid #BBF7D0;border-radius:6px;padding:4px 7px;font-size:13px;font-weight:600;color:#0F2027;margin-right:4px;">${p.val}<br/><span style="font-size:9px;color:#AAA;font-weight:400;">${p.label}</span></span>`).join('')}
         </td>
         <td width="4%"></td>
-        <td width="48%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:12px;padding:12px;vertical-align:top;">
+        <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:6px;">能量寶石 &amp; 幸運色</div>
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-            <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${crystal?.color || '#0D9488'};"></span>
+            <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${crystal?.color || '#059669'};"></span>
             <span style="font-size:13px;font-weight:500;color:#0F2027;">${crystal?.name || ''}</span>
           </div>
           ${luckyColors ? `
@@ -91,11 +91,11 @@ export async function POST(req: Request) {
     </table>
 
     <div style="background:white;border:1px solid #E6F7F5;border-radius:12px;padding:14px;margin:12px 0;">
-      <div style="font-size:11px;color:#0D9488;font-weight:500;letter-spacing:0.06em;margin-bottom:10px;">天作之合</div>
+      <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:0.06em;margin-bottom:10px;">天作之合</div>
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td width="48%" style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:10px;padding:10px;vertical-align:top;">
-            <div style="font-size:9px;color:#0D9488;font-weight:500;margin-bottom:4px;">五行配對</div>
+          <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px;vertical-align:top;">
+            <div style="font-size:9px;color:#059669;font-weight:500;margin-bottom:4px;">五行配對</div>
             <div style="font-size:10px;color:#AAA;margin-bottom:2px;">你：${dayStemElement}命人</div>
             <div style="font-size:14px;font-weight:600;color:#0F2027;margin-bottom:2px;">${bestPartner?.stem || ''}${bestPartner?.element || ''}人</div>
             <div style="font-size:10px;color:#888;">${bestPartner?.desc || ''}</div>
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
   ` : ''
 
   const upsellHtml = `
-    <div style="background:#F0FDF9;border:1px solid #CCFBF1;border-radius:14px;padding:20px;margin-top:32px;">
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:20px;margin-top:32px;">
       <p style="font-size:15px;font-weight:600;color:#0F2027;margin:0 0 4px;">你的命盤還藏著更多</p>
       <p style="font-size:12px;color:#888;margin:0 0 16px;">升級 悟明 Pro，把命盤變成行動指南</p>
       <table width="100%" cellpadding="0" cellspacing="0">
@@ -147,7 +147,7 @@ export async function POST(req: Request) {
           </tr>
         `).join('')}
       </table>
-      <a href="https://wumingai.app" style="display:block;text-align:center;background:#0D9488;color:white;text-decoration:none;padding:12px;border-radius:10px;font-size:14px;font-weight:600;margin-top:4px;">
+      <a href="https://wumingai.app" style="display:block;text-align:center;background:#059669;color:white;text-decoration:none;padding:12px;border-radius:10px;font-size:14px;font-weight:600;margin-top:4px;">
         解鎖完整命盤分析 →
       </a>
       <p style="text-align:center;font-size:11px;color:#AAA;margin:8px 0 0;">月繳 NTD $149 · 年繳 NTD $1,290（省44%）</p>
@@ -162,7 +162,7 @@ export async function POST(req: Request) {
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#0F2027;">
           <h1 style="font-size:24px;font-weight:500;margin-bottom:4px;">
-            悟<span style="color:#0D9488;">明</span>
+            悟<span style="color:#059669;">明</span>
           </h1>
           <p style="font-size:12px;color:#AAA;margin:0 0 24px;">讀懂自己，導航人生</p>
 
@@ -181,7 +181,7 @@ export async function POST(req: Request) {
           ${upsellHtml}
 
           <div style="margin-top:32px;padding-top:20px;border-top:1px solid #F0F0F0;">
-            <a href="https://wumingai.app" style="display:inline-block;background:#F0FDF9;color:#0D9488;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:13px;border:1px solid #CCFBF1;">
+            <a href="https://wumingai.app" style="display:inline-block;background:#F0FDF4;color:#059669;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:13px;border:1px solid #BBF7D0;">
               返回悟明重新解讀
             </a>
           </div>
