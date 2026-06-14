@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-[16px] font-medium text-[#0F2027] mb-2">2. 我們收集哪些資料</h2>
           <ul className="list-disc pl-5 space-y-1">
-            <li>你在表單中填寫的姓名、出生日期、出生時間、性別</li>
+            <li>你在表單中填寫的姓名、出生日期、出生時間</li>
             <li>你自願提供的 Email 地址（僅用於寄送命盤報告）</li>
             <li>匿名的網站使用數據（透過 Google Analytics 收集，包含頁面瀏覽、停留時間等）</li>
           </ul>

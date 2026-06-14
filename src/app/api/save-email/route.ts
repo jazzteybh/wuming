@@ -129,28 +129,14 @@ export async function POST(req: Request) {
   ` : ''
 
   const upsellHtml = `
-    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:20px;margin-top:32px;">
-      <p style="font-size:15px;font-weight:600;color:#0F2027;margin:0 0 4px;">你的命盤還藏著更多</p>
-      <p style="font-size:12px;color:#888;margin:0 0 16px;">升級 悟明 Pro，把命盤變成行動指南</p>
-      <table width="100%" cellpadding="0" cellspacing="0">
-        ${[
-          ['📅', '知道哪個月該出手', '流年逐月分析，掌握你的黃金時機'],
-          ['💼', '找到真正適合你的職涯路', '深度命格職業相容性分析'],
-          ['❤️', '感情與合作的最佳時機', '合盤相容性 + 關係推進時機'],
-        ].map(([icon, title, desc]) => `
-          <tr>
-            <td width="32" style="vertical-align:top;padding-bottom:12px;"><span style="font-size:18px;">${icon}</span></td>
-            <td style="vertical-align:top;padding-bottom:12px;padding-left:8px;">
-              <div style="font-size:13px;font-weight:500;color:#0F2027;">${title}</div>
-              <div style="font-size:11px;color:#888;">${desc}</div>
-            </td>
-          </tr>
-        `).join('')}
-      </table>
-      <a href="https://wumingai.app" style="display:block;text-align:center;background:#059669;color:white;text-decoration:none;padding:12px;border-radius:10px;font-size:14px;font-weight:600;margin-top:4px;">
-        解鎖完整命盤分析 →
+    <div style="background:#0F2027;border-radius:14px;padding:20px;margin-top:32px;text-align:center;">
+      <p style="font-size:14px;color:#AAA;margin:0 0 6px;">喜歡這份解讀？</p>
+      <p style="font-size:16px;font-weight:600;color:white;margin:0 0 16px;">分享給你的朋友，讓他們也來讀懂自己</p>
+      <a href="https://wumingai.app" style="display:inline-block;background:#059669;color:white;text-decoration:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:12px;">
+        ✦ 分享悟明
       </a>
-      <p style="text-align:center;font-size:11px;color:#AAA;margin:8px 0 0;">月繳 NTD $149 · 年繳 NTD $1,290（省44%）</p>
+      <p style="font-size:12px;color:#AAA;margin:12px 0 0;">追蹤我們的 Instagram 獲取更多自我探索內容</p>
+      <a href="https://www.instagram.com/wuming.app" style="font-size:13px;color:#C13584;text-decoration:none;">@wuming.app</a>
     </div>
   `
 
