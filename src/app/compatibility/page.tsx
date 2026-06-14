@@ -104,7 +104,7 @@ function CompatibilityContent() {
       <div className="px-5 py-5 max-w-lg mx-auto">
 
         <div className="text-center mb-5">
-          <p className="text-[28px] mb-2">❤️</p>
+          <p className="text-[28px] mb-2">☯</p>
           <h1 className="text-[20px] font-medium text-[#0F2027] mb-1">天作之合</h1>
           <p className="text-[12px] text-[#AAA]">輸入兩人生日，解讀命格緣分</p>
           <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
@@ -178,7 +178,7 @@ function CompatibilityContent() {
                   <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block" />
                   解讀中...
                 </>
-              ) : '❤️ 解讀我們的緣分'}
+              ) : '☯ 解讀我們的緣分'}
             </button>
           </form>
         ) : (

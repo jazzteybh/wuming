@@ -135,7 +135,7 @@ export default function Home() {
           <div className="space-y-2">
             {[
               { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
-              { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
+              { icon: '🔢', title: '生命數字', desc: '人生課題與使命' },
               { icon: '💼', title: '職涯方向', desc: '適合產業與時機' },
               { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
               { icon: '📅', title: '未來12個月每月運程', desc: '掌握每月能量走勢，提前佈局' },
