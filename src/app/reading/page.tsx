@@ -335,6 +335,24 @@ function ReadingContent() {
           </div>
         </div>
 
+        {/* Monthly Teaser Banner */}
+        <div
+          onClick={() => router.push(`/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)}
+          className="bg-[#0F2027] rounded-2xl p-4 mb-2.5 cursor-pointer active:opacity-80 transition-opacity"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] text-[#86EFAC] mb-1 tracking-wide">全新功能</p>
+              <p className="text-[15px] font-medium text-white mb-1">未來12個月每月運程</p>
+              <p className="text-[11px] text-[#AAA]">掌握每月能量走勢，提前佈局</p>
+            </div>
+            <div className="text-[28px]">📅</div>
+          </div>
+          <div className="mt-3 h-9 bg-[#059669] rounded-xl flex items-center justify-center text-[13px] font-medium text-white">
+            立即解讀 →
+          </div>
+        </div>
+
         {/* Row 6: 職涯方向 Lite */}
         <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
           <div className="flex justify-between items-center mb-3">
