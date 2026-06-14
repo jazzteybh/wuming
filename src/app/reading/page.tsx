@@ -70,6 +70,7 @@ function ReadingContent() {
 
   async function handleFeedback(e: React.FormEvent) {
     e.preventDefault()
+    window.gtag?.('event', 'feedback_submitted', { wantMore: feedbackWantMore.join(','), source: feedbackSource.join(',') })
     await fetch('/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -112,6 +113,7 @@ function ReadingContent() {
     e.preventDefault()
     if (!email) return
     setEmailLoading(true)
+    window.gtag?.('event', 'email_submitted', { page: 'reading', name })
     await fetch('/api/save-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -359,14 +361,22 @@ function ReadingContent() {
             <p className="text-[11px] text-[#059669] tracking-wide">職涯方向</p>
             <span className="text-[10px] text-[#AAA]">適合你的職業</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-3">
             {careerKeywords.length > 0 ? careerKeywords.map(k => (
               <span key={k} className="text-[13px] bg-[#F0FDF4] border border-[#BBF7D0] text-[#059669] px-3 py-1.5 rounded-full font-medium">{k}</span>
             )) : (
               <span className="text-[13px] text-[#AAA]">解讀生成中...</span>
             )}
           </div>
-          <p className="text-[10px] text-[#AAA] mt-3">更多詳細職涯分析 — 即將推出 ✦</p>
+          <button
+            onClick={() => {
+              window.gtag?.('event', 'career_banner_clicked', { name, date })
+              router.push(`/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)
+            }}
+            className="w-full h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity"
+          >
+            💼 查看詳細職涯分析 →
+          </button>
         </div>
 
         {/* Row 7: 八字四柱 */}
