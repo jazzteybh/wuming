@@ -61,6 +61,7 @@ function ReadingContent() {
   const [feedbackSource, setFeedbackSource] = useState<string[]>([])
   const [feedbackText, setFeedbackText] = useState('')
   const [feedbackEmail, setFeedbackEmail] = useState('')
+  const [feedbackAnon, setFeedbackAnon] = useState(false)
   const [feedbackSent, setFeedbackSent] = useState(false)
 
   function toggleOption(list: string[], setList: (v: string[]) => void, val: string) {
@@ -165,7 +166,7 @@ function ReadingContent() {
   if (!data) return null
 
   const sections = parseReading(data.reading)
-  const careerKeywords = (sections['職涯關鍵字'] || '').replace(/<[^>]+>/g, '').split('·').map(s => s.trim()).filter(Boolean)
+  const careerKeywords = (sections['職涯關鍵字'] || '').replace(/<[^>]+>/g, '').split('\n')[0].split('·').map(s => s.trim()).filter(Boolean)
   const READING_ORDER = ['生命數字', '性格天賦', '成長方向', '2026年運勢']
   const orderedSections = READING_ORDER.map(k => Object.keys(sections).find(s => s.startsWith(k))).filter(Boolean) as string[]
   const zodiac = getZodiac(date)
@@ -483,13 +484,24 @@ function ReadingContent() {
                 rows={3}
                 className="w-full bg-white border border-[#E5E7EB] rounded-xl px-3 py-2.5 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] resize-none mb-3"
               />
-              <input
-                type="email"
-                value={feedbackEmail}
-                onChange={e => setFeedbackEmail(e.target.value)}
-                placeholder="Email（選填，讓我們可以回覆你）"
-                className="w-full h-10 bg-white border border-[#E5E7EB] rounded-xl px-3 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] mb-3"
-              />
+              <label className="flex items-center gap-2 mb-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={feedbackAnon}
+                  onChange={e => { setFeedbackAnon(e.target.checked); if (e.target.checked) setFeedbackEmail('') }}
+                  className="w-3.5 h-3.5 accent-[#059669]"
+                />
+                <span className="text-[12px] text-[#888]">匿名回饋</span>
+              </label>
+              {!feedbackAnon && (
+                <input
+                  type="email"
+                  value={feedbackEmail}
+                  onChange={e => setFeedbackEmail(e.target.value)}
+                  placeholder="Email（讓我們可以回覆你）"
+                  className="w-full h-10 bg-white border border-[#E5E7EB] rounded-xl px-3 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] mb-3"
+                />
+              )}
               <button type="submit"
                 className="w-full h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium active:opacity-80 transition-opacity">
                 送出回饋
