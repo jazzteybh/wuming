@@ -144,7 +144,7 @@ export async function POST(req: Request) {
     await resend.emails.send({
       from: '悟明 <noreply@wumingai.app>',
       to: email,
-      subject: `${name} 的天賦報告 ✦`,
+      subject: bazi ? `${name} 的天賦報告 ✦` : `${name} 的悟明解讀報告 ✦`,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#0F2027;">
           <h1 style="font-size:24px;font-weight:500;margin-bottom:4px;">
@@ -152,10 +152,10 @@ export async function POST(req: Request) {
           </h1>
           <p style="font-size:12px;color:#AAA;margin:0 0 24px;">讀懂自己，導航人生</p>
 
-          <p style="font-size:16px;color:#0F2027;margin-bottom:4px;">嗨 ${name}，</p>
+          <p style="font-size:16px;color:#0F2027;margin-bottom:4px;">嗨 ${bazi ? name : name.split(' × ')[0]}，</p>
           <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:0;">
-            以下是你的完整天賦報告。<br/>
-            收藏這封信，隨時回來查看你的命盤與天作之合。
+            以下是你的完整解讀報告。<br/>
+            收藏這封信，隨時回來查看。
           </p>
 
           ${identityHtml}

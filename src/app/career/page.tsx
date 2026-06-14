@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ELEMENT_EMOJI } from '@/lib/bazi'
+import ExploreMore from '@/components/ExploreMore'
 
 const SECTIONS = ['天賦優勢', '最適職涯路線', '工作風格', '職涯黃金期', '需要注意的職場盲點', '給你的職涯建議']
 
@@ -201,6 +202,8 @@ function CareerContent() {
             </div>
           )}
         </div>
+
+        <ExploreMore name={name} date={date} time={time} current="career" />
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">
           © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議

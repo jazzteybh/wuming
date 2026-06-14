@@ -288,7 +288,7 @@ function ReadingContent() {
 
         {/* Row 4: 天作之合 2x2 */}
         <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
-          <p className="text-[11px] text-[#059669] tracking-wide mb-3">天作之合</p>
+          <p className="text-[11px] text-[#059669] tracking-wide mb-3">☯ 天作之合</p>
           <div className="grid grid-cols-2 gap-2.5">
             <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3">
               <p className="text-[9.5px] text-[#059669] font-medium tracking-wide mb-2">五行配對</p>
@@ -315,6 +315,15 @@ function ReadingContent() {
               <p className="text-[10px] text-[#888] leading-snug">{chineseZodiacPartner?.desc}</p>
             </div>
           </div>
+          <button
+            onClick={() => {
+              window.gtag?.('event', 'compatibility_banner_clicked', { name, date })
+              router.push(`/compatibility?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`)
+            }}
+            className="w-full mt-3 h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity"
+          >
+            ☯ 查看命格合盤配對 →
+          </button>
         </div>
 
         {/* Row 5: 能量寶石 + 幸運色 */}
@@ -352,27 +361,6 @@ function ReadingContent() {
           </div>
           <div className="mt-3 h-9 bg-[#059669] rounded-xl flex items-center justify-center text-[13px] font-medium text-white">
             立即解讀 →
-          </div>
-        </div>
-
-        {/* Compatibility Teaser Banner */}
-        <div
-          onClick={() => {
-            window.gtag?.('event', 'compatibility_banner_clicked', { name, date })
-            router.push(`/compatibility?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`)
-          }}
-          className="bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl p-4 mb-2.5 cursor-pointer active:opacity-80 transition-opacity"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] text-[#E11D48] mb-1 tracking-wide">天作之合</p>
-              <p className="text-[15px] font-medium text-[#0F2027] mb-1">合盤配對分析</p>
-              <p className="text-[11px] text-[#AAA]">輸入兩人生日，解讀命格緣分與互補</p>
-            </div>
-            <div className="text-[28px]">❤️</div>
-          </div>
-          <div className="mt-3 h-9 bg-[#E11D48] rounded-xl flex items-center justify-center text-[13px] font-medium text-white">
-            立即合盤 →
           </div>
         </div>
 

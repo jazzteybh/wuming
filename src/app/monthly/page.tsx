@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import ExploreMore from '@/components/ExploreMore'
 
 interface MonthData {
   month: string
@@ -163,6 +164,8 @@ function MonthlyContent() {
             </>
           )}
         </div>
+
+        <ExploreMore name={name} date={date} time={time} current="monthly" />
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">
           © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議

@@ -132,7 +132,7 @@ export default function Home() {
 
         <div className="py-4">
           <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">你將獲得</p>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 gap-2.5 mb-4">
             {[
               { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
               { icon: '✦', title: '生命數字', desc: '人生課題與使命' },
@@ -143,6 +143,24 @@ export default function Home() {
                 <div className="text-lg mb-1.5">{f.icon}</div>
                 <div className="text-[13px] font-medium text-[#0F2027] mb-0.5">{f.title}</div>
                 <div className="text-[11px] text-[#888] leading-snug">{f.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">解讀完成後還可以...</p>
+          <div className="space-y-2">
+            {[
+              { icon: '📅', title: '未來12個月每月運程', desc: '掌握每月能量走勢，提前佈局' },
+              { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適職涯路線與工作風格' },
+              { icon: '☯', title: '命格合盤配對', desc: '輸入兩人生日，解讀緣分與互補' },
+            ].map(f => (
+              <div key={f.title} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-xl p-3">
+                <span className="text-[18px]">{f.icon}</span>
+                <div>
+                  <div className="text-[12px] font-medium text-[#0F2027]">{f.title}</div>
+                  <div className="text-[11px] text-[#888]">{f.desc}</div>
+                </div>
+                <span className="ml-auto text-[10px] text-[#CCC]">免費</span>
               </div>
             ))}
           </div>

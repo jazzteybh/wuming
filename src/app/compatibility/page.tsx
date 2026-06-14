@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ELEMENT_EMOJI } from '@/lib/bazi'
+import ExploreMore from '@/components/ExploreMore'
 
 const SECTIONS = ['合盤總覽', '你們的天然默契', '互補與成長', '相處的挑戰', '最佳合作模式', '給你們的話']
 
@@ -322,10 +323,12 @@ function CompatibilityContent() {
             {/* Try again */}
             <button
               onClick={() => setResult(null)}
-              className="w-full text-center text-[13px] text-[#059669] underline mb-6"
+              className="w-full text-center text-[13px] text-[#059669] underline mb-4"
             >
               換兩個人再試一次
             </button>
+
+            <ExploreMore name={name1} date={date1} current="compatibility" />
           </>
         )}
 
