@@ -62,7 +62,6 @@ function ReadingContent() {
   const name = searchParams.get('name') || ''
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
-  const gender = searchParams.get('gender') || ''
 
   const [data, setData] = useState<ReadingData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -92,11 +91,11 @@ function ReadingContent() {
   }, [loading])
 
   useEffect(() => {
-    if (!name || !date || !gender) { router.push('/'); return }
+    if (!name || !date) { router.push('/'); return }
     fetch('/api/reading', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, date, time, gender }),
+      body: JSON.stringify({ name, date, time }),
     })
       .then(r => r.json())
       .then(d => { if (d.error) setError(d.error); else setData(d) })
@@ -211,7 +210,7 @@ function ReadingContent() {
             {name.charAt(0)}
           </div>
           <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
-          <p className="text-[12px] text-[#AAA] mt-1">{date} · {gender} · {age}歲</p>
+          <p className="text-[12px] text-[#AAA] mt-1">{date} · {age}歲</p>
           <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr}</p>
           <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
             八字 × 星座 × 生命數字，三維度讀懂你

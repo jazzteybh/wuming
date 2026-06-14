@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', date: '', time: '', gender: '', noTime: false })
+  const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -15,8 +15,8 @@ export default function Home() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!form.name || !form.date || !form.gender) {
-      setError('請填寫姓名、出生日期和性別')
+    if (!form.name || !form.date) {
+      setError('請填寫姓名和出生日期')
       return
     }
     setLoading(true)
@@ -25,7 +25,6 @@ export default function Home() {
       name: form.name,
       date: form.date,
       time: form.time,
-      gender: form.gender,
     })
     router.push(`/reading?${params.toString()}`)
   }
@@ -81,40 +80,25 @@ export default function Home() {
                   className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[12px] font-medium text-[#059669] mb-1.5">出生時間</label>
+              <div>
+                <label className="block text-[12px] font-medium text-[#059669] mb-1.5">出生時間</label>
+                <input
+                  name="time"
+                  value={form.time}
+                  onChange={handleChange}
+                  type="time"
+                  disabled={form.noTime}
+                  className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors disabled:opacity-40"
+                />
+                <label className="flex items-center gap-1.5 mt-2 cursor-pointer">
                   <input
-                    name="time"
-                    value={form.time}
-                    onChange={handleChange}
-                    type="time"
-                    disabled={form.noTime}
-                    className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors disabled:opacity-40"
+                    type="checkbox"
+                    checked={form.noTime || false}
+                    onChange={e => setForm(prev => ({ ...prev, noTime: e.target.checked, time: e.target.checked ? '' : prev.time }))}
+                    className="w-3.5 h-3.5 accent-[#059669]"
                   />
-                  <label className="flex items-center gap-1.5 mt-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={form.noTime || false}
-                      onChange={e => setForm(prev => ({ ...prev, noTime: e.target.checked, time: e.target.checked ? '' : prev.time }))}
-                      className="w-3.5 h-3.5 accent-[#059669]"
-                    />
-                    <span className="text-[11px] text-[#AAA]">不記得出生時間</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="block text-[12px] font-medium text-[#059669] mb-1.5">性別</label>
-                  <select
-                    name="gender"
-                    value={form.gender}
-                    onChange={handleChange}
-                    className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors"
-                  >
-                    <option value="" disabled>請選擇</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                  </select>
-                </div>
+                  <span className="text-[11px] text-[#AAA]">不記得出生時間</span>
+                </label>
               </div>
             </div>
 

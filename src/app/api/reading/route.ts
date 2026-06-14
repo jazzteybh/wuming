@@ -5,13 +5,13 @@ import { calculateLifePath, getLifePathDescription } from '@/lib/numerology'
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export async function POST(req: Request) {
-  const { name, date, time, gender } = await req.json()
+  const { name, date, time } = await req.json()
 
-  if (!name || !date || !gender) {
+  if (!name || !date) {
     return Response.json({ error: '缺少必要資料' }, { status: 400 })
   }
 
-  const bazi = calculateBazi(date, time || null, gender)
+  const bazi = calculateBazi(date, time || null, '')
   const lifePath = calculateLifePath(date)
   const lifePathInfo = getLifePathDescription(lifePath)
   const dayStemDesc = getDayStemDescription(bazi.dayStem)
@@ -26,11 +26,10 @@ export async function POST(req: Request) {
 
   const pillarsText = `年柱${bazi.year.stem}${bazi.year.branch}、月柱${bazi.month.stem}${bazi.month.branch}、日柱${bazi.day.stem}${bazi.day.branch}${bazi.hour ? `、時柱${bazi.hour.stem}${bazi.hour.branch}` : ''}`
 
-  const prompt = `你是一位溫暖、鼓勵式的AI命理顧問，使用繁體中文。你的語氣像一位智慧的好朋友，從不說負面或嚇人的話，永遠以正面、建設性的角度解讀命盤。
+  const prompt = `你是一位溫暖、鼓勵式的AI命理顧問，使用繁體中文。你的語氣像一位智慧的好朋友，從不說負面或嚇人的話，永遠以正面、建設性的角度解讀命盤。全程使用「你」來稱呼用戶，不使用「他」或「她」。
 
 用戶資料：
 - 姓名：${name}
-- 性別：${gender}
 - 出生日期：${date}${time ? `，出生時間：${time}` : '（未提供出生時間）'}
 - 八字四柱：${pillarsText}
 - 日主：${bazi.dayStem}（${dayStemDesc}）
