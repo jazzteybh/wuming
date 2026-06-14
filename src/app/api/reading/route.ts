@@ -3,6 +3,7 @@ import { calculateBazi, getDayStemDescription } from '@/lib/bazi'
 import { calculateLifePath, getLifePathDescription } from '@/lib/numerology'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const readingCache = new Map<string, string>()
 
 export async function POST(req: Request) {
   const { name, date, time } = await req.json()
@@ -62,6 +63,7 @@ export async function POST(req: Request) {
 
 請直接開始內容，不要有開場白。每個標題用**粗體**。`
 
+  const cacheKey = `${name}-${date}-${time || ''}`
   const encoder = new TextEncoder()
 
   const stream = new ReadableStream({
@@ -72,6 +74,17 @@ export async function POST(req: Request) {
           `data:${JSON.stringify({ type: 'meta', bazi, lifePath, lifePathInfo })}\n\n`
         ))
 
+        // Return cached result instantly if available
+        const cached = readingCache.get(cacheKey)
+        if (cached) {
+          controller.enqueue(encoder.encode(
+            `data:${JSON.stringify({ type: 'text', text: cached })}\n\n`
+          ))
+          controller.close()
+          return
+        }
+
+        let fullText = ''
         const aiStream = client.messages.stream({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 2000,
@@ -80,11 +93,13 @@ export async function POST(req: Request) {
 
         for await (const chunk of aiStream) {
           if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+            fullText += chunk.delta.text
             controller.enqueue(encoder.encode(
               `data:${JSON.stringify({ type: 'text', text: chunk.delta.text })}\n\n`
             ))
           }
         }
+        if (fullText) readingCache.set(cacheKey, fullText)
       } catch (err) {
         console.error(err)
         controller.enqueue(encoder.encode(

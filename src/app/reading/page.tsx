@@ -52,6 +52,7 @@ function ReadingContent() {
   const [data, setData] = useState<ReadingData | null>(null)
   const [loading, setLoading] = useState(true)
   const [streaming, setStreaming] = useState(true)
+  const [displayedLifePath, setDisplayedLifePath] = useState(0)
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
@@ -96,6 +97,19 @@ function ReadingContent() {
     }, 3000)
     return () => clearInterval(interval)
   }, [loading])
+
+  useEffect(() => {
+    if (!data?.lifePath) return
+    setDisplayedLifePath(0)
+    let current = 0
+    const target = data.lifePath
+    const step = () => {
+      current += 1
+      setDisplayedLifePath(current)
+      if (current < target) setTimeout(step, 80)
+    }
+    setTimeout(step, 300)
+  }, [data?.lifePath])
 
   useEffect(() => {
     if (!name || !date) { router.push('/'); return }
@@ -307,7 +321,7 @@ function ReadingContent() {
           </div>
           <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3">
             <p className="text-[9px] text-[#AAA] mb-1">生命數字</p>
-            <p className="text-[26px] font-medium text-[#059669] leading-none mb-1">{data.lifePath}</p>
+            <p className="text-[26px] font-medium text-[#059669] leading-none mb-1">{displayedLifePath || data.lifePath}</p>
             <p className="text-[12px] font-medium text-[#0F2027]">{data.lifePathInfo.title}</p>
           </div>
           <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3">

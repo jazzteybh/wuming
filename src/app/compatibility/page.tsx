@@ -58,6 +58,7 @@ function CompatibilityContent() {
   const [emailSent, setEmailSent] = useState(false)
   const [emailLoading, setEmailLoading] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [scoreVisible, setScoreVisible] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -76,7 +77,7 @@ function CompatibilityContent() {
       })
       const d = await res.json()
       if (d.error) setError(d.error)
-      else setResult(d)
+      else { setResult(d); setTimeout(() => setScoreVisible(true), 150) }
     } catch {
       setError('網路錯誤，請重試')
     } finally {
@@ -194,7 +195,7 @@ function CompatibilityContent() {
               <div className="h-2 bg-white/10 rounded-full mx-4 mb-3">
                 <div
                   className="h-full rounded-full bg-[#059669] transition-all duration-1000"
-                  style={{ width: `${score}%` }}
+                  style={{ width: scoreVisible ? `${score}%` : '0%' }}
                 />
               </div>
               <div className="flex items-center justify-center gap-2">

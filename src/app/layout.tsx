@@ -37,6 +37,12 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" className={`${geistSans.variable}`}>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="悟明" />
+        <meta name="theme-color" content="#059669" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-EY2T2LB478"></script>
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer = window.dataLayer || [];

@@ -61,7 +61,7 @@ function MonthlyContent() {
           <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />
           <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-5 mb-4">
             <p className="text-[24px] mb-2">📅</p>
-            <p className="text-[15px] font-medium text-[#0F2027] mb-1">解讀未來12個月</p>
+            <p className="text-[15px] font-medium text-[#0F2027] mb-1">解讀 {name} 的未來12個月</p>
             <p className="text-[12px] text-[#888] leading-relaxed">根據你的八字推算每月能量走勢</p>
           </div>
           <p className="text-[11px] text-[#CCC]">深度解讀中，約需 15-20 秒</p>

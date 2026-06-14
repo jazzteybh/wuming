@@ -1,0 +1,18 @@
+{
+  "name": "悟明 — 讀懂自己，導航人生",
+  "short_name": "悟明",
+  "description": "迷茫時，先讀懂自己。30秒天賦分析，完全免費。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

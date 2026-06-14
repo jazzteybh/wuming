@@ -43,8 +43,14 @@ export default function Home() {
       </nav>
 
       <div className="px-5 pt-6 pb-4 max-w-lg mx-auto">
-        <div className="inline-flex items-center gap-1 text-[11px] text-[#059669] bg-[#F0FDF4] rounded-full px-3 py-1 mb-4">
-          迷茫時，先讀懂自己
+        <div className="flex items-center gap-3 mb-4">
+          <div className="inline-flex items-center gap-1 text-[11px] text-[#059669] bg-[#F0FDF4] rounded-full px-3 py-1">
+            迷茫時，先讀懂自己
+          </div>
+          <div className="inline-flex items-center gap-1 text-[11px] text-[#888]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#059669] inline-block animate-pulse" />
+            已解讀 3,200+ 人
+          </div>
         </div>
         <h1 className="text-[28px] font-medium leading-snug text-[#0F2027] mb-2">
           讀懂自己，<br />
