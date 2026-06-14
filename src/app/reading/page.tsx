@@ -51,6 +51,7 @@ function ReadingContent() {
 
   const [data, setData] = useState<ReadingData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [streaming, setStreaming] = useState(true)
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
@@ -98,15 +99,46 @@ function ReadingContent() {
 
   useEffect(() => {
     if (!name || !date) { router.push('/'); return }
+
+    let buffer = ''
+
     fetch('/api/reading', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, date, time }),
+    }).then(async res => {
+      const reader = res.body!.getReader()
+      const decoder = new TextDecoder()
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const parts = buffer.split('\n\n')
+        buffer = parts.pop() ?? ''
+
+        for (const part of parts) {
+          if (!part.startsWith('data:')) continue
+          try {
+            const msg = JSON.parse(part.slice(5))
+            if (msg.type === 'meta') {
+              setData({ reading: '', bazi: msg.bazi, lifePath: msg.lifePath, lifePathInfo: msg.lifePathInfo })
+              setLoading(false)
+            } else if (msg.type === 'text') {
+              setData(prev => prev ? { ...prev, reading: prev.reading + msg.text } : null)
+            } else if (msg.type === 'error') {
+              setError(msg.error)
+              setLoading(false)
+            }
+          } catch { /* incomplete chunk */ }
+        }
+      }
+    }).then(() => setStreaming(false))
+    .catch(() => {
+      setError('網路錯誤，請重試')
+      setLoading(false)
     })
-      .then(r => r.json())
-      .then(d => { if (d.error) setError(d.error); else setData(d) })
-      .catch(() => setError('網路錯誤，請重試'))
-      .finally(() => setLoading(false))
   }, [])
 
   async function handleSaveEmail(e: React.FormEvent) {
@@ -419,12 +451,24 @@ function ReadingContent() {
         </div>
 
         {/* Rows 8-11: AI Reading Sections in order */}
-        {orderedSections.map(title => (
-          <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
-            <p className="text-[13px] font-medium text-[#059669] mb-2.5">{title}</p>
-            <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: sections[title] }} />
-          </div>
-        ))}
+        {orderedSections.map((title, i) => {
+          const isLast = i === orderedSections.length - 1
+          const content = sections[title]
+          return (
+            <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
+              <p className="text-[13px] font-medium text-[#059669] mb-2.5">{title}</p>
+              {content ? (
+                <p className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: content + (streaming && isLast ? '<span class="inline-block w-0.5 h-4 bg-[#059669] animate-pulse ml-0.5 align-middle"></span>' : '') }} />
+              ) : (
+                <div className="space-y-2 animate-pulse">
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-full" />
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-5/6" />
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-4/6" />
+                </div>
+              )}
+            </div>
+          )
+        })}
 
         {/* Email Capture */}
         <div className="border border-[#BBF7D0] rounded-2xl overflow-hidden mb-4">

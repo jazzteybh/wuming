@@ -62,23 +62,45 @@ export async function POST(req: Request) {
 
 請直接開始內容，不要有開場白。每個標題用**粗體**。`
 
-  try {
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }],
-    })
+  const encoder = new TextEncoder()
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        // Send metadata immediately (bazi calculations are instant)
+        controller.enqueue(encoder.encode(
+          `data:${JSON.stringify({ type: 'meta', bazi, lifePath, lifePathInfo })}\n\n`
+        ))
 
-    return Response.json({
-      reading: text,
-      bazi,
-      lifePath,
-      lifePathInfo,
-    })
-  } catch (err) {
-    console.error(err)
-    return Response.json({ error: 'AI生成失敗，請稍後再試' }, { status: 500 })
-  }
+        const aiStream = client.messages.stream({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 2000,
+          messages: [{ role: 'user', content: prompt }],
+        })
+
+        for await (const chunk of aiStream) {
+          if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+            controller.enqueue(encoder.encode(
+              `data:${JSON.stringify({ type: 'text', text: chunk.delta.text })}\n\n`
+            ))
+          }
+        }
+      } catch (err) {
+        console.error(err)
+        controller.enqueue(encoder.encode(
+          `data:${JSON.stringify({ type: 'error', error: 'AI生成失敗，請稍後再試' })}\n\n`
+        ))
+      } finally {
+        controller.close()
+      }
+    }
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    },
+  })
 }
