@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', date: '', time: '', gender: '' })
+  const [form, setForm] = useState({ name: '', date: '', time: '', gender: '', noTime: false })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -37,7 +37,7 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="悟明" className="h-8 w-8" />
           <div>
-            <span className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></span>
+            <span className="text-xl font-medium tracking-wide text-[#059669]">悟明</span>
             <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
           </div>
         </div>
@@ -83,15 +83,24 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[12px] font-medium text-[#059669] mb-1">出生時間</label>
-                  <p className="text-[10px] text-[#AAA] leading-snug mb-1.5">不記得？沒關係，<br/>跳過也能生成準確結果</p>
+                  <label className="block text-[12px] font-medium text-[#059669] mb-1.5">出生時間</label>
                   <input
                     name="time"
                     value={form.time}
                     onChange={handleChange}
                     type="time"
-                    className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors"
+                    disabled={form.noTime}
+                    className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors disabled:opacity-40"
                   />
+                  <label className="flex items-center gap-1.5 mt-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.noTime || false}
+                      onChange={e => setForm(prev => ({ ...prev, noTime: e.target.checked, time: e.target.checked ? '' : prev.time }))}
+                      className="w-3.5 h-3.5 accent-[#059669]"
+                    />
+                    <span className="text-[11px] text-[#AAA]">不記得出生時間</span>
+                  </label>
                 </div>
                 <div>
                   <label className="block text-[12px] font-medium text-[#059669] mb-1.5">性別</label>
