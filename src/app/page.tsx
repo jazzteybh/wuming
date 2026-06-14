@@ -47,7 +47,7 @@ export default function Home() {
 
       <div className="px-5 pt-6 pb-4 max-w-lg mx-auto">
         <div className="inline-flex items-center gap-1 text-[11px] text-[#059669] bg-[#F0FDF4] rounded-full px-3 py-1 mb-4">
-          ✦ 命理 · 自我探索
+          迷茫時，先讀懂自己
         </div>
         <h1 className="text-[28px] font-medium leading-snug text-[#0F2027] mb-2">
           讀懂自己，<br />
