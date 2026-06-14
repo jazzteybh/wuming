@@ -33,9 +33,15 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
-        <div>
-          <span className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></span>
-          <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 rounded-xl bg-[#059669] overflow-hidden flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="悟明" style={{width: '160%', marginTop: '-30%', marginBottom: '-70%', filter: 'brightness(0) invert(1)'}} />
+          </div>
+          <div>
+            <span className="text-xl font-medium tracking-wide">悟<span className="text-[#059669]">明</span></span>
+            <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+          </div>
         </div>
       </nav>
 
