@@ -16,17 +16,15 @@ function extractCareerKeywords(reading: string): string[] {
 
 function formatReadingHtml(reading: string): string {
   if (!reading) return ''
-  // Remove 職涯關鍵字 section (shown separately as pills)
-  // Remove 職涯方向 section (shown as lite keywords only)
-  const SKIP_SECTIONS = ['職涯方向', '職涯關鍵字']
+  // Only show 性格天賦 + 2026年運勢 in email to stay under Gmail 102KB clip limit
+  const SHOW_SECTIONS = ['性格天賦', '2026年運勢']
   const ALL_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向', '生命數字', '職涯關鍵字']
   const pattern = new RegExp(`\\*\\*(${ALL_SECTIONS.join('|')}[^*]*)\\*\\*([\\s\\S]*?)(?=\\*\\*(?:${ALL_SECTIONS.join('|')})|$)`, 'g')
   let html = ''
   let match
   while ((match = pattern.exec(reading)) !== null) {
     const title = match[1].trim()
-    const skip = SKIP_SECTIONS.some(s => title.startsWith(s))
-    if (skip) continue
+    if (!SHOW_SECTIONS.some(s => title.startsWith(s))) continue
     const content = match[2].trim()
       .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#059669;">$1</strong>')
       .replace(/\n\n/g, '</p><p style="font-size:14px;color:#555;line-height:1.8;margin:4px 0;">')
@@ -138,9 +136,9 @@ export async function POST(req: Request) {
     <!-- 職涯方向 lite -->
     <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;margin:12px 0;">
       <div style="font-size:10px;color:#AAA;margin-bottom:8px;">職涯方向</div>
-      <table cellpadding="0" cellspacing="0"><tr>
-        ${careerKeywords.map(k => `<td style="padding-right:6px;"><span style="display:inline-block;background:white;border:1px solid #BBF7D0;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;color:#059669;">${k}</span></td>`).join('')}
-      </tr></table>
+      <div>
+        ${careerKeywords.map(k => `<span style="display:inline-block;white-space:nowrap;background:white;border:1px solid #BBF7D0;border-radius:20px;padding:5px 12px;font-size:13px;font-weight:500;color:#059669;margin:0 6px 6px 0;">${k}</span>`).join('')}
+      </div>
       <div style="margin-top:10px;">
         <a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="font-size:12px;color:#059669;text-decoration:none;">💼 查看完整職涯分析 →</a>
       </div>
