@@ -152,8 +152,8 @@ export async function POST(req: Request) {
           <td width="31%" style="text-align:center;">
             <a href="https://wumingai.app/compatibility" style="display:block;background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:12px 8px;text-decoration:none;">
               <div style="font-size:18px;margin-bottom:4px;">☯</div>
-              <div style="font-size:12px;font-weight:600;color:#E11D48;">合盤配對</div>
-              <div style="font-size:10px;color:#888;margin-top:2px;">緣分解讀</div>
+              <div style="font-size:12px;font-weight:600;color:#E11D48;">緣分指數</div>
+              <div style="font-size:10px;color:#888;margin-top:2px;">測試你們的緣分</div>
             </a>
           </td>
         </tr>

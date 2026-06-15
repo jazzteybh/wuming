@@ -106,8 +106,8 @@ function CompatibilityContent() {
 
         <div className="text-center mb-5">
           <p className="text-[28px] mb-2">☯</p>
-          <h1 className="text-[20px] font-medium text-[#0F2027] mb-1">天作之合</h1>
-          <p className="text-[12px] text-[#AAA]">輸入兩人生日，解讀命格緣分</p>
+          <h1 className="text-[20px] font-medium text-[#0F2027] mb-1">緣分指數測試</h1>
+          <p className="text-[12px] text-[#AAA]">輸入兩人生日，測出你們的緣分指數</p>
           <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
             八字合盤 · 五行互補分析
           </div>
@@ -243,11 +243,11 @@ function CompatibilityContent() {
 
             {/* Share */}
             <div className="bg-[#0F2027] rounded-2xl p-4 mb-3">
-              <p className="text-[13px] font-medium text-white mb-1 text-center">分享給你的另一半</p>
-              <p className="text-[11px] text-[#AAA] text-center mb-3">讓他們也看看你們的合盤結果</p>
+              <p className="text-[13px] font-medium text-white mb-1 text-center">分享緣分結果</p>
+              <p className="text-[11px] text-[#AAA] text-center mb-3">讓他們也來看看你們的緣分指數</p>
               <button
                 onClick={async () => {
-                  const shareText = `我和${name2}用悟明做了合盤分析，緣分指數 ${score}/100！快來看看你們的天作之合 👉 https://wumingai.app`
+                  const shareText = `我和${name2}用悟明測了緣分指數，竟然有 ${score}/100！你也來測測看 👉 https://wumingai.app`
                   window.gtag?.('event', 'share_clicked', { page: 'compatibility' })
                   if (navigator.share) {
                     await navigator.share({ text: shareText })
@@ -259,7 +259,7 @@ function CompatibilityContent() {
                 }}
                 className="w-full h-10 bg-[#059669] text-white rounded-xl text-[13px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity mb-2"
               >
-                {copied ? '✓ 已複製連結！' : '✦ 分享合盤結果'}
+                {copied ? '✓ 已複製連結！' : '✦ 分享緣分指數'}
               </button>
               <a
                 href="https://www.instagram.com/wuming.app"
@@ -276,7 +276,7 @@ function CompatibilityContent() {
               {emailSent ? (
                 <div className="p-4 text-center bg-[#F0FDF4]">
                   <p className="text-[20px] mb-1">✓</p>
-                  <p className="text-[14px] font-medium text-[#059669]">合盤報告已寄出！</p>
+                  <p className="text-[14px] font-medium text-[#059669]">緣分報告已寄出！</p>
                   <p className="text-[12px] text-[#888] mt-1">收藏那封信，隨時回來查看</p>
                 </div>
               ) : (
@@ -284,7 +284,7 @@ function CompatibilityContent() {
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-[18px] leading-none mt-0.5">📩</span>
                     <div>
-                      <p className="text-[14px] font-medium text-[#0F2027] mb-0.5">把合盤結果寄到你的信箱</p>
+                      <p className="text-[14px] font-medium text-[#0F2027] mb-0.5">把緣分報告寄到你的信箱</p>
                       <p className="text-[12px] text-[#777]">留下 Email，完整報告將寄給你。</p>
                     </div>
                   </div>

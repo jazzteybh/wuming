@@ -12,7 +12,7 @@ interface Props {
 const PAGES = [
   { key: 'monthly', icon: '📅', title: '每月運程', desc: '未來12個月能量走勢' },
   { key: 'career', icon: '💼', title: '職業生涯', desc: '天賦優勢與職涯路線' },
-  { key: 'compatibility', icon: '☯', title: '命格合盤', desc: '兩人緣分與互補分析' },
+  { key: 'compatibility', icon: '☯', title: '緣分指數測試', desc: '兩人緣分指數解讀' },
 ] as const
 
 export default function ExploreMore({ name, date, time = '', current }: Props) {

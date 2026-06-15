@@ -537,7 +537,7 @@ function ReadingContent() {
               className="flex flex-col items-center bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3 active:opacity-70 transition-opacity"
             >
               <span className="text-[20px] mb-1">☯</span>
-              <span className="text-[11px] font-medium text-[#E11D48]">合盤配對</span>
+              <span className="text-[11px] font-medium text-[#E11D48]">緣分測試</span>
               <span className="text-[10px] text-[#AAA] mt-0.5">緣分解讀</span>
             </button>
           </div>

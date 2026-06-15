@@ -37,7 +37,7 @@ export default function Image() {
 
         {/* Feature pills */}
         <div style={{ display: 'flex', gap: 14 }}>
-          {['八字命盤', '職業生涯', '每月運程', '命格合盤'].map(f => (
+          {['八字命盤', '職業生涯', '每月運程', '緣分指數'].map(f => (
             <div key={f} style={{ background: 'rgba(5,150,105,0.12)', border: '1px solid rgba(5,150,105,0.35)', borderRadius: 10, padding: '9px 22px', display: 'flex' }}>
               <span style={{ fontSize: 20, color: '#86EFAC' }}>{f}</span>
             </div>

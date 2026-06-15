@@ -159,7 +159,7 @@ export default function Home() {
             >
               <span className="text-[18px]">☯</span>
               <div className="flex-1">
-                <div className="text-[12px] font-medium text-[#0F2027]">命格合盤配對</div>
+                <div className="text-[12px] font-medium text-[#0F2027]">緣分指數測試</div>
                 <div className="text-[11px] text-[#888]">輸入兩人生日，解讀緣分與互補</div>
               </div>
               <span className="text-[11px] text-[#E11D48] font-medium">立即試 →</span>
