@@ -158,7 +158,7 @@ function MonthlyContent() {
                     await fetch('/api/save-email', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ email, name, date, reading: '', bazi: null, lifePath: null, lifePathInfo: null }),
+                      body: JSON.stringify({ email, name, date, type: 'monthly', monthly, reading: '', bazi: null, lifePath: null, lifePathInfo: null }),
                     })
                     setEmailSent(true)
                   }}

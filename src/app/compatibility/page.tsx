@@ -297,7 +297,7 @@ function CompatibilityContent() {
                       await fetch('/api/save-email', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, name: `${name1} × ${name2}`, date: date1, reading: result.compatibility, bazi: null, lifePath: null, lifePathInfo: null }),
+                        body: JSON.stringify({ email, name: `${name1} × ${name2}`, name1, name2, score, date: date1, type: 'compatibility', reading: result.compatibility, bazi: null, lifePath: null, lifePathInfo: null }),
                       })
                       setEmailSent(true)
                       setEmailLoading(false)

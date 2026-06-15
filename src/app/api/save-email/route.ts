@@ -14,29 +14,89 @@ function extractCareerKeywords(reading: string): string[] {
   return match[1].split('·').map(s => s.trim()).filter(Boolean).slice(0, 4)
 }
 
-function formatReadingHtml(reading: string): string {
-  if (!reading) return ''
-  // Only show 性格天賦 + 2026年運勢 in email to stay under Gmail 102KB clip limit
-  const SHOW_SECTIONS = ['性格天賦', '2026年運勢']
-  const ALL_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向', '生命數字', '職涯關鍵字']
-  const pattern = new RegExp(`\\*\\*(${ALL_SECTIONS.join('|')}[^*]*)\\*\\*([\\s\\S]*?)(?=\\*\\*(?:${ALL_SECTIONS.join('|')})|$)`, 'g')
-  let html = ''
+function parseSections(text: string, sectionNames: string[]): Record<string, string> {
+  const sections: Record<string, string> = {}
+  const pattern = new RegExp(`\\*\\*(${sectionNames.join('|')})\\*\\*([\\s\\S]*?)(?=\\*\\*(?:${sectionNames.join('|')})|$)`, 'g')
   let match
-  while ((match = pattern.exec(reading)) !== null) {
+  while ((match = pattern.exec(text)) !== null) {
     const title = match[1].trim()
-    if (!SHOW_SECTIONS.some(s => title.startsWith(s))) continue
-    const content = match[2].trim()
+    sections[title] = match[2].trim()
       .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#059669;">$1</strong>')
       .replace(/\n\n/g, '</p><p style="font-size:14px;color:#555;line-height:1.8;margin:4px 0;">')
       .replace(/\n/g, '<br/>')
-    html += `<h3 style="font-size:14px;font-weight:600;color:#059669;margin:20px 0 6px;padding:0;">${title}</h3>`
-    html += `<p style="font-size:14px;color:#555;line-height:1.8;margin:4px 0;">${content}</p>`
   }
+  return sections
+}
+
+function sectionHtml(title: string, content: string, icon = ''): string {
+  return `
+    <div style="margin:16px 0;">
+      <h3 style="font-size:14px;font-weight:600;color:#059669;margin:0 0 6px;padding:0;">${icon ? icon + ' ' : ''}${title}</h3>
+      <p style="font-size:14px;color:#555;line-height:1.8;margin:0;">${content}</p>
+    </div>`
+}
+
+function formatCareerEmail(reading: string): string {
+  const SECTIONS = ['天賦優勢', '最適職涯路線', '工作風格', '職涯黃金期', '需要注意的職場盲點', '給你的職涯建議']
+  const ICONS: Record<string, string> = { '天賦優勢': '⚡', '最適職涯路線': '🧭', '工作風格': '🎯', '職涯黃金期': '✦', '需要注意的職場盲點': '🔍', '給你的職涯建議': '💬' }
+  const parsed = parseSections(reading, SECTIONS)
+  return SECTIONS.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s], ICONS[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:8px 0;"/>')
+}
+
+function formatCompatibilityEmail(reading: string, name1: string, name2: string, score: number): string {
+  const SECTIONS = ['緣分指數', '合盤總覽', '你們的天然默契', '互補與成長', '相處的挑戰', '最佳合作模式', '給你們的話']
+  const parsed = parseSections(reading, SECTIONS)
+  let html = `
+    <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:16px;margin:16px 0;text-align:center;">
+      <div style="font-size:11px;color:#E11D48;margin-bottom:6px;">${name1} × ${name2}</div>
+      <div style="font-size:36px;font-weight:700;color:#E11D48;line-height:1;">${score}</div>
+      <div style="font-size:12px;color:#888;margin-top:4px;">/ 100 緣分指數</div>
+      <div style="background:#FECDD3;border-radius:4px;height:6px;margin:10px 0 0;">
+        <div style="background:#E11D48;border-radius:4px;height:6px;width:${score}%;"></div>
+      </div>
+    </div>`
+  html += SECTIONS.filter(s => s !== '緣分指數' && parsed[s]).map(s => sectionHtml(s, parsed[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:8px 0;"/>')
   return html
 }
 
+interface MonthData { month: string; theme: string; energy: number; desc: string; action: string }
+
+function formatMonthlyEmail(monthly: MonthData[]): string {
+  if (!monthly?.length) return ''
+  const dots = (n: number) => [1,2,3,4,5].map(i =>
+    `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${i <= n ? '#059669' : '#E5E7EB'};margin-right:2px;"></span>`
+  ).join('')
+  const rows = monthly.map(m => `
+    <tr>
+      <td style="padding:8px 6px;border-bottom:1px solid #F0F0F0;font-size:12px;color:#888;white-space:nowrap;">${m.month}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #F0F0F0;font-size:13px;font-weight:500;color:#0F2027;">${m.theme}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #F0F0F0;">${dots(m.energy)}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #F0F0F0;font-size:11px;color:#059669;">${m.action}</td>
+    </tr>`).join('')
+  return `
+    <div style="margin:16px 0;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <tr style="background:#F0FDF4;">
+          <td style="padding:6px;font-size:10px;color:#AAA;">月份</td>
+          <td style="padding:6px;font-size:10px;color:#AAA;">主題</td>
+          <td style="padding:6px;font-size:10px;color:#AAA;">能量</td>
+          <td style="padding:6px;font-size:10px;color:#AAA;">建議</td>
+        </tr>
+        ${rows}
+      </table>
+    </div>`
+}
+
+function formatReadingEmail(reading: string): string {
+  if (!reading) return ''
+  const SHOW = ['性格天賦', '2026年運勢']
+  const ALL = ['性格天賦', '職涯方向', '2026年運勢', '成長方向', '生命數字', '職涯關鍵字']
+  const parsed = parseSections(reading, ALL)
+  return SHOW.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:8px 0;"/>')
+}
+
 export async function POST(req: Request) {
-  const { email, name, date, reading, bazi, lifePath, lifePathInfo } = await req.json()
+  const { email, name, date, type = 'reading', reading, monthly, bazi, lifePath, lifePathInfo, name1, name2, score } = await req.json()
 
   if (!email || !name) {
     return Response.json({ error: '缺少必要資料' }, { status: 400 })
@@ -61,8 +121,35 @@ export async function POST(req: Request) {
     ...(bazi.hour ? [{ label: '時柱', stem: bazi.hour.stem, branch: bazi.hour.branch, isDay: false }] : []),
   ] : []
 
+  // Subject line per type
+  const subjects: Record<string, string> = {
+    reading: `${name} 的天賦報告 ✦`,
+    career: `${name} 的職涯天賦分析 💼`,
+    monthly: `${name} 的未來12個月運程 📅`,
+    compatibility: `${name1 || name} 和 ${name2 || ''} 的緣分指數 ☯`,
+  }
+
+  // Page title per type
+  const pageTitles: Record<string, string> = {
+    reading: '完整天賦報告',
+    career: '職涯天賦分析',
+    monthly: '未來12個月運程',
+    compatibility: '緣分指數報告',
+  }
+
+  // Main content per type
+  let mainContent = ''
+  if (type === 'career') {
+    mainContent = formatCareerEmail(reading)
+  } else if (type === 'compatibility') {
+    mainContent = formatCompatibilityEmail(reading, name1 || name, name2 || '', score || 0)
+  } else if (type === 'monthly') {
+    mainContent = formatMonthlyEmail(monthly)
+  } else {
+    mainContent = formatReadingEmail(reading)
+  }
+
   const identityHtml = bazi ? `
-    <!-- Row 1: 五行 / 生命數字 / 星座 -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0 12px;">
       <tr>
         <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
@@ -87,7 +174,6 @@ export async function POST(req: Request) {
       </tr>
     </table>
 
-    <!-- Row 2: 八字四柱 + 能量寶石 -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0;">
       <tr>
         <td width="55%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
@@ -133,7 +219,6 @@ export async function POST(req: Request) {
     </table>
 
     ${careerKeywords.length > 0 ? `
-    <!-- 職涯方向 lite -->
     <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;margin:12px 0;">
       <div style="font-size:10px;color:#AAA;margin-bottom:8px;">職涯方向</div>
       <div>
@@ -145,7 +230,6 @@ export async function POST(req: Request) {
     </div>
     ` : ''}
 
-    <!-- 緣分指數測試 -->
     <div style="background:white;border:1px solid #E6F7F5;border-radius:12px;padding:14px;margin:12px 0;">
       <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:1px;margin-bottom:10px;">緣分指數測試</div>
       <table width="100%" cellpadding="0" cellspacing="0">
@@ -184,7 +268,7 @@ export async function POST(req: Request) {
     </div>
   ` : ''
 
-  const sectionsHtml = bazi ? `
+  const sectionsHtml = `
     <div style="margin-top:28px;">
       <p style="font-size:12px;color:#AAA;margin:0 0 12px;text-align:center;">還想探索更多？</p>
       <table width="100%" cellpadding="0" cellspacing="0">
@@ -214,8 +298,7 @@ export async function POST(req: Request) {
           </td>
         </tr>
       </table>
-    </div>
-  ` : ''
+    </div>`
 
   const upsellHtml = `
     <div style="background:#0F2027;border-radius:14px;padding:20px;margin-top:28px;text-align:center;">
@@ -228,18 +311,16 @@ export async function POST(req: Request) {
       <a href="https://www.instagram.com/wuming.app" style="display:inline-block;background:rgba(193,53,132,0.1);border:1px solid rgba(193,53,132,0.3);border-radius:10px;padding:10px 20px;text-decoration:none;font-size:13px;color:#C13584;margin-top:4px;">
         📸 追蹤 @wuming.app
       </a>
-    </div>
-  `
+    </div>`
 
   try {
     await resend.emails.send({
       from: '悟明 App - 讀懂自己 導航人生 <noreply@wumingai.app>',
       to: email,
-      subject: bazi ? `${name} 的天賦報告 ✦` : `${name} 的悟明解讀報告 ✦`,
+      subject: subjects[type] || subjects.reading,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#0F2027;">
 
-          <!-- Header: logo + brand -->
           <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
             <tr>
               <td style="padding-right:10px;vertical-align:middle;">
@@ -252,17 +333,15 @@ export async function POST(req: Request) {
             </tr>
           </table>
 
-          <p style="font-size:16px;color:#0F2027;margin:0 0 4px;">嗨 ${bazi ? name : name.split(' × ')[0]}，</p>
-          <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 4px;">
-            以下是你的完整天賦報告。<br/>
+          <p style="font-size:16px;color:#0F2027;margin:0 0 4px;">嗨 ${type === 'compatibility' ? (name1 || name) : name}，</p>
+          <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 16px;">
+            以下是你的${pageTitles[type]}。<br/>
             收藏這封信，隨時回來查看。
           </p>
 
           ${identityHtml}
 
-          <div style="margin-top:8px;">
-            ${formatReadingHtml(reading)}
-          </div>
+          ${mainContent}
 
           ${sectionsHtml}
 
