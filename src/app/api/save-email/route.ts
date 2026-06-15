@@ -8,15 +8,33 @@ const STEM_ELEMENT: Record<string, string> = {
   甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'
 }
 
+function extractCareerKeywords(reading: string): string[] {
+  const match = reading.match(/\*\*職涯關鍵字\*\*\s*\n?([\s\S]*?)(?=\n\n|\n\*\*|$)/)
+  if (!match) return []
+  return match[1].split('·').map(s => s.trim()).filter(Boolean).slice(0, 4)
+}
+
 function formatReadingHtml(reading: string): string {
   if (!reading) return ''
-  let html = reading.replace(/(\d+)\.\s*\*\*(.+?)\*\*/g, '<br/><strong style="color:#059669;">$1. $2</strong>')
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#059669;">$1</strong>')
-  html = html.replace(/<strong style="color:#059669;">(性格天賦|職涯方向|2026年運勢|成長方向|生命數字[^<]*)<\/strong>/g,
-    '<h3 style="font-size:15px;font-weight:600;color:#059669;margin:24px 0 6px;">$1</h3>')
-  html = html.replace(/\n\n/g, '</p><p style="font-size:14px;color:#444;line-height:1.8;margin:6px 0;">')
-  html = html.replace(/\n/g, '<br/>')
-  return `<p style="font-size:14px;color:#444;line-height:1.8;margin:6px 0;">${html}</p>`
+  // Remove 職涯關鍵字 section (shown separately as pills)
+  // Remove 職涯方向 section (shown as lite keywords only)
+  const SKIP_SECTIONS = ['職涯方向', '職涯關鍵字']
+  const ALL_SECTIONS = ['性格天賦', '職涯方向', '2026年運勢', '成長方向', '生命數字', '職涯關鍵字']
+  const pattern = new RegExp(`\\*\\*(${ALL_SECTIONS.join('|')}[^*]*)\\*\\*([\\s\\S]*?)(?=\\*\\*(?:${ALL_SECTIONS.join('|')})|$)`, 'g')
+  let html = ''
+  let match
+  while ((match = pattern.exec(reading)) !== null) {
+    const title = match[1].trim()
+    const skip = SKIP_SECTIONS.some(s => title.startsWith(s))
+    if (skip) continue
+    const content = match[2].trim()
+      .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#059669;">$1</strong>')
+      .replace(/\n\n/g, '</p><p style="font-size:14px;color:#555;line-height:1.8;margin:4px 0;">')
+      .replace(/\n/g, '<br/>')
+    html += `<h3 style="font-size:14px;font-weight:600;color:#059669;margin:20px 0 6px;padding:0;">${title}</h3>`
+    html += `<p style="font-size:14px;color:#555;line-height:1.8;margin:4px 0;">${content}</p>`
+  }
+  return html
 }
 
 export async function POST(req: Request) {
@@ -36,62 +54,102 @@ export async function POST(req: Request) {
   const zodiacPartner = zodiac ? ZODIAC_BEST_PARTNER[zodiac.sign] : null
   const chineseZodiacPartner = chineseZodiac ? CHINESE_ZODIAC_BEST_PARTNER[chineseZodiac.animal] : null
   const lifePathPartner = lifePath ? LIFE_PATH_BEST_PARTNER[lifePath as number] : null
+  const careerKeywords = reading ? extractCareerKeywords(reading) : []
+
+  const pillars = bazi ? [
+    { label: '年柱', stem: bazi.year.stem, branch: bazi.year.branch, isDay: false },
+    { label: '月柱', stem: bazi.month.stem, branch: bazi.month.branch, isDay: false },
+    { label: '日柱', stem: bazi.day.stem, branch: bazi.day.branch, isDay: true },
+    ...(bazi.hour ? [{ label: '時柱', stem: bazi.hour.stem, branch: bazi.hour.branch, isDay: false }] : []),
+  ] : []
 
   const identityHtml = bazi ? `
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
+    <!-- Row 1: 五行 / 生命數字 / 星座 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0 12px;">
       <tr>
         <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">五行命格</div>
-          <div style="font-size:20px;margin-bottom:4px;">${elementEmoji}</div>
-          <div style="font-size:14px;font-weight:600;color:#0F2027;">${dayStemElement}命人</div>
+          <div style="font-size:22px;line-height:1.3;">${elementEmoji}</div>
+          <div style="font-size:15px;font-weight:600;color:#0F2027;margin-top:4px;">${dayStemElement}命人</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">${bazi.dayStem}${dayStemElement}日主</div>
         </td>
         <td width="2%"></td>
         <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">生命數字</div>
-          <div style="font-size:26px;font-weight:600;color:#059669;line-height:1;">${lifePath}</div>
+          <div style="font-size:28px;font-weight:700;color:#059669;line-height:1.2;">${lifePath}</div>
           <div style="font-size:12px;font-weight:500;color:#0F2027;margin-top:4px;">${lifePathInfo?.title || ''}</div>
         </td>
         <td width="2%"></td>
         <td width="32%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
           <div style="font-size:10px;color:#AAA;margin-bottom:4px;">西洋星座</div>
-          <div style="font-size:20px;margin-bottom:4px;">${zodiac?.emoji || ''}</div>
-          <div style="font-size:14px;font-weight:600;color:#0F2027;">${zodiac?.sign || ''}</div>
+          <div style="font-size:22px;line-height:1.3;">${zodiac?.emoji || ''}</div>
+          <div style="font-size:15px;font-weight:600;color:#0F2027;margin-top:4px;">${zodiac?.sign || ''}</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">${chineseZodiac?.emoji || ''}屬${chineseZodiac?.animal || ''}</div>
         </td>
       </tr>
     </table>
 
+    <!-- Row 2: 八字四柱 + 能量寶石 -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0;">
       <tr>
-        <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
-          <div style="font-size:10px;color:#AAA;margin-bottom:6px;">八字四柱</div>
-          ${[
-            { label: '年柱', val: bazi.year.stem + bazi.year.branch },
-            { label: '月柱', val: bazi.month.stem + bazi.month.branch },
-            { label: '日柱', val: bazi.day.stem + bazi.day.branch },
-            ...(bazi.hour ? [{ label: '時柱', val: bazi.hour.stem + bazi.hour.branch }] : []),
-          ].map(p => `<span style="display:inline-block;text-align:center;background:white;border:1px solid #BBF7D0;border-radius:6px;padding:4px 7px;font-size:13px;font-weight:600;color:#0F2027;margin-right:4px;">${p.val}<br/><span style="font-size:9px;color:#AAA;font-weight:400;">${p.label}</span></span>`).join('')}
+        <td width="55%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
+          <div style="font-size:10px;color:#AAA;margin-bottom:8px;">八字四柱</div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              ${pillars.map(p => `
+              <td style="width:25%;text-align:center;padding:0 2px;">
+                <div style="font-size:10px;color:#AAA;margin-bottom:4px;">${p.label}</div>
+                <div style="background:${p.isDay ? '#059669' : 'white'};border:1px solid #BBF7D0;border-radius:6px 6px 0 0;padding:6px 4px;text-align:center;">
+                  <span style="font-size:16px;font-weight:600;color:${p.isDay ? 'white' : '#059669'};">${p.stem}</span>
+                </div>
+                <div style="background:white;border:1px solid #BBF7D0;border-top:none;border-radius:0 0 6px 6px;padding:6px 4px;text-align:center;">
+                  <span style="font-size:16px;font-weight:600;color:#0F2027;">${p.branch}</span>
+                </div>
+              </td>`).join('')}
+            </tr>
+          </table>
         </td>
         <td width="4%"></td>
-        <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
-          <div style="font-size:10px;color:#AAA;margin-bottom:6px;">能量寶石 &amp; 幸運色</div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-            <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${crystal?.color || '#059669'};"></span>
-            <span style="font-size:13px;font-weight:500;color:#0F2027;">${crystal?.name || ''}</span>
-          </div>
+        <td width="41%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;vertical-align:top;">
+          <div style="font-size:10px;color:#AAA;margin-bottom:8px;">能量寶石 &amp; 幸運色</div>
+          <table cellpadding="0" cellspacing="0" style="margin-bottom:6px;">
+            <tr>
+              <td style="padding-right:6px;vertical-align:middle;">
+                <div style="width:14px;height:14px;border-radius:50%;background:${crystal?.color || '#059669'};"></div>
+              </td>
+              <td style="vertical-align:middle;">
+                <span style="font-size:13px;font-weight:500;color:#0F2027;">${crystal?.name || ''}</span>
+              </td>
+            </tr>
+          </table>
           ${luckyColors ? `
-            <div style="display:flex;gap:5px;margin-bottom:3px;">
-              ${luckyColors.hex.map(h => `<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:${h};"></span>`).join('')}
-            </div>
-            <div style="font-size:12px;color:#888;">${luckyColors.colors.join('・')}</div>
+          <table cellpadding="0" cellspacing="0" style="margin-bottom:4px;">
+            <tr>
+              ${luckyColors.hex.map((h: string) => `<td style="padding-right:4px;"><div style="width:16px;height:16px;border-radius:50%;background:${h};"></div></td>`).join('')}
+            </tr>
+          </table>
+          <div style="font-size:11px;color:#888;">${luckyColors.colors.join(' · ')}</div>
           ` : ''}
         </td>
       </tr>
     </table>
 
+    ${careerKeywords.length > 0 ? `
+    <!-- 職涯方向 lite -->
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;margin:12px 0;">
+      <div style="font-size:10px;color:#AAA;margin-bottom:8px;">職涯方向</div>
+      <table cellpadding="0" cellspacing="0"><tr>
+        ${careerKeywords.map(k => `<td style="padding-right:6px;"><span style="display:inline-block;background:white;border:1px solid #BBF7D0;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;color:#059669;">${k}</span></td>`).join('')}
+      </tr></table>
+      <div style="margin-top:10px;">
+        <a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="font-size:12px;color:#059669;text-decoration:none;">💼 查看完整職涯分析 →</a>
+      </div>
+    </div>
+    ` : ''}
+
+    <!-- 緣分指數測試 -->
     <div style="background:white;border:1px solid #E6F7F5;border-radius:12px;padding:14px;margin:12px 0;">
-      <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:0.06em;margin-bottom:10px;">緣分指數測試</div>
+      <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:1px;margin-bottom:10px;">緣分指數測試</div>
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px;vertical-align:top;">
@@ -169,7 +227,7 @@ export async function POST(req: Request) {
         ✦ 分享悟明
       </a>
       <br/>
-      <a href="https://www.instagram.com/wuming.app" style="display:inline-flex;align-items:center;gap:6px;background:rgba(193,53,132,0.1);border:1px solid rgba(193,53,132,0.3);border-radius:10px;padding:10px 20px;text-decoration:none;font-size:13px;color:#C13584;">
+      <a href="https://www.instagram.com/wuming.app" style="display:inline-block;background:rgba(193,53,132,0.1);border:1px solid rgba(193,53,132,0.3);border-radius:10px;padding:10px 20px;text-decoration:none;font-size:13px;color:#C13584;margin-top:4px;">
         📸 追蹤 @wuming.app
       </a>
     </div>
@@ -182,17 +240,23 @@ export async function POST(req: Request) {
       subject: bazi ? `${name} 的天賦報告 ✦` : `${name} 的悟明解讀報告 ✦`,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#0F2027;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-            <img src="https://wumingai.app/favicon.svg" width="36" height="36" alt="悟明" style="border-radius:10px;" />
-            <div>
-              <div style="font-size:18px;font-weight:500;color:#059669;line-height:1.2;">悟明</div>
-              <div style="font-size:11px;color:#AAA;line-height:1.2;">讀懂自己，導航人生</div>
-            </div>
-          </div>
 
-          <p style="font-size:16px;color:#0F2027;margin-bottom:4px;">嗨 ${bazi ? name : name.split(' × ')[0]}，</p>
-          <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:0;">
-            以下是你的完整解讀報告。<br/>
+          <!-- Header: logo + brand -->
+          <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+            <tr>
+              <td style="padding-right:10px;vertical-align:middle;">
+                <img src="https://wumingai.app/favicon.svg" width="36" height="36" alt="悟明" style="border-radius:10px;display:block;" />
+              </td>
+              <td style="vertical-align:middle;">
+                <div style="font-size:17px;font-weight:500;color:#059669;line-height:1.2;">悟明</div>
+                <div style="font-size:11px;color:#AAA;line-height:1.4;">讀懂自己，導航人生</div>
+              </td>
+            </tr>
+          </table>
+
+          <p style="font-size:16px;color:#0F2027;margin:0 0 4px;">嗨 ${bazi ? name : name.split(' × ')[0]}，</p>
+          <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 4px;">
+            以下是你的完整天賦報告。<br/>
             收藏這封信，隨時回來查看。
           </p>
 
