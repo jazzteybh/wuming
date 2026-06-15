@@ -381,8 +381,8 @@ function CompatibilityContent() {
               換兩個人再試一次
             </button>
 
-            <FeedbackForm name={name1} />
             <ExploreMore name={name1} date={date1} current="compatibility" />
+            <FeedbackForm name={name1} />
           </>
         )}
 

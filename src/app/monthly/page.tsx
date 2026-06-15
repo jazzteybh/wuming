@@ -173,8 +173,8 @@ function MonthlyContent() {
           )}
         </div>
 
-        <FeedbackForm name={name} />
         <ExploreMore name={name} date={date} time={time} current="monthly" />
+        <FeedbackForm name={name} />
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">
           © 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議
