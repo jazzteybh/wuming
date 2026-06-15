@@ -508,7 +508,6 @@ function ReadingContent() {
                   {emailLoading ? '...' : '寄送'}
                 </button>
               </form>
-              <p className="text-[10px] text-[#AAA] text-center mt-2">完全免費 · 隨時可取消訂閱</p>
             </div>
           )}
         </div>
