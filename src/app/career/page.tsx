@@ -35,7 +35,8 @@ function CareerContent() {
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
 
-  const [career, setCareer] = useState('')
+  const [careerText, setCareerText] = useState('')
+  const [streaming, setStreaming] = useState(true)
   const [elementEmoji, setElementEmoji] = useState('')
   const [element, setElement] = useState('')
   const [loading, setLoading] = useState(true)
@@ -49,22 +50,44 @@ function CareerContent() {
     if (typeof window !== 'undefined') {
       window.gtag?.('event', 'career_report_viewed', { name, date })
     }
+
+    let buffer = ''
     fetch('/api/career', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, date, time }),
-    })
-      .then(r => r.json())
-      .then(d => {
-        if (d.error) { setError(d.error); return }
-        setCareer(d.career)
-        if (d.bazi?.dayStemElement) {
-          setElement(d.bazi.dayStemElement)
-          setElementEmoji(ELEMENT_EMOJI[d.bazi.dayStemElement] || '')
+    }).then(async res => {
+      if (!res.body) { setError('網路錯誤，請重試'); setLoading(false); return }
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n\n')
+        buffer = lines.pop() || ''
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (!trimmed.startsWith('data:')) continue
+          try {
+            const msg = JSON.parse(trimmed.slice(5))
+            if (msg.type === 'meta') {
+              if (msg.bazi?.dayStemElement) {
+                setElement(msg.bazi.dayStemElement)
+                setElementEmoji(ELEMENT_EMOJI[msg.bazi.dayStemElement] || '')
+              }
+              setLoading(false)
+            } else if (msg.type === 'text') {
+              setCareerText(prev => prev + msg.text)
+            } else if (msg.type === 'error') {
+              setError(msg.error)
+            }
+          } catch { /* ignore parse errors */ }
         }
-      })
-      .catch(() => setError('網路錯誤，請重試'))
-      .finally(() => setLoading(false))
+      }
+      setStreaming(false)
+    }).catch(() => { setError('網路錯誤，請重試'); setLoading(false); setStreaming(false) })
   }, [])
 
   if (loading) {
@@ -78,7 +101,7 @@ function CareerContent() {
             <p className="text-[15px] font-medium text-[#0F2027] mb-1">分析 {name} 的職涯天賦</p>
             <p className="text-[12px] text-[#888] leading-relaxed">根據八字日主深度解讀適合你的職涯方向</p>
           </div>
-          <p className="text-[11px] text-[#CCC]">深度解讀中，約需 15-20 秒</p>
+          <p className="text-[11px] text-[#CCC]">深度解讀中，約需 10-15 秒</p>
         </div>
       </main>
     )
@@ -93,14 +116,14 @@ function CareerContent() {
     )
   }
 
-  const sections = parseCareer(career)
+  const sections = parseCareer(careerText)
 
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <button onClick={() => router.back()} className="text-left flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="悟明" className="h-8 w-8" />
+          <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
           <div>
             <div className="text-xl font-medium tracking-wide text-[#059669]">悟明</div>
             <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
@@ -122,19 +145,27 @@ function CareerContent() {
           </div>
         </div>
 
-        {SECTIONS.map(title => {
+        {SECTIONS.map((title, i) => {
           const content = sections[title]
-          if (!content) return null
+          const isLast = i === SECTIONS.length - 1
           return (
             <div key={title} className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
               <div className="flex items-center gap-2 mb-2.5">
                 <span className="text-[16px]">{SECTION_ICON[title]}</span>
                 <p className="text-[13px] font-medium text-[#059669]">{title}</p>
               </div>
-              <div
-                className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+              {content ? (
+                <div
+                  className="text-[14px] text-[#444] leading-relaxed whitespace-pre-line"
+                  dangerouslySetInnerHTML={{ __html: content + (streaming && isLast ? '<span class="inline-block w-0.5 h-4 bg-[#059669] animate-pulse ml-0.5 align-middle"></span>' : '') }}
+                />
+              ) : (
+                <div className="space-y-2 animate-pulse">
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-full" />
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-5/6" />
+                  <div className="h-3 bg-[#F0FDF4] rounded-full w-4/6" />
+                </div>
+              )}
             </div>
           )
         })}
@@ -179,7 +210,7 @@ function CareerContent() {
                   await fetch('/api/save-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, date, reading: career, bazi: null, lifePath: null, lifePathInfo: null }),
+                    body: JSON.stringify({ email, name, date, reading: careerText, bazi: null, lifePath: null, lifePathInfo: null }),
                   })
                   setEmailSent(true)
                   setEmailLoading(false)

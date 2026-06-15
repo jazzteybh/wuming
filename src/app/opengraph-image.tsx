@@ -27,9 +27,7 @@ export default function Image() {
 
         {/* Logo row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
-          <div style={{ width: 84, height: 84, background: '#059669', borderRadius: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: 52, color: 'white' }}>☯</span>
-          </div>
+          <img src="https://wumingai.app/favicon.svg" width={84} height={84} style={{ borderRadius: 22 }} alt="悟明" />
           <span style={{ fontSize: 88, fontWeight: 500, color: '#059669' }}>悟明</span>
         </div>
 

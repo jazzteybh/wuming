@@ -128,29 +128,67 @@ export async function POST(req: Request) {
     </div>
   ` : ''
 
+  const sectionsHtml = bazi ? `
+    <div style="margin-top:28px;">
+      <p style="font-size:12px;color:#AAA;margin:0 0 12px;text-align:center;">還想探索更多？</p>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="31%" style="text-align:center;">
+            <a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px 8px;text-decoration:none;">
+              <div style="font-size:18px;margin-bottom:4px;">💼</div>
+              <div style="font-size:12px;font-weight:600;color:#059669;">職涯分析</div>
+              <div style="font-size:10px;color:#888;margin-top:2px;">深度職涯天賦</div>
+            </a>
+          </td>
+          <td width="3%"></td>
+          <td width="31%" style="text-align:center;">
+            <a href="https://wumingai.app/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px 8px;text-decoration:none;">
+              <div style="font-size:18px;margin-bottom:4px;">📅</div>
+              <div style="font-size:12px;font-weight:600;color:#059669;">每月運程</div>
+              <div style="font-size:10px;color:#888;margin-top:2px;">未來12個月</div>
+            </a>
+          </td>
+          <td width="3%"></td>
+          <td width="31%" style="text-align:center;">
+            <a href="https://wumingai.app/compatibility" style="display:block;background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:12px 8px;text-decoration:none;">
+              <div style="font-size:18px;margin-bottom:4px;">☯</div>
+              <div style="font-size:12px;font-weight:600;color:#E11D48;">合盤配對</div>
+              <div style="font-size:10px;color:#888;margin-top:2px;">緣分解讀</div>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  ` : ''
+
   const upsellHtml = `
-    <div style="background:#0F2027;border-radius:14px;padding:20px;margin-top:32px;text-align:center;">
+    <div style="background:#0F2027;border-radius:14px;padding:20px;margin-top:28px;text-align:center;">
       <p style="font-size:14px;color:#AAA;margin:0 0 6px;">喜歡這份解讀？</p>
       <p style="font-size:16px;font-weight:600;color:white;margin:0 0 16px;">分享給你的朋友，讓他們也來讀懂自己</p>
-      <a href="https://wumingai.app" style="display:inline-block;background:#059669;color:white;text-decoration:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:12px;">
+      <a href="https://wumingai.app" style="display:inline-block;background:#059669;color:white;text-decoration:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:16px;">
         ✦ 分享悟明
       </a>
-      <p style="font-size:12px;color:#AAA;margin:12px 0 0;">追蹤我們的 Instagram 獲取更多自我探索內容</p>
-      <a href="https://www.instagram.com/wuming.app" style="font-size:13px;color:#C13584;text-decoration:none;">@wuming.app</a>
+      <br/>
+      <a href="https://www.instagram.com/wuming.app" style="display:inline-flex;align-items:center;gap:6px;background:rgba(193,53,132,0.1);border:1px solid rgba(193,53,132,0.3);border-radius:10px;padding:10px 20px;text-decoration:none;font-size:13px;color:#C13584;">
+        📸 追蹤 @wuming.app
+      </a>
     </div>
   `
 
   try {
     await resend.emails.send({
-      from: '悟明 <noreply@wumingai.app>',
+      from: '悟明 App - 讀懂自己 導航人生 <noreply@wumingai.app>',
       to: email,
       subject: bazi ? `${name} 的天賦報告 ✦` : `${name} 的悟明解讀報告 ✦`,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#0F2027;">
-          <h1 style="font-size:24px;font-weight:500;margin-bottom:4px;">
-            悟<span style="color:#059669;">明</span>
-          </h1>
-          <p style="font-size:12px;color:#AAA;margin:0 0 24px;">讀懂自己，導航人生</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <img src="https://wumingai.app/favicon.svg" width="36" height="36" alt="悟明" style="border-radius:10px;" />
+            <div>
+              <div style="font-size:18px;font-weight:500;color:#059669;line-height:1.2;">悟明</div>
+              <div style="font-size:11px;color:#AAA;line-height:1.2;">讀懂自己，導航人生</div>
+            </div>
+          </div>
 
           <p style="font-size:16px;color:#0F2027;margin-bottom:4px;">嗨 ${bazi ? name : name.split(' × ')[0]}，</p>
           <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:0;">
@@ -163,6 +201,8 @@ export async function POST(req: Request) {
           <div style="margin-top:8px;">
             ${formatReadingHtml(reading)}
           </div>
+
+          ${sectionsHtml}
 
           ${upsellHtml}
 

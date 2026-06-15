@@ -3,6 +3,7 @@ import { calculateBazi, getDayStemDescription } from '@/lib/bazi'
 import { calculateLifePath } from '@/lib/numerology'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const careerCache = new Map<string, string>()
 
 export async function POST(req: Request) {
   const { name, date, time } = await req.json()
@@ -51,18 +52,57 @@ export async function POST(req: Request) {
 
 請直接輸出分析內容，不要有開場白。`
 
-  try {
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }],
-    })
+  const cacheKey = `career-${name}-${date}-${time || ''}`
+  const encoder = new TextEncoder()
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        controller.enqueue(encoder.encode(
+          `data:${JSON.stringify({ type: 'meta', bazi, lifePath })}\n\n`
+        ))
 
-    return Response.json({ career: text, bazi, lifePath })
-  } catch (err) {
-    console.error(err)
-    return Response.json({ error: '生成失敗，請稍後再試' }, { status: 500 })
-  }
+        const cached = careerCache.get(cacheKey)
+        if (cached) {
+          controller.enqueue(encoder.encode(
+            `data:${JSON.stringify({ type: 'text', text: cached })}\n\n`
+          ))
+          controller.close()
+          return
+        }
+
+        let fullText = ''
+        const aiStream = client.messages.stream({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1400,
+          messages: [{ role: 'user', content: prompt }],
+        })
+
+        for await (const chunk of aiStream) {
+          if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+            fullText += chunk.delta.text
+            controller.enqueue(encoder.encode(
+              `data:${JSON.stringify({ type: 'text', text: chunk.delta.text })}\n\n`
+            ))
+          }
+        }
+        if (fullText) careerCache.set(cacheKey, fullText)
+      } catch (err) {
+        console.error(err)
+        controller.enqueue(encoder.encode(
+          `data:${JSON.stringify({ type: 'error', error: '生成失敗，請稍後再試' })}\n\n`
+        ))
+      } finally {
+        controller.close()
+      }
+    }
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    },
+  })
 }

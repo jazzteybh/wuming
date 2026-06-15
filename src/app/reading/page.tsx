@@ -39,8 +39,8 @@ function parseReading(text: string): Record<string, string> {
   return sections
 }
 
-const WANT_MORE_OPTIONS = ['詳細職涯分析', '感情／伴侶配對', '生意夥伴合盤', 'MBTI 性格測試', '更多關於我的八字']
-const SOURCE_OPTIONS = ['YouTube', '朋友推薦', 'Google 搜尋', '社群媒體']
+const WANT_MORE_OPTIONS = ['感情運／桃花', '財運與投資時機', '事業轉換建議', '健康能量調整', '家庭與親子關係', '流年大運詳解']
+const SOURCE_OPTIONS = ['朋友推薦', 'YouTube', 'Instagram', 'Google 搜尋', 'LINE 群組']
 
 function ReadingContent() {
   const searchParams = useSearchParams()
@@ -239,7 +239,7 @@ function ReadingContent() {
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <button onClick={() => router.push('/')} className="text-left flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="悟明" className="h-8 w-8" />
+          <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
           <div>
             <div className="text-xl font-medium tracking-wide text-[#059669]">悟明</div>
             <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
@@ -361,15 +361,6 @@ function ReadingContent() {
               <p className="text-[10px] text-[#888] leading-snug">{chineseZodiacPartner?.desc}</p>
             </div>
           </div>
-          <button
-            onClick={() => {
-              window.gtag?.('event', 'compatibility_banner_clicked', { name, date })
-              router.push(`/compatibility?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`)
-            }}
-            className="w-full mt-3 h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity"
-          >
-            ☯ 查看命格合盤配對 →
-          </button>
         </div>
 
         {/* Row 5: 能量寶石 + 幸運色 */}
@@ -392,24 +383,6 @@ function ReadingContent() {
           </div>
         </div>
 
-        {/* Monthly Teaser Banner */}
-        <div
-          onClick={() => router.push(`/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)}
-          className="bg-[#0F2027] rounded-2xl p-4 mb-2.5 cursor-pointer active:opacity-80 transition-opacity"
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] text-[#86EFAC] mb-1 tracking-wide">全新功能</p>
-              <p className="text-[15px] font-medium text-white mb-1">未來12個月每月運程</p>
-              <p className="text-[11px] text-[#AAA]">掌握每月能量走勢，提前佈局</p>
-            </div>
-            <div className="text-[28px]">📅</div>
-          </div>
-          <div className="mt-3 h-9 bg-[#059669] rounded-xl flex items-center justify-center text-[13px] font-medium text-white">
-            立即解讀 →
-          </div>
-        </div>
-
         {/* Row 6: 職涯方向 Lite */}
         <div className="bg-white border border-[#E6F7F5] rounded-2xl p-4 mb-2.5">
           <div className="flex justify-between items-center mb-3">
@@ -423,15 +396,6 @@ function ReadingContent() {
               <span className="text-[13px] text-[#AAA]">解讀生成中...</span>
             )}
           </div>
-          <button
-            onClick={() => {
-              window.gtag?.('event', 'career_banner_clicked', { name, date })
-              router.push(`/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)
-            }}
-            className="w-full h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium flex items-center justify-center gap-2 active:opacity-80 transition-opacity"
-          >
-            💼 查看詳細職涯分析 →
-          </button>
         </div>
 
         {/* Row 7: 八字四柱 */}
@@ -546,6 +510,37 @@ function ReadingContent() {
               <p className="text-[10px] text-[#AAA] text-center mt-2">完全免費 · 隨時可取消訂閱</p>
             </div>
           )}
+        </div>
+
+        {/* Section Navigation */}
+        <div className="mb-4">
+          <p className="text-[11px] text-[#AAA] text-center mb-2.5">還想探索更多？</p>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={() => { window.gtag?.('event', 'career_banner_clicked', { name, date }); router.push(`/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`) }}
+              className="flex flex-col items-center bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">💼</span>
+              <span className="text-[11px] font-medium text-[#059669]">職涯分析</span>
+              <span className="text-[10px] text-[#AAA] mt-0.5">深度解讀</span>
+            </button>
+            <button
+              onClick={() => router.push(`/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)}
+              className="flex flex-col items-center bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">📅</span>
+              <span className="text-[11px] font-medium text-[#059669]">每月運程</span>
+              <span className="text-[10px] text-[#AAA] mt-0.5">未來12個月</span>
+            </button>
+            <button
+              onClick={() => { window.gtag?.('event', 'compatibility_banner_clicked', { name, date }); router.push(`/compatibility?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`) }}
+              className="flex flex-col items-center bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">☯</span>
+              <span className="text-[11px] font-medium text-[#E11D48]">合盤配對</span>
+              <span className="text-[10px] text-[#AAA] mt-0.5">緣分解讀</span>
+            </button>
+          </div>
         </div>
 
         {/* Feedback Form */}

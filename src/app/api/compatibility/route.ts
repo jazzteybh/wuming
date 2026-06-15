@@ -64,7 +64,7 @@ ${name1}能給${name2}什麼？${name2}又能給${name1}什麼？描述兩人如
   try {
     const message = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
+      max_tokens: 1400,
       messages: [{ role: 'user', content: prompt }],
     })
 

@@ -34,7 +34,7 @@ export default function Home() {
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <div className="flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="悟明" className="h-8 w-8" />
+          <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
           <div>
             <span className="text-xl font-medium tracking-wide text-[#059669]">悟明</span>
             <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
@@ -140,12 +140,9 @@ export default function Home() {
           <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">你將獲得</p>
           <div className="space-y-2">
             {[
-              { icon: '☯', title: '八字命盤', desc: '五行分析與性格天賦' },
-              { icon: '🔢', title: '生命數字', desc: '人生課題與使命' },
-              { icon: '💼', title: '職涯方向', desc: '適合產業與時機' },
-              { icon: '📅', title: '今年運勢', desc: '2026 流年全年' },
-              { icon: '📅', title: '未來12個月每月運程', desc: '掌握每月能量走勢，提前佈局' },
-              { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適職涯路線與工作風格' },
+              { icon: '☯', title: '八字命盤 × 性格天賦', desc: '五行分析、日主解讀、職涯關鍵字' },
+              { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適路線、工作風格' },
+              { icon: '📅', title: '年度運勢 × 每月運程', desc: '2026流年 + 未來12個月能量走勢' },
             ].map(f => (
               <div key={f.title} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-xl p-3">
                 <span className="text-[18px]">{f.icon}</span>
