@@ -172,11 +172,11 @@ export async function POST(req: Request) {
       <p style="font-size:11px;color:#AAA;margin:0 0 10px;text-align:center;">還想探索更多？</p>
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">💼</div><div style="font-size:11px;font-weight:600;color:#059669;">職涯分析</div></a></td>
+          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">💼</div><div style="font-size:11px;font-weight:600;color:#059669;">職涯天賦分析</div></a></td>
           <td width="3%"></td>
-          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">📅</div><div style="font-size:11px;font-weight:600;color:#059669;">每月運程</div></a></td>
+          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">📅</div><div style="font-size:11px;font-weight:600;color:#059669;">每月運程解讀</div></a></td>
           <td width="3%"></td>
-          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/compatibility" style="display:block;background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">☯</div><div style="font-size:11px;font-weight:600;color:#E11D48;">緣分指數</div></a></td>
+          <td width="31%" style="text-align:center;"><a href="https://wumingai.app/compatibility" style="display:block;background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">☯</div><div style="font-size:11px;font-weight:600;color:#E11D48;">緣分指數測試</div></a></td>
         </tr>
       </table>
     </div>
