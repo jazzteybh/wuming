@@ -176,7 +176,11 @@ function ReadingContent() {
       <main className="min-h-screen bg-white flex flex-col items-center justify-center px-5">
         <div className="text-center max-w-xs w-full">
           {/* Logo */}
-          <div className="text-[18px] font-medium mb-8">悟<span className="text-[#059669]">明</span></div>
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
+            <span className="text-[18px] font-medium text-[#059669]">悟明</span>
+          </div>
 
           {/* Spinner */}
           <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />

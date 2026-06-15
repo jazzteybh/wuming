@@ -94,7 +94,11 @@ function CareerContent() {
     return (
       <main className="min-h-screen bg-white flex flex-col items-center justify-center px-5">
         <div className="text-center max-w-xs w-full">
-          <div className="text-[18px] font-medium mb-8 text-[#059669]">悟明</div>
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
+            <span className="text-[18px] font-medium text-[#059669]">悟明</span>
+          </div>
           <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />
           <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-5 mb-4">
             <p className="text-[24px] mb-2">💼</p>
