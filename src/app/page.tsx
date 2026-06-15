@@ -49,7 +49,7 @@ export default function Home() {
           </div>
           <div className="inline-flex items-center gap-1 text-[11px] text-[#888]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#059669] inline-block animate-pulse" />
-            已解讀 3,200+ 人
+            已解讀 1,200+ 人
           </div>
         </div>
         <h1 className="text-[28px] font-medium leading-snug text-[#0F2027] mb-2">
