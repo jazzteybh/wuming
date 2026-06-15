@@ -134,7 +134,7 @@ function CompatibilityContent() {
                     type="date"
                     value={date1}
                     onChange={e => setDate1(e.target.value)}
-                    className="w-full h-10 bg-white border border-[#86EFAC] rounded-xl px-3 text-[14px] text-[#0F2027] outline-none focus:border-[#059669]"
+                    className="w-full h-10 bg-white border border-[#86EFAC] rounded-xl px-3 pr-2 text-[14px] text-[#0F2027] outline-none focus:border-[#059669] appearance-none"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ function CompatibilityContent() {
                     type="date"
                     value={date2}
                     onChange={e => setDate2(e.target.value)}
-                    className="w-full h-10 bg-white border border-[#FECDD3] rounded-xl px-3 text-[14px] text-[#0F2027] outline-none focus:border-[#E11D48]"
+                    className="w-full h-10 bg-white border border-[#FECDD3] rounded-xl px-3 pr-2 text-[14px] text-[#0F2027] outline-none focus:border-[#E11D48] appearance-none"
                   />
                 </div>
               </div>

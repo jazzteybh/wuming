@@ -140,33 +140,19 @@ export default function Home() {
         <div className="h-px bg-[#F0FAF8] my-1" />
 
         <div className="py-4">
-          <p className="text-[11px] text-[#AAA] text-center tracking-wide mb-3">你將獲得</p>
-          <div className="space-y-2">
+          <p className="text-[11px] text-[#AAA] text-center mb-3">你將獲得</p>
+          <div className="grid grid-cols-3 gap-2 mb-0">
             {[
-              { icon: '☯', title: '八字命盤 × 性格天賦', desc: '五行分析、日主解讀、職涯關鍵字' },
-              { icon: '💼', title: '職業生涯深度分析', desc: '天賦優勢、最適路線、工作風格' },
-              { icon: '📅', title: '年度運勢 × 每月運程', desc: '2026流年 + 未來12個月能量走勢' },
+              { icon: '☯', title: '性格天賦', sub1: '八字命盤', sub2: '五行解讀' },
+              { icon: '💼', title: '職業生涯', sub1: '天賦優勢', sub2: '最適路線' },
+              { icon: '📅', title: '年度運勢', sub1: '2026流年', sub2: '每月運程' },
             ].map(f => (
-              <div key={f.title} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-xl p-3">
-                <span className="text-[18px]">{f.icon}</span>
-                <div>
-                  <div className="text-[12px] font-medium text-[#0F2027]">{f.title}</div>
-                  <div className="text-[11px] text-[#888]">{f.desc}</div>
-                </div>
-                <span className="ml-auto text-[10px] text-[#CCC]">免費</span>
+              <div key={f.title} className="bg-white border border-[#E5E7EB] rounded-2xl py-3 px-2 text-center">
+                <span className="text-[20px]">{f.icon}</span>
+                <div className="text-[11px] font-medium text-[#0F2027] mt-1.5">{f.title}</div>
+                <div className="text-[9px] text-[#AAA] mt-1 leading-relaxed">{f.sub1}<br/>{f.sub2}</div>
               </div>
             ))}
-            <button
-              onClick={() => router.push('/compatibility')}
-              className="w-full flex items-center gap-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3 active:opacity-70 transition-opacity text-left"
-            >
-              <span className="text-[18px]">☯</span>
-              <div className="flex-1">
-                <div className="text-[12px] font-medium text-[#0F2027]">緣分指數測試</div>
-                <div className="text-[11px] text-[#888]">輸入兩人生日，解讀緣分與互補</div>
-              </div>
-              <span className="text-[11px] text-[#E11D48] font-medium">立即試 →</span>
-            </button>
           </div>
         </div>
 
@@ -174,33 +160,43 @@ export default function Home() {
 
         <div className="py-4">
           <p className="text-[11px] text-[#AAA] text-center mb-3">或直接體驗單項功能</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="flex flex-col gap-2">
             <button
               onClick={() => router.push('/career-entry')}
-              className="flex flex-col items-center bg-white border border-[#E5E7EB] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+              className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
-              <span className="text-[20px] mb-1">💼</span>
-              <span className="text-[12px] font-medium text-[#0F2027]">職涯分析</span>
-              <span className="text-[9px] text-[#AAA] mt-0.5">深度職涯天賦</span>
+              <span className="text-[20px]">💼</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">職涯分析</div>
+                <div className="text-[10px] text-[#888]">深度職涯天賦解讀</div>
+              </div>
+              <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>
             </button>
             <button
               onClick={() => router.push('/monthly-entry')}
-              className="flex flex-col items-center bg-white border border-[#E5E7EB] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+              className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
-              <span className="text-[20px] mb-1">📅</span>
-              <span className="text-[12px] font-medium text-[#0F2027]">每月運程</span>
-              <span className="text-[9px] text-[#AAA] mt-0.5">未來12個月</span>
+              <span className="text-[20px]">📅</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">每月運程</div>
+                <div className="text-[10px] text-[#888]">未來12個月能量走勢</div>
+              </div>
+              <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>
             </button>
             <button
               onClick={() => router.push('/compatibility')}
-              className="flex flex-col items-center bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+              className="flex items-center gap-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
-              <span className="text-[20px] mb-1">☯</span>
-              <span className="text-[12px] font-medium text-[#E11D48]">緣分指數</span>
-              <span className="text-[9px] text-[#AAA] mt-0.5">測試你們緣分</span>
+              <span className="text-[20px]">☯</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">緣分指數測試</div>
+                <div className="text-[10px] text-[#888]">輸入兩人生日測緣分</div>
+              </div>
+              <span className="text-[11px] text-[#E11D48] font-medium">立即試 →</span>
             </button>
           </div>
         </div>
+
 
         <div className="text-center pb-6">
           <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>
