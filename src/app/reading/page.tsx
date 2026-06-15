@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_CRYSTALS, DAY_STEM_BEST_PARTNER, getKeyAges, getMonthlyEnergy, getAge, getChineseZodiac, CHINESE_ZODIAC_BEST_PARTNER, ZODIAC_BEST_PARTNER } from '@/lib/bazi'
 import { LIFE_PATH_BEST_PARTNER } from '@/lib/numerology'
+import ExploreMore from '@/components/ExploreMore'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -516,36 +517,7 @@ function ReadingContent() {
           )}
         </div>
 
-        {/* Section Navigation */}
-        <div className="mb-4">
-          <p className="text-[11px] text-[#AAA] text-center mb-2.5">還想探索更多？</p>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              onClick={() => { window.gtag?.('event', 'career_banner_clicked', { name, date }); router.push(`/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`) }}
-              className="flex flex-col items-center bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3 active:opacity-70 transition-opacity"
-            >
-              <span className="text-[20px] mb-1">💼</span>
-              <span className="text-[11px] font-medium text-[#059669]">職涯分析</span>
-              <span className="text-[10px] text-[#AAA] mt-0.5">深度解讀</span>
-            </button>
-            <button
-              onClick={() => router.push(`/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`)}
-              className="flex flex-col items-center bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3 active:opacity-70 transition-opacity"
-            >
-              <span className="text-[20px] mb-1">📅</span>
-              <span className="text-[11px] font-medium text-[#059669]">每月運程</span>
-              <span className="text-[10px] text-[#AAA] mt-0.5">未來12個月</span>
-            </button>
-            <button
-              onClick={() => { window.gtag?.('event', 'compatibility_banner_clicked', { name, date }); router.push(`/compatibility?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`) }}
-              className="flex flex-col items-center bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3 active:opacity-70 transition-opacity"
-            >
-              <span className="text-[20px] mb-1">☯</span>
-              <span className="text-[11px] font-medium text-[#E11D48]">緣分測試</span>
-              <span className="text-[10px] text-[#AAA] mt-0.5">緣分解讀</span>
-            </button>
-          </div>
-        </div>
+        <ExploreMore name={name} date={date} time={time} current="reading" />
 
         {/* Feedback Form */}
         <div className="border border-[#E5E7EB] rounded-2xl overflow-hidden mb-6">
