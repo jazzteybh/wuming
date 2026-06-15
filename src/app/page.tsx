@@ -170,6 +170,38 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="h-px bg-[#F0FAF8] my-1" />
+
+        <div className="py-4">
+          <p className="text-[11px] text-[#AAA] text-center mb-3">或直接體驗單項功能</p>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={() => router.push('/career-entry')}
+              className="flex flex-col items-center bg-white border border-[#E5E7EB] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">💼</span>
+              <span className="text-[12px] font-medium text-[#0F2027]">職涯分析</span>
+              <span className="text-[9px] text-[#AAA] mt-0.5">深度職涯天賦</span>
+            </button>
+            <button
+              onClick={() => router.push('/monthly-entry')}
+              className="flex flex-col items-center bg-white border border-[#E5E7EB] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">📅</span>
+              <span className="text-[12px] font-medium text-[#0F2027]">每月運程</span>
+              <span className="text-[9px] text-[#AAA] mt-0.5">未來12個月</span>
+            </button>
+            <button
+              onClick={() => router.push('/compatibility')}
+              className="flex flex-col items-center bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl py-3.5 px-2 active:opacity-70 transition-opacity"
+            >
+              <span className="text-[20px] mb-1">☯</span>
+              <span className="text-[12px] font-medium text-[#E11D48]">緣分指數</span>
+              <span className="text-[9px] text-[#AAA] mt-0.5">測試你們緣分</span>
+            </button>
+          </div>
+        </div>
+
         <div className="text-center pb-6">
           <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>
           <p className="text-[10px] text-[#CCC]">© 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議 ·{' '}
