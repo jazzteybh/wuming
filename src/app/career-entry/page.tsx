@@ -23,9 +23,9 @@ export default function CareerEntryPage() {
         <button onClick={() => router.back()} className="flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
-          <div>
-            <div className="text-xl font-medium tracking-wide text-[#059669]">悟明</div>
-            <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
+          <div className="flex flex-col justify-center">
+            <div className="text-[17px] font-medium text-[#059669] leading-tight">悟明</div>
+            <p className="text-[10px] text-[#AAA] leading-tight">讀懂自己，導航人生</p>
           </div>
         </button>
         <button onClick={() => router.back()} className="text-[13px] text-[#059669]">← 返回</button>
@@ -95,7 +95,7 @@ export default function CareerEntryPage() {
         <div className="mt-8">
           <p className="text-[11px] text-[#AAA] text-center mb-3">也想試試看</p>
           <div className="flex flex-col gap-2">
-            <button onClick={() => router.push('/')} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
+            <button onClick={() => router.push('/')} className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
               <span className="text-[18px]">☯</span>
               <div className="flex-1">
                 <div className="text-[13px] font-medium text-[#0F2027]">性格天賦解讀</div>
@@ -103,10 +103,10 @@ export default function CareerEntryPage() {
               </div>
               <span className="text-[11px] text-[#059669] font-medium">→</span>
             </button>
-            <button onClick={() => router.push('/monthly-entry')} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
+            <button onClick={() => router.push('/monthly-entry')} className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
               <span className="text-[18px]">📅</span>
               <div className="flex-1">
-                <div className="text-[13px] font-medium text-[#0F2027]">每月運程</div>
+                <div className="text-[13px] font-medium text-[#0F2027]">每月運程解讀</div>
                 <div className="text-[10px] text-[#888]">未來12個月能量走勢</div>
               </div>
               <span className="text-[11px] text-[#059669] font-medium">→</span>
