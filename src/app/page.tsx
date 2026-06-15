@@ -167,7 +167,7 @@ export default function Home() {
             >
               <span className="text-[20px]">💼</span>
               <div className="flex-1">
-                <div className="text-[13px] font-medium text-[#0F2027]">職涯分析</div>
+                <div className="text-[13px] font-medium text-[#0F2027]">職涯天賦分析</div>
                 <div className="text-[10px] text-[#888]">深度職涯天賦解讀</div>
               </div>
               <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>
@@ -178,7 +178,7 @@ export default function Home() {
             >
               <span className="text-[20px]">📅</span>
               <div className="flex-1">
-                <div className="text-[13px] font-medium text-[#0F2027]">每月運程</div>
+                <div className="text-[13px] font-medium text-[#0F2027]">每月運程解讀</div>
                 <div className="text-[10px] text-[#888]">未來12個月能量走勢</div>
               </div>
               <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>

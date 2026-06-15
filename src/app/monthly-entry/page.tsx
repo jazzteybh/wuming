@@ -23,9 +23,9 @@ export default function MonthlyEntryPage() {
         <button onClick={() => router.back()} className="flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/favicon.svg" alt="悟明" className="h-8 w-8" />
-          <div className="flex flex-col justify-center">
-            <div className="text-[17px] font-medium text-[#059669] leading-tight">悟明</div>
-            <p className="text-[10px] text-[#AAA] leading-tight">讀懂自己，導航人生</p>
+          <div>
+            <div className="text-xl font-medium tracking-wide text-[#059669]">悟明</div>
+            <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>
           </div>
         </button>
         <button onClick={() => router.back()} className="text-[13px] text-[#059669]">← 返回</button>
