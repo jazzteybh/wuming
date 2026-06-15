@@ -114,6 +114,7 @@ function CompatibilityContent() {
         </div>
 
         {!result ? (
+          <>
           <form onSubmit={handleSubmit} className="space-y-3 mb-6">
             {/* Person 1 */}
             <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-4">
@@ -212,6 +213,7 @@ function CompatibilityContent() {
               </button>
             </div>
           </div>
+          </>
         ) : (
           <>
             {/* Score card */}
