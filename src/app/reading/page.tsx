@@ -455,7 +455,7 @@ function ReadingContent() {
             <div className="p-4">
               <div className="text-center mb-4">
                 <p className="text-[20px] mb-1">✓</p>
-                <p className="text-[14px] font-medium text-[#059669]">命盤已儲存！</p>
+                <p className="text-[14px] font-medium text-[#059669]">天賦報告已寄出！</p>
                 <p className="text-[12px] text-[#888] mt-1">把悟明分享給朋友，讓他們也來解讀</p>
               </div>
               <button
@@ -488,9 +488,9 @@ function ReadingContent() {
               <div className="flex items-start gap-2 mb-3">
                 <span className="text-[18px] leading-none mt-0.5">📩</span>
                 <div>
-                  <p className="text-[14px] font-medium text-[#0F2027] mb-0.5">免費寄送完整命盤到你的信箱</p>
+                  <p className="text-[14px] font-medium text-[#0F2027] mb-0.5">免費寄送完整天賦報告到你的信箱</p>
                   <p className="text-[12px] text-[#777] leading-relaxed">
-                    留下 Email，完整命盤報告將寄給你。<br/>
+                    留下 Email，完整天賦報告將寄給你。<br/>
                     <span className="text-[#E57373] font-medium">離開後資料將被清除。</span>
                   </p>
                 </div>
@@ -505,7 +505,7 @@ function ReadingContent() {
                 />
                 <button type="submit" disabled={emailLoading}
                   className="h-10 px-4 bg-[#059669] text-white rounded-xl text-[13px] font-medium disabled:opacity-70">
-                  {emailLoading ? '...' : '儲存'}
+                  {emailLoading ? '...' : '寄送'}
                 </button>
               </form>
               <p className="text-[10px] text-[#AAA] text-center mt-2">完全免費 · 隨時可取消訂閱</p>
