@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ELEMENT_EMOJI, getZodiac, getChineseZodiac } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
+import FeedbackForm from '@/components/FeedbackForm'
 
 const SECTIONS = ['合盤總覽', '你們的天然默契', '互補與成長', '相處的挑戰', '最佳合作模式', '給你們的話']
 
@@ -380,6 +381,7 @@ function CompatibilityContent() {
               換兩個人再試一次
             </button>
 
+            <FeedbackForm name={name1} />
             <ExploreMore name={name1} date={date1} current="compatibility" />
           </>
         )}

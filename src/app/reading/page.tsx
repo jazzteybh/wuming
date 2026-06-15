@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_CRYSTALS, DAY_STEM_BEST_PARTNER, getKeyAges, getMonthlyEnergy, getAge, getChineseZodiac, CHINESE_ZODIAC_BEST_PARTNER, ZODIAC_BEST_PARTNER } from '@/lib/bazi'
 import { LIFE_PATH_BEST_PARTNER } from '@/lib/numerology'
 import ExploreMore from '@/components/ExploreMore'
+import FeedbackForm from '@/components/FeedbackForm'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -40,9 +41,6 @@ function parseReading(text: string): Record<string, string> {
   return sections
 }
 
-const WANT_MORE_OPTIONS = ['感情運／桃花', '財運與投資時機', '事業轉換建議', '健康能量調整', '家庭與親子關係', '流年大運詳解']
-const SOURCE_OPTIONS = ['朋友推薦', 'YouTube', 'Instagram', 'Google 搜尋', 'LINE 群組']
-
 function ReadingContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -60,28 +58,6 @@ function ReadingContent() {
   const [emailLoading, setEmailLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [copied, setCopied] = useState(false)
-  const [feedbackWantMore, setFeedbackWantMore] = useState<string[]>([])
-  const [feedbackSource, setFeedbackSource] = useState<string[]>([])
-  const [feedbackText, setFeedbackText] = useState('')
-  const [feedbackEmail, setFeedbackEmail] = useState('')
-  const [feedbackAnon, setFeedbackAnon] = useState(false)
-  const [feedbackSent, setFeedbackSent] = useState(false)
-
-  function toggleOption(list: string[], setList: (v: string[]) => void, val: string) {
-    setList(list.includes(val) ? list.filter(x => x !== val) : [...list, val])
-  }
-
-  async function handleFeedback(e: React.FormEvent) {
-    e.preventDefault()
-    window.gtag?.('event', 'feedback_submitted', { wantMore: feedbackWantMore.join(','), source: feedbackSource.join(',') })
-    await fetch('/api/feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, wantMore: feedbackWantMore, source: feedbackSource, freeText: feedbackText, email: feedbackEmail }),
-    })
-    setFeedbackSent(true)
-  }
-
   const LOADING_STEPS = [
     { icon: '🔥', title: `正在解讀 ${name} 的日主`, tip: '日主是八字的核心，代表你天生的能量型態' },
     { icon: '⚖️', title: '分析五行平衡', tip: '五行的分佈決定了你的優勢與成長空間' },
@@ -519,74 +495,7 @@ function ReadingContent() {
 
         <ExploreMore name={name} date={date} time={time} current="reading" />
 
-        {/* Feedback Form */}
-        <div className="border border-[#E5E7EB] rounded-2xl overflow-hidden mb-6">
-          {feedbackSent ? (
-            <div className="p-5 text-center">
-              <p className="text-[20px] mb-1">🙏</p>
-              <p className="text-[14px] font-medium text-[#0F2027]">謝謝你的回饋！</p>
-              <p className="text-[12px] text-[#888] mt-1">我們會根據大家的需求持續優化悟明。</p>
-            </div>
-          ) : (
-            <form onSubmit={handleFeedback} className="p-4">
-              <p className="text-[13px] font-medium text-[#0F2027] mb-1">幫我們做得更好 👋</p>
-              <p className="text-[11px] text-[#AAA] mb-4">你的回饋決定我們下一步建什麼</p>
-
-              <p className="text-[12px] font-medium text-[#0F2027] mb-2">你還想探索什麼？（可多選）</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {WANT_MORE_OPTIONS.map(opt => (
-                  <button key={opt} type="button"
-                    onClick={() => toggleOption(feedbackWantMore, setFeedbackWantMore, opt)}
-                    className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${feedbackWantMore.includes(opt) ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#555] border-[#E5E7EB]'}`}>
-                    {opt}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-[12px] font-medium text-[#0F2027] mb-2">你從哪裡知道悟明？</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {SOURCE_OPTIONS.map(opt => (
-                  <button key={opt} type="button"
-                    onClick={() => toggleOption(feedbackSource, setFeedbackSource, opt)}
-                    className={`text-[11px] px-3 py-1.5 rounded-full border transition-colors ${feedbackSource.includes(opt) ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#555] border-[#E5E7EB]'}`}>
-                    {opt}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-[12px] font-medium text-[#0F2027] mb-2">還有什麼想告訴我們？</p>
-              <textarea
-                value={feedbackText}
-                onChange={e => setFeedbackText(e.target.value)}
-                placeholder="任何建議或想法都歡迎..."
-                rows={3}
-                className="w-full bg-white border border-[#E5E7EB] rounded-xl px-3 py-2.5 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] resize-none mb-3"
-              />
-              <label className="flex items-center gap-2 mb-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={feedbackAnon}
-                  onChange={e => { setFeedbackAnon(e.target.checked); if (e.target.checked) setFeedbackEmail('') }}
-                  className="w-3.5 h-3.5 accent-[#059669]"
-                />
-                <span className="text-[12px] text-[#888]">匿名回饋</span>
-              </label>
-              {!feedbackAnon && (
-                <input
-                  type="email"
-                  value={feedbackEmail}
-                  onChange={e => setFeedbackEmail(e.target.value)}
-                  placeholder="Email（讓我們可以回覆你）"
-                  className="w-full h-10 bg-white border border-[#E5E7EB] rounded-xl px-3 text-[13px] text-[#0F2027] outline-none focus:border-[#059669] mb-3"
-                />
-              )}
-              <button type="submit"
-                className="w-full h-10 bg-[#0F2027] text-white rounded-xl text-[13px] font-medium active:opacity-80 transition-opacity">
-                送出回饋
-              </button>
-            </form>
-          )}
-        </div>
+        <FeedbackForm name={name} />
 
         <div className="text-center pb-6">
           <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>

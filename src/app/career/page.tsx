@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ELEMENT_EMOJI } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
+import FeedbackForm from '@/components/FeedbackForm'
 
 const SECTIONS = ['天賦優勢', '最適職涯路線', '工作風格', '職涯黃金期', '需要注意的職場盲點', '給你的職涯建議']
 
@@ -238,6 +239,7 @@ function CareerContent() {
           )}
         </div>
 
+        <FeedbackForm name={name} />
         <ExploreMore name={name} date={date} time={time} current="career" />
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">

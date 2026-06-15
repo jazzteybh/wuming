@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import ExploreMore from '@/components/ExploreMore'
+import FeedbackForm from '@/components/FeedbackForm'
 
 interface MonthData {
   month: string
@@ -164,7 +165,7 @@ function MonthlyContent() {
                   }}
                   className="h-10 px-4 bg-[#059669] text-white rounded-xl text-[13px] font-medium"
                 >
-                  訂閱
+                  寄送
                 </button>
               </div>
               <p className="text-[10px] text-[#AAA] text-center mt-2">完全免費 · 隨時可取消</p>
@@ -172,6 +173,7 @@ function MonthlyContent() {
           )}
         </div>
 
+        <FeedbackForm name={name} />
         <ExploreMore name={name} date={date} time={time} current="monthly" />
 
         <p className="text-center text-[10px] text-[#CCC] pb-6">
