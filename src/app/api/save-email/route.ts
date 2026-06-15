@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     </table>
 
     <div style="background:white;border:1px solid #E6F7F5;border-radius:12px;padding:14px;margin:12px 0;">
-      <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:0.06em;margin-bottom:10px;">天作之合</div>
+      <div style="font-size:11px;color:#059669;font-weight:500;letter-spacing:0.06em;margin-bottom:10px;">緣分指數測試</div>
       <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td width="48%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px;vertical-align:top;">
