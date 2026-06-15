@@ -91,6 +91,36 @@ export default function MonthlyEntryPage() {
         </form>
 
         <p className="text-[11px] text-[#CCC] text-center mt-4">完全免費 · 約需 15-20 秒</p>
+
+        <div className="mt-8">
+          <p className="text-[11px] text-[#AAA] text-center mb-3">也想試試看</p>
+          <div className="flex flex-col gap-2">
+            <button onClick={() => router.push('/')} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
+              <span className="text-[18px]">☯</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">性格天賦解讀</div>
+                <div className="text-[10px] text-[#888]">八字命盤 × 五行分析</div>
+              </div>
+              <span className="text-[11px] text-[#059669] font-medium">→</span>
+            </button>
+            <button onClick={() => router.push('/career-entry')} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
+              <span className="text-[18px]">💼</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">職涯分析</div>
+                <div className="text-[10px] text-[#888]">深度職涯天賦解讀</div>
+              </div>
+              <span className="text-[11px] text-[#059669] font-medium">→</span>
+            </button>
+            <button onClick={() => router.push('/compatibility')} className="flex items-center gap-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left">
+              <span className="text-[18px]">☯</span>
+              <div className="flex-1">
+                <div className="text-[13px] font-medium text-[#0F2027]">緣分指數測試</div>
+                <div className="text-[10px] text-[#888]">輸入兩人生日測緣分</div>
+              </div>
+              <span className="text-[11px] text-[#E11D48] font-medium">→</span>
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   )
