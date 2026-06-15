@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { ELEMENT_EMOJI } from '@/lib/bazi'
+import { ELEMENT_EMOJI, getZodiac, getChineseZodiac } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
 
 const SECTIONS = ['合盤總覽', '你們的天然默契', '互補與成長', '相處的挑戰', '最佳合作模式', '給你們的話']
@@ -184,44 +184,63 @@ function CompatibilityContent() {
           </form>
         ) : (
           <>
-            {/* Score banner */}
-            <div className="bg-[#0F2027] rounded-2xl p-5 mb-3 text-center">
-              <p className="text-[11px] text-[#86EFAC] mb-2 tracking-wide">緣分指數</p>
-              <div className="flex items-end justify-center gap-1 mb-3">
-                <span className="text-[52px] font-medium text-white leading-none">{score}</span>
-                <span className="text-[18px] text-[#86EFAC] mb-2">/100</span>
-              </div>
-              {/* Score bar */}
-              <div className="h-2 bg-white/10 rounded-full mx-4 mb-3">
-                <div
-                  className="h-full rounded-full bg-[#059669] transition-all duration-1000"
-                  style={{ width: scoreVisible ? `${score}%` : '0%' }}
-                />
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-[13px] font-medium text-white">
-                  {result.bazi1?.dayStemElement ? ELEMENT_EMOJI[result.bazi1.dayStemElement] : ''} {name1}
-                </span>
-                <span className="text-[#AAA]">×</span>
-                <span className="text-[13px] font-medium text-white">
-                  {result.bazi2?.dayStemElement ? ELEMENT_EMOJI[result.bazi2.dayStemElement] : ''} {name2}
-                </span>
-              </div>
-            </div>
+            {/* Score card */}
+            {(() => {
+              const zodiac1 = getZodiac(date1)
+              const zodiac2 = getZodiac(date2)
+              const cz1 = getChineseZodiac(date1)
+              const cz2 = getChineseZodiac(date2)
+              return (
+                <div className="bg-white border border-[#E5E7EB] rounded-2xl p-5 mb-3">
+                  <div className="text-center mb-4">
+                    <p className="text-[11px] text-[#AAA] mb-1 tracking-wide">緣分指數</p>
+                    <div className="flex items-end justify-center gap-1 mb-3">
+                      <span className="text-[52px] font-medium text-[#059669] leading-none">{score}</span>
+                      <span className="text-[18px] text-[#AAA] mb-2">/100</span>
+                    </div>
+                    <div className="h-1.5 bg-[#E5E7EB] rounded-full mx-6 mb-3">
+                      <div
+                        className="h-full rounded-full bg-[#059669] transition-all duration-1000"
+                        style={{ width: scoreVisible ? `${score}%` : '0%' }}
+                      />
+                    </div>
+                    <p className="text-[13px] font-medium text-[#0F2027]">{name1} × {name2}</p>
+                  </div>
 
-            {/* Life path row */}
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-3 text-center">
-                <p className="text-[10px] text-[#AAA] mb-1">{name1} 生命數字</p>
-                <p className="text-[28px] font-medium text-[#059669] leading-none">{result.lifePath1}</p>
-                <p className="text-[11px] text-[#888] mt-1">{result.bazi1.dayStemElement}命 · {result.bazi1.dayStem}日主</p>
-              </div>
-              <div className="bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl p-3 text-center">
-                <p className="text-[10px] text-[#AAA] mb-1">{name2} 生命數字</p>
-                <p className="text-[28px] font-medium text-[#E11D48] leading-none">{result.lifePath2}</p>
-                <p className="text-[11px] text-[#888] mt-1">{result.bazi2.dayStemElement}命 · {result.bazi2.dayStem}日主</p>
-              </div>
-            </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-3">
+                      <p className="text-[10px] text-[#AAA] mb-2">{name1}</p>
+                      <p className="text-[20px] leading-none mb-1">{result.bazi1?.dayStemElement ? ELEMENT_EMOJI[result.bazi1.dayStemElement] : ''}</p>
+                      <p className="text-[13px] font-medium text-[#059669] mb-0.5">生命數字 {result.lifePath1}</p>
+                      <p className="text-[11px] text-[#888] mb-2">{result.bazi1.dayStemElement}命 · {result.bazi1.dayStem}日主</p>
+                      <div className="h-px bg-[#BBF7D0] mb-2" />
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[14px]">{zodiac1.emoji}</span>
+                        <div>
+                          <p className="text-[11px] font-medium text-[#0F2027]">{zodiac1.sign}</p>
+                          <p className="text-[9px] text-[#AAA]">屬{cz1.animal}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#FFF1F2] border border-[#FECDD3] rounded-xl p-3">
+                      <p className="text-[10px] text-[#AAA] mb-2">{name2}</p>
+                      <p className="text-[20px] leading-none mb-1">{result.bazi2?.dayStemElement ? ELEMENT_EMOJI[result.bazi2.dayStemElement] : ''}</p>
+                      <p className="text-[13px] font-medium text-[#E11D48] mb-0.5">生命數字 {result.lifePath2}</p>
+                      <p className="text-[11px] text-[#888] mb-2">{result.bazi2.dayStemElement}命 · {result.bazi2.dayStem}日主</p>
+                      <div className="h-px bg-[#FECDD3] mb-2" />
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[14px]">{zodiac2.emoji}</span>
+                        <div>
+                          <p className="text-[11px] font-medium text-[#0F2027]">{zodiac2.sign}</p>
+                          <p className="text-[9px] text-[#AAA]">屬{cz2.animal}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Content sections */}
             {SECTIONS.map(title => {
