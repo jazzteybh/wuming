@@ -42,6 +42,9 @@ function MonthlyContent() {
 
   useEffect(() => {
     if (!name || !date) { router.push('/'); return }
+    if (typeof window !== 'undefined') {
+      window.gtag?.('event', 'monthly_report_viewed', { name, date })
+    }
     fetch('/api/monthly', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

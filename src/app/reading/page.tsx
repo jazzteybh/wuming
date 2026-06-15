@@ -139,6 +139,7 @@ function ReadingContent() {
             if (msg.type === 'meta') {
               setData({ reading: '', bazi: msg.bazi, lifePath: msg.lifePath, lifePathInfo: msg.lifePathInfo })
               setLoading(false)
+              window.gtag?.('event', 'reading_page_viewed', { name, date })
             } else if (msg.type === 'text') {
               setData(prev => prev ? { ...prev, reading: prev.reading + msg.text } : null)
             } else if (msg.type === 'error') {

@@ -21,6 +21,9 @@ export default function Home() {
     }
     setLoading(true)
     setError('')
+    if (typeof window !== 'undefined') {
+      window.gtag?.('event', 'form_submitted', { name: form.name, has_time: !!form.time })
+    }
     const params = new URLSearchParams({
       name: form.name,
       date: form.date,
@@ -83,7 +86,7 @@ export default function Home() {
                   value={form.date}
                   onChange={handleChange}
                   type="date"
-                  className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors"
+                  className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 pr-2 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors appearance-none"
                 />
               </div>
               <div>
@@ -94,7 +97,7 @@ export default function Home() {
                   onChange={handleChange}
                   type="time"
                   disabled={form.noTime}
-                  className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors disabled:opacity-40"
+                  className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 pr-2 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors appearance-none disabled:opacity-40"
                 />
                 <label className="flex items-center gap-1.5 mt-2 cursor-pointer">
                   <input
