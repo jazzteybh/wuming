@@ -156,6 +156,9 @@ function MonthlyContent() {
                 <button
                   onClick={async () => {
                     if (!email) return
+                    if (typeof window !== 'undefined') {
+                      window.gtag?.('event', 'email_submitted', { page: 'monthly', name })
+                    }
                     await fetch('/api/save-email', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },

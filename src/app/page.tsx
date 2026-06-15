@@ -162,7 +162,7 @@ export default function Home() {
           <p className="text-[11px] text-[#AAA] text-center mb-3">或直接體驗單項功能</p>
           <div className="flex flex-col gap-2">
             <button
-              onClick={() => router.push('/career-entry')}
+              onClick={() => { window.gtag?.('event', 'cta_clicked', { button: 'career_entry' }); router.push('/career-entry') }}
               className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
               <span className="text-[20px]">💼</span>
@@ -173,7 +173,7 @@ export default function Home() {
               <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>
             </button>
             <button
-              onClick={() => router.push('/monthly-entry')}
+              onClick={() => { window.gtag?.('event', 'cta_clicked', { button: 'monthly_entry' }); router.push('/monthly-entry') }}
               className="flex items-center gap-3 bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
               <span className="text-[20px]">📅</span>
@@ -184,7 +184,7 @@ export default function Home() {
               <span className="text-[11px] text-[#059669] font-medium">立即試 →</span>
             </button>
             <button
-              onClick={() => router.push('/compatibility')}
+              onClick={() => { window.gtag?.('event', 'cta_clicked', { button: 'compatibility' }); router.push('/compatibility') }}
               className="flex items-center gap-3 bg-[#FFF1F2] border border-[#FECDD3] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity text-left"
             >
               <span className="text-[20px]">☯</span>
