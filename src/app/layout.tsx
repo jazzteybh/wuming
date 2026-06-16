@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.svg', shortcut: '/favicon.svg' },
   title: "悟明 — 讀懂自己，導航人生",
   description: "迷茫時，先讀懂自己。30秒天賦分析，完全免費，無需註冊。了解你的性格天賦、職涯方向與最佳人生時機。",
-  keywords: "八字,命盤,自我探索,生命數字,職涯分析,流年運勢,迷茫,方向",
+  keywords: "免費八字解讀,八字天賦分析,八字日主,生命數字計算,2026年運勢,職涯方向,緣分測試,免費命盤",
   openGraph: {
     title: "悟明 — 讀懂自己，導航人生",
     description: "迷茫時，先讀懂自己。30秒天賦分析，完全免費，無需註冊。",
@@ -51,7 +51,24 @@ export default function RootLayout({
           gtag('config', 'G-EY2T2LB478');
         `}} />
       </head>
-      <body className="min-h-full bg-white text-[#0F2027]">{children}</body>
+      <body className="min-h-full bg-white text-[#0F2027]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: '悟明',
+            url: 'https://wumingai.app',
+            description: '免費八字天賦分析工具，結合八字、星座、生命數字，30秒解讀你的性格天賦、職涯方向與年度運勢。',
+            applicationCategory: 'LifestyleApplication',
+            operatingSystem: 'Web',
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+            inLanguage: 'zh-TW',
+            featureList: ['八字天賦解讀', '職涯方向分析', '12個月運程預測', '緣分指數測試'],
+          })}}
+        />
+        {children}
+      </body>
     </html>
   );
 }
