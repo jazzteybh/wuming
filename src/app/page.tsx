@@ -198,6 +198,30 @@ export default function Home() {
         </div>
 
 
+        <div className="h-px bg-[#F0FAF8] my-1" />
+
+        <div className="py-4">
+          <p className="text-[11px] text-[#AAA] text-center mb-3">命理知識 × 自我探索</p>
+          <div className="flex flex-col gap-2">
+            {[
+              { emoji: '🌳', title: '八字日主完整解析：10種日主性格', sub: '了解你是哪種日主', href: '/blog/bazi-day-master-guide' },
+              { emoji: '💼', title: '迷茫不知道做什麼工作？用八字找方向', sub: '找到天生職涯優勢', href: '/blog/bazi-career-direction' },
+              { emoji: '🔮', title: '2026年各日主運勢完整解析', sub: '今年你的運勢走向', href: '/blog/2026-bazi-day-master-fortune' },
+              { emoji: '🔢', title: '生命數字怎麼算？1到9完整解讀', sub: '算出你的生命數字', href: '/blog/life-path-number-guide' },
+              { emoji: '🛠️', title: '免費八字工具推薦2026：5款比較', sub: '選對工具少走彎路', href: '/blog/free-bazi-tools-guide' },
+            ].map(a => (
+              <a key={a.href} href={a.href} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity">
+                <span className="text-[20px]">{a.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[13px] font-medium text-[#0F2027] truncate">{a.title}</div>
+                  <div className="text-[10px] text-[#AAA] mt-0.5">{a.sub}</div>
+                </div>
+                <span className="text-[12px] text-[#059669] flex-shrink-0">→</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="text-center pb-6">
           <a href="https://www.instagram.com/wuming.app" target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#C13584] mb-2 inline-block">Instagram @wuming.app</a>
           <p className="text-[10px] text-[#CCC]">© 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議 ·{' '}
