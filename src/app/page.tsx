@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false })
+  const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false, gender: 'male' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -28,6 +28,7 @@ export default function Home() {
       name: form.name,
       date: form.date,
       time: form.time,
+      gender: form.gender,
     })
     router.push(`/reading?${params.toString()}`)
   }
@@ -78,6 +79,21 @@ export default function Home() {
                   placeholder="Jazz"
                   className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] placeholder-[#CCC] outline-none focus:border-[#059669] transition-colors"
                 />
+              </div>
+              <div>
+                <label className="block text-[12px] font-medium text-[#059669] mb-1.5">性別</label>
+                <div className="flex gap-2">
+                  {[{ value: 'male', label: '男生' }, { value: 'female', label: '女生' }].map(g => (
+                    <button
+                      key={g.value}
+                      type="button"
+                      onClick={() => setForm(prev => ({ ...prev, gender: g.value }))}
+                      className={`flex-1 h-11 rounded-xl text-[14px] font-medium border transition-colors ${form.gender === g.value ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#AAA] border-[#86EFAC]'}`}
+                    >
+                      {g.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="block text-[12px] font-medium text-[#059669] mb-1.5">出生日期</label>

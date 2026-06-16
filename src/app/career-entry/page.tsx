@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation'
 
 export default function CareerEntryPage() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false })
+  const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false, gender: 'male' })
   const [error, setError] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!form.name.trim()) { setError('請輸入姓名'); return }
     if (!form.date) { setError('請輸入出生日期'); return }
-    const params = new URLSearchParams({ name: form.name.trim(), date: form.date })
+    const params = new URLSearchParams({ name: form.name.trim(), date: form.date, gender: form.gender })
     if (form.time && !form.noTime) params.set('time', form.time)
     router.push(`/career?${params.toString()}`)
   }
@@ -49,6 +49,17 @@ export default function CareerEntryPage() {
                 placeholder="你的名字"
                 className="w-full h-11 bg-white border border-[#86EFAC] rounded-xl px-3 text-[15px] text-[#0F2027] outline-none focus:border-[#059669] transition-colors"
               />
+            </div>
+            <div>
+              <label className="block text-[12px] font-medium text-[#059669] mb-1.5">性別</label>
+              <div className="flex gap-2">
+                {[{ value: 'male', label: '男生' }, { value: 'female', label: '女生' }].map(g => (
+                  <button key={g.value} type="button" onClick={() => setForm(p => ({ ...p, gender: g.value }))}
+                    className={`flex-1 h-11 rounded-xl text-[14px] font-medium border transition-colors ${form.gender === g.value ? 'bg-[#059669] text-white border-[#059669]' : 'bg-white text-[#AAA] border-[#86EFAC]'}`}>
+                    {g.label}
+                  </button>
+                ))}
+              </div>
             </div>
             <div>
               <label className="block text-[12px] font-medium text-[#059669] mb-1.5">出生日期</label>

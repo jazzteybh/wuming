@@ -6,6 +6,7 @@ import { getZodiac, ELEMENT_LUCKY_COLORS, ELEMENT_EMOJI, DAY_STEM_TAGS, ELEMENT_
 import { LIFE_PATH_BEST_PARTNER } from '@/lib/numerology'
 import ExploreMore from '@/components/ExploreMore'
 import FeedbackForm from '@/components/FeedbackForm'
+import ShareCard from '@/components/ShareCard'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -47,6 +48,7 @@ function ReadingContent() {
   const name = searchParams.get('name') || ''
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
+  const gender = searchParams.get('gender') || 'male'
 
   const [data, setData] = useState<ReadingData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -491,6 +493,18 @@ function ReadingContent() {
               </form>
             </div>
           )}
+        </div>
+
+        <div className="py-4 border-t border-[#F0FAF8]">
+          <p className="text-[11px] text-[#AAA] text-center mb-4">分享你的天賦解讀</p>
+          <ShareCard
+            name={name}
+            dayStem={data.bazi.dayStem}
+            lifePath={data.lifePath}
+            zodiac={zodiac.sign}
+            gender={gender}
+            tags={tags}
+          />
         </div>
 
         <ExploreMore name={name} date={date} time={time} current="reading" />
