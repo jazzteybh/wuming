@@ -236,9 +236,19 @@ function ReadingContent() {
 
         {/* Profile */}
         <div className="text-center mb-4">
-          <div className="w-14 h-14 rounded-full bg-[#F0FDF4] border-2 border-[#059669] flex items-center justify-center text-[22px] font-medium text-[#059669] mx-auto mb-3">
-            {name.charAt(0)}
-          </div>
+          {(() => {
+            const DAY_STEM_AVATAR: Record<string, string> = { '甲':'jia-mu','乙':'yi-mu','丙':'bing-huo','丁':'ding-huo','戊':'wu-tu','己':'ji-tu','庚':'geng-jin','辛':'xin-jin','壬':'ren-shui','癸':'gui-shui' }
+            const avatarKey = DAY_STEM_AVATAR[data.bazi.dayStem]
+            const avatarSrc = avatarKey ? `/avatars/${avatarKey}-${gender}.png` : null
+            return avatarSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={avatarSrc} alt={name} className="w-20 h-20 rounded-full border-2 border-[#059669] mx-auto mb-3 object-cover" />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-[#F0FDF4] border-2 border-[#059669] flex items-center justify-center text-[22px] font-medium text-[#059669] mx-auto mb-3">
+                {name.charAt(0)}
+              </div>
+            )
+          })()}
           <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
           <p className="text-[12px] text-[#AAA] mt-1">{date} · {age}歲</p>
           <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr}</p>
