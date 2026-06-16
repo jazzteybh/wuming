@@ -7,6 +7,7 @@ import { LIFE_PATH_BEST_PARTNER } from '@/lib/numerology'
 import ExploreMore from '@/components/ExploreMore'
 import FeedbackForm from '@/components/FeedbackForm'
 import ShareCard from '@/components/ShareCard'
+import { Lunar } from 'lunar-javascript'
 
 interface BaziResult {
   year: { stem: string; branch: string }
@@ -216,6 +217,8 @@ function ReadingContent() {
   const age = getAge(date)
   const today = new Date()
   const todayStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`
+  const lunarToday = Lunar.fromDate(today)
+  const lunarTodayStr = `農曆${lunarToday.getMonthInChinese()}月${lunarToday.getDayInChinese()}`
   const monthStr = `${today.getFullYear()}年${today.getMonth()+1}月`
 
   return (
@@ -251,7 +254,7 @@ function ReadingContent() {
           })()}
           <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
           <p className="text-[12px] text-[#AAA] mt-1">{date} · {age}歲</p>
-          <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr}</p>
+          <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr} · {lunarTodayStr}</p>
           <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
             八字 × 星座 × 生命數字，三維度讀懂你
           </div>
