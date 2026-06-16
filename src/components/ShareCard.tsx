@@ -44,12 +44,21 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
     try {
       const html2canvas = (await import('html2canvas')).default
       const canvas = await html2canvas(cardRef.current!, { scale: 2, useCORS: true, backgroundColor: null })
-      const link = document.createElement('a')
-      link.download = `${name}-天賦解讀.png`
-      link.href = canvas.toDataURL('image/png')
-      link.click()
+
+      const blob = await new Promise<Blob>((resolve) => canvas.toBlob(b => resolve(b!), 'image/png'))
+      const file = new File([blob], `${name}-天賦解讀.png`, { type: 'image/png' })
+
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: `${name} 的天賦解讀` })
+      } else {
+        const link = document.createElement('a')
+        link.download = file.name
+        link.href = URL.createObjectURL(blob)
+        link.click()
+        URL.revokeObjectURL(link.href)
+      }
     } catch (e) {
-      console.error(e)
+      if ((e as Error).name !== 'AbortError') console.error(e)
     }
     setDownloading(false)
   }
@@ -101,9 +110,9 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
         disabled={downloading}
         className="flex items-center gap-2 bg-[#059669] text-white rounded-xl px-5 py-2.5 text-[13px] font-medium active:opacity-80 transition-opacity disabled:opacity-60"
       >
-        {downloading ? '生成中...' : '💾 儲存卡片'}
+        {downloading ? '生成中...' : '📥 儲存 / 分享卡片'}
       </button>
-      <p className="text-[10px] text-[#AAA]">儲存後分享到 IG / Line</p>
+      <p className="text-[10px] text-[#AAA]">手機可直接儲存到相簿，再分享到 IG / Line</p>
     </div>
   )
 }
