@@ -167,10 +167,47 @@ export async function POST(req: Request) {
     </div>` : ''}
   ` : ''
 
+  const shareUrl = type === 'reading'
+    ? `https://wumingai.app/reading?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`
+    : type === 'career'
+    ? `https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`
+    : type === 'monthly'
+    ? `https://wumingai.app/monthly?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}`
+    : `https://wumingai.app/compatibility`
+
   const ctaHtml = `
     <div style="margin-top:24px;border-top:1px solid #F0F0F0;padding-top:20px;">
-      <p style="font-size:11px;color:#AAA;margin:0 0 10px;text-align:center;">還想探索更多？</p>
-      <table width="100%" cellpadding="0" cellspacing="0">
+
+      <!-- Save share card CTA -->
+      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:22px;margin-bottom:6px;">🪪</div>
+        <p style="font-size:13px;font-weight:600;color:#0F2027;margin:0 0 4px;">儲存你的天賦卡片</p>
+        <p style="font-size:11px;color:#888;margin:0 0 12px;line-height:1.5;">點擊下方按鈕，回到解讀頁面儲存專屬天賦卡片，分享給朋友或發佈到 IG</p>
+        <a href="${shareUrl}" style="display:inline-block;background:#059669;color:white;text-decoration:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;">✦ 查看並下載天賦卡片</a>
+      </div>
+
+      <!-- Share buttons -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+        <tr>
+          <td width="48%" style="text-align:center;">
+            <a href="https://www.instagram.com/wuming.app" style="display:block;background:#FDF2F8;border:1px solid #FBCFE8;border-radius:10px;padding:10px 4px;text-decoration:none;">
+              <div style="font-size:16px;margin-bottom:3px;">📸</div>
+              <div style="font-size:11px;font-weight:600;color:#C13584;">追蹤 @wuming.app</div>
+            </a>
+          </td>
+          <td width="4%"></td>
+          <td width="48%" style="text-align:center;">
+            <a href="https://wumingai.app" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;">
+              <div style="font-size:16px;margin-bottom:3px;">🔗</div>
+              <div style="font-size:11px;font-weight:600;color:#059669;">分享給朋友</div>
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 3 feature buttons -->
+      <p style="font-size:11px;color:#AAA;margin:0 0 8px;text-align:center;">還想探索更多？</p>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
         <tr>
           <td width="31%" style="text-align:center;"><a href="https://wumingai.app/career?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}" style="display:block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">💼</div><div style="font-size:11px;font-weight:600;color:#059669;">職涯天賦分析</div></a></td>
           <td width="3%"></td>
@@ -179,12 +216,14 @@ export async function POST(req: Request) {
           <td width="31%" style="text-align:center;"><a href="https://wumingai.app/compatibility" style="display:block;background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:10px 4px;text-decoration:none;"><div style="font-size:16px;margin-bottom:3px;">☯</div><div style="font-size:11px;font-weight:600;color:#E11D48;">緣分指數測試</div></a></td>
         </tr>
       </table>
-    </div>
 
-    <div style="text-align:center;margin-top:20px;">
-      <a href="https://wumingai.app" style="display:inline-block;background:#059669;color:white;text-decoration:none;padding:11px 24px;border-radius:10px;font-size:13px;font-weight:600;">✦ 分享悟明給朋友</a>
-      <br/>
-      <a href="https://www.instagram.com/wuming.app" style="display:inline-block;font-size:11px;color:#C13584;text-decoration:none;margin-top:10px;">📸 追蹤 @wuming.app</a>
+      <!-- Articles -->
+      <p style="font-size:11px;color:#AAA;margin:0 0 8px;">命理知識 × 自我探索</p>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td style="padding-bottom:6px;"><a href="https://wumingai.app/blog/bazi-day-master-guide" style="display:block;background:#FAFAF7;border:1px solid #E5E5E0;border-radius:8px;padding:8px 10px;text-decoration:none;font-size:12px;color:#0F2027;">🌳 八字日主完整解析：10種日主性格與天賦</a></td></tr>
+        <tr><td style="padding-bottom:6px;"><a href="https://wumingai.app/blog/bazi-career-direction" style="display:block;background:#FAFAF7;border:1px solid #E5E5E0;border-radius:8px;padding:8px 10px;text-decoration:none;font-size:12px;color:#0F2027;">💼 迷茫不知道做什麼工作？用八字找方向</a></td></tr>
+        <tr><td style="padding-bottom:6px;"><a href="https://wumingai.app/blog/2026-bazi-day-master-fortune" style="display:block;background:#FAFAF7;border:1px solid #E5E5E0;border-radius:8px;padding:8px 10px;text-decoration:none;font-size:12px;color:#0F2027;">🔮 2026年各日主運勢完整解析</a></td></tr>
+      </table>
     </div>
 
     <p style="font-size:10px;color:#CCC;margin-top:20px;line-height:1.6;">© 2026 悟明 · 解讀由AI生成，僅供參考，不構成專業建議<br/>如不想收到此類郵件，請回覆此信告知。</p>`
