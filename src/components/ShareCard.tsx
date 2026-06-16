@@ -62,23 +62,28 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
         {/* Logo */}
         <div className="flex items-center gap-1.5 self-start">
           <div className="w-5 h-5 bg-[#059669] rounded-md flex items-center justify-center text-white text-[10px]">✦</div>
-          <span className="text-[12px] font-medium text-[#059669] tracking-wide">悟明</span>
-          <span className="text-[8px] text-[#AAA]">讀懂自己，導航人生</span>
+          <span className="text-[13px] font-semibold text-[#059669] tracking-wide">悟明</span>
+          <span className="text-[9px] text-[#AAA]">讀懂自己，導航人生</span>
         </div>
 
         {/* Avatar */}
         {avatarSrc && (
-          <div className="w-[100px] h-[100px] rounded-full border-3 border-[#059669] overflow-hidden bg-[#DCFCE7]" style={{ border: '3px solid #059669' }}>
+          <div className="w-[100px] h-[100px] rounded-full overflow-hidden bg-[#DCFCE7]" style={{ border: '3px solid #059669' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={avatarSrc} alt={stemLabel} className="w-full h-full object-cover" />
           </div>
         )}
 
         {/* Info */}
-        <div className="text-center">
-          <div className="text-[11px] text-[#AAA] tracking-widest mb-1">{name} 的天賦解讀</div>
-          <div className="text-[26px] font-semibold text-[#0F2027] leading-tight mb-1">{stemLabel}</div>
-          <div className="text-[13px] text-[#059669] mb-3">{lifePath}號人・{zodiac}</div>
+        <div className="text-center w-full">
+          <div className="text-[11px] text-[#AAA] tracking-widest mb-3">{name} 的天賦解讀</div>
+          <div className="flex items-center justify-center gap-1.5 flex-wrap mb-3">
+            <div className="bg-white border border-[#BBF7D0] rounded-full px-3 py-1 text-[13px] font-medium text-[#059669]">{stemLabel}</div>
+            <div className="text-[#CCC] text-[10px]">·</div>
+            <div className="bg-white border border-[#BBF7D0] rounded-full px-3 py-1 text-[13px] font-medium text-[#059669]">{lifePath}號人</div>
+            <div className="text-[#CCC] text-[10px]">·</div>
+            <div className="bg-white border border-[#BBF7D0] rounded-full px-3 py-1 text-[13px] font-medium text-[#059669]">{zodiac}</div>
+          </div>
           <div className="flex flex-wrap justify-center gap-1.5">
             {tags.slice(0, 3).map(tag => (
               <span key={tag} className="bg-[#DCFCE7] text-[#059669] text-[10px] px-3 py-1 rounded-full">{tag}</span>
