@@ -254,6 +254,7 @@ export default function Home() {
               { emoji: '🔮', title: '2026年各日主運勢完整解析', sub: '今年你的運勢走向', href: '/blog/2026-bazi-day-master-fortune' },
               { emoji: '🔢', title: '生命數字怎麼算？1到9完整解讀', sub: '算出你的生命數字', href: '/blog/life-path-number-guide' },
               { emoji: '🛠️', title: '免費八字工具推薦2026：5款比較', sub: '選對工具少走彎路', href: '/blog/free-bazi-tools-guide' },
+              { emoji: '💕', title: '從八字看感情運與桃花：你天生的愛情模式', sub: '了解你的桃花特質', href: '/blog/bazi-love-fortune-guide' },
             ].map(a => (
               <a key={a.href} href={a.href} onClick={() => window.gtag?.('event', 'blog_clicked', { slug: a.href })} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity">
                 <span className="text-[20px]">{a.emoji}</span>
