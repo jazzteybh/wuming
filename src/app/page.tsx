@@ -76,7 +76,7 @@ export default function Home() {
           <div className="flex gap-2 mb-3">
             {[
               { emoji: '🔥', val: '丙火命', lbl: '五行命格' },
-              { emoji: '🔢', val: '9號人', lbl: '生命數字' },
+              { emoji: '✨', val: '9號人', lbl: '生命數字' },
               { emoji: '♎', val: '天秤座', lbl: '星座' },
             ].map(item => (
               <div key={item.lbl} className="flex-1 bg-white border border-[#BBF7D0] rounded-xl py-2.5 px-1 text-center">
