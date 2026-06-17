@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { ELEMENT_EMOJI, getZodiac, getChineseZodiac } from '@/lib/bazi'
+import { ELEMENT_EMOJI, getZodiac, getChineseZodiac, ELEMENT_LUCKY_COLORS } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
 import FeedbackForm from '@/components/FeedbackForm'
 
@@ -41,6 +41,44 @@ interface CompatibilityResult {
   bazi2: BaziResult
   lifePath1: number
   lifePath2: number
+}
+
+const ELEMENT_RELATIONS: Record<string, Record<string, { type: string; label: string; desc: string; color: string }>> = {
+  '木': {
+    '火': { type: '相生', label: '木生火 🔥', desc: '你滋養對方，給對方能量與啟發', color: 'bg-green-50 border-green-200 text-green-700' },
+    '水': { type: '相生', label: '水生木 💧', desc: '對方滋養你，你在這段關係中成長', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+    '土': { type: '相剋', label: '木剋土 🏔️', desc: '你主導這段關係，需注意不要太強勢', color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+    '金': { type: '相剋', label: '金剋木 ⚔️', desc: '對方對你有約束力，磨合期較長', color: 'bg-gray-50 border-gray-200 text-gray-700' },
+    '木': { type: '比和', label: '木木同心 🌳', desc: '性格相似，容易理解彼此，但也容易競爭', color: 'bg-green-50 border-green-200 text-green-700' },
+  },
+  '火': {
+    '土': { type: '相生', label: '火生土 🌾', desc: '你滋養對方，給對方安全感與溫暖', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+    '木': { type: '相生', label: '木生火 🌳', desc: '對方滋養你，帶給你源源不絕的動力', color: 'bg-green-50 border-green-200 text-green-700' },
+    '金': { type: '相剋', label: '火剋金 💎', desc: '你主導這段關係，對方需要適應你的節奏', color: 'bg-gray-50 border-gray-200 text-gray-700' },
+    '水': { type: '相剋', label: '水剋火 🌊', desc: '對方對你有平衡作用，能讓你冷靜下來', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+    '火': { type: '比和', label: '火火熱情 🔥', desc: '兩人都熱情直接，火花四射，但也容易爭執', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+  },
+  '土': {
+    '金': { type: '相生', label: '土生金 ⚔️', desc: '你滋養對方，給對方資源與支持', color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+    '火': { type: '相生', label: '火生土 🔥', desc: '對方滋養你，帶給你熱情與方向感', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+    '水': { type: '相剋', label: '土剋水 💧', desc: '你主導這段關係，能穩住對方的情緒', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+    '木': { type: '相剋', label: '木剋土 🌳', desc: '對方對你有約束力，帶來成長也帶來壓力', color: 'bg-green-50 border-green-200 text-green-700' },
+    '土': { type: '比和', label: '土土厚實 🏔️', desc: '兩人都穩重踏實，關係安定，但缺少變化', color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+  },
+  '金': {
+    '水': { type: '相生', label: '金生水 💧', desc: '你滋養對方，帶給對方清晰與方向', color: 'bg-gray-50 border-gray-200 text-gray-700' },
+    '土': { type: '相生', label: '土生金 🌾', desc: '對方滋養你，給你資源與穩定的後盾', color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+    '木': { type: '相剋', label: '金剋木 🌳', desc: '你主導這段關係，有雕琢對方的力量', color: 'bg-green-50 border-green-200 text-green-700' },
+    '火': { type: '相剋', label: '火剋金 🔥', desc: '對方對你有融化作用，讓你學會柔軟', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+    '金': { type: '比和', label: '金金鏗鏘 ⚔️', desc: '兩人都直接有個性，需要互相磨合尊重', color: 'bg-gray-50 border-gray-200 text-gray-700' },
+  },
+  '水': {
+    '木': { type: '相生', label: '水生木 🌳', desc: '你滋養對方，帶給對方成長的養分', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+    '金': { type: '相生', label: '金生水 ⚔️', desc: '對方滋養你，帶給你清晰與資源', color: 'bg-gray-50 border-gray-200 text-gray-700' },
+    '火': { type: '相剋', label: '水剋火 🔥', desc: '你主導這段關係，能平衡對方的熱情', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+    '土': { type: '相剋', label: '土剋水 🏔️', desc: '對方對你有約束力，帶來穩定也帶來壓力', color: 'bg-yellow-50 border-yellow-200 text-yellow-700' },
+    '水': { type: '比和', label: '水水相連 💧', desc: '兩人都敏感細膩，心靈相通，容易深度連結', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+  },
 }
 
 function CompatibilityContent() {
@@ -270,6 +308,45 @@ function CompatibilityContent() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* 五行相性 visual */}
+            {(() => {
+              const e1 = result.bazi1.dayStemElement
+              const e2 = result.bazi2.dayStemElement
+              const relation = ELEMENT_RELATIONS[e1]?.[e2]
+              if (!relation) return null
+              const color1 = ELEMENT_LUCKY_COLORS[e1]?.hex?.[0] || '#059669'
+              const color2 = ELEMENT_LUCKY_COLORS[e2]?.hex?.[0] || '#E11D48'
+              return (
+                <div className="bg-white border border-[#E5E7EB] rounded-2xl p-4 mb-3">
+                  <p className="text-[11px] text-[#AAA] mb-3 text-center">五行相性</p>
+                  <div className="flex items-center justify-center gap-3 mb-3">
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-[22px]" style={{ background: color1 + '22', border: `2px solid ${color1}` }}>
+                        {ELEMENT_EMOJI[e1]}
+                      </div>
+                      <span className="text-[11px] text-[#888]">{name1}</span>
+                      <span className="text-[10px] font-medium text-[#059669]">{e1}命</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full border ${relation.color}`}>{relation.type}</span>
+                      <span className="text-[18px]">⇄</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-[22px]" style={{ background: color2 + '22', border: `2px solid ${color2}` }}>
+                        {ELEMENT_EMOJI[e2]}
+                      </div>
+                      <span className="text-[11px] text-[#888]">{name2}</span>
+                      <span className="text-[10px] font-medium text-[#E11D48]">{e2}命</span>
+                    </div>
+                  </div>
+                  <div className={`rounded-xl p-3 border ${relation.color}`}>
+                    <p className="text-[12px] font-medium mb-1">{relation.label}</p>
+                    <p className="text-[12px] leading-relaxed">{relation.desc}</p>
                   </div>
                 </div>
               )
