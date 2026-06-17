@@ -227,6 +227,9 @@ function ReadingContent() {
   const todayStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`
   const lunarToday = Lunar.fromDate(today)
   const lunarTodayStr = `農曆${lunarToday.getMonthInChinese()}月${lunarToday.getDayInChinese()}`
+  const birthday = new Date(date)
+  const lunarBirthday = Lunar.fromDate(birthday)
+  const lunarBirthdayStr = `農曆${lunarBirthday.getMonthInChinese()}月${lunarBirthday.getDayInChinese()}生`
   const monthStr = `${today.getFullYear()}年${today.getMonth()+1}月`
 
   return (
@@ -261,7 +264,7 @@ function ReadingContent() {
             )
           })()}
           <h1 className="text-[18px] font-medium text-[#0F2027]">{name} 的天賦報告</h1>
-          <p className="text-[12px] text-[#AAA] mt-1">{date} · {age}歲</p>
+          <p className="text-[12px] text-[#AAA] mt-1">{date} · {lunarBirthdayStr} · {age}歲</p>
           <p className="text-[10px] text-[#CCC] mt-0.5">{todayStr} · {lunarTodayStr}</p>
           <div className="inline-flex items-center gap-1 text-[10px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1 mt-2">
             八字 × 星座 × 生命數字，三維度讀懂你
