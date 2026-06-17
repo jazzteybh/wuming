@@ -2,9 +2,10 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { ELEMENT_EMOJI } from '@/lib/bazi'
+import { ELEMENT_EMOJI, getZodiac } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
 import FeedbackForm from '@/components/FeedbackForm'
+import ShareCard from '@/components/ShareCard'
 
 const SECTIONS = ['天賦優勢', '最適職涯路線', '工作風格', '職涯黃金期', '需要注意的職場盲點', '給你的職涯建議']
 
@@ -35,11 +36,14 @@ function CareerContent() {
   const name = searchParams.get('name') || ''
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
+  const gender = searchParams.get('gender') || 'male'
 
   const [careerText, setCareerText] = useState('')
   const [streaming, setStreaming] = useState(true)
   const [elementEmoji, setElementEmoji] = useState('')
   const [element, setElement] = useState('')
+  const [dayStem, setDayStem] = useState('')
+  const [lifePath, setLifePath] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
@@ -78,6 +82,8 @@ function CareerContent() {
                 setElement(msg.bazi.dayStemElement)
                 setElementEmoji(ELEMENT_EMOJI[msg.bazi.dayStemElement] || '')
               }
+              if (msg.bazi?.dayStem) setDayStem(msg.bazi.dayStem)
+              if (msg.lifePath) setLifePath(msg.lifePath)
               setLoading(false)
             } else if (msg.type === 'text') {
               setCareerText(prev => prev + msg.text)
@@ -238,6 +244,18 @@ function CareerContent() {
             </div>
           )}
         </div>
+
+        {!streaming && dayStem && lifePath > 0 && (() => {
+          const zodiac = getZodiac(date)
+          const careerTagMatch = careerText.match(/\*\*職涯關鍵字\*\*\s*\n?([\s\S]*?)(?=\n\n|\n\*\*|$)/)
+          const careerTags = careerTagMatch ? careerTagMatch[1].split('·').map((s: string) => s.trim()).filter(Boolean).slice(0, 3) : []
+          return (
+            <div className="py-4 border-t border-[#F0FAF8]">
+              <p className="text-[11px] text-[#AAA] text-center mb-4">分享你的職涯天賦解讀</p>
+              <ShareCard name={name} dayStem={dayStem} lifePath={lifePath} zodiac={zodiac?.sign || ''} gender={gender} tags={careerTags} />
+            </div>
+          )
+        })()}
 
         <ExploreMore name={name} date={date} time={time} current="career" />
         <FeedbackForm name={name} />

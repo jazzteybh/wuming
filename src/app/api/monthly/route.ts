@@ -130,7 +130,7 @@ export async function POST(req: Request) {
       }
     })
 
-    return Response.json({ monthly: monthlyData })
+    return Response.json({ monthly: monthlyData, dayStem: bazi.dayStem, lifePath })
   } catch (err) {
     console.error(err)
     return Response.json({ error: '生成失敗，請稍後再試' }, { status: 500 })

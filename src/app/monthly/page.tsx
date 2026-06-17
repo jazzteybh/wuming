@@ -2,8 +2,10 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { getZodiac } from '@/lib/bazi'
 import ExploreMore from '@/components/ExploreMore'
 import FeedbackForm from '@/components/FeedbackForm'
+import ShareCard from '@/components/ShareCard'
 
 interface MonthData {
   month: string
@@ -31,8 +33,11 @@ function MonthlyContent() {
   const name = searchParams.get('name') || ''
   const date = searchParams.get('date') || ''
   const time = searchParams.get('time') || ''
+  const gender = searchParams.get('gender') || 'male'
 
   const [monthly, setMonthly] = useState<MonthData[]>([])
+  const [dayStem, setDayStem] = useState('')
+  const [lifePath, setLifePath] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [email, setEmail] = useState('')
@@ -52,7 +57,7 @@ function MonthlyContent() {
       body: JSON.stringify({ name, date, time }),
     })
       .then(r => r.json())
-      .then(d => { if (d.error) setError(d.error); else setMonthly(d.monthly) })
+      .then(d => { if (d.error) setError(d.error); else { setMonthly(d.monthly); if (d.dayStem) setDayStem(d.dayStem); if (d.lifePath) setLifePath(d.lifePath) } })
       .catch(() => setError('網路錯誤，請重試'))
       .finally(() => setLoading(false))
   }, [])
@@ -175,6 +180,17 @@ function MonthlyContent() {
             </>
           )}
         </div>
+
+        {dayStem && lifePath > 0 && (() => {
+          const zodiac = getZodiac(date)
+          const topMonths = monthly.slice(0, 3).map(m => m.theme)
+          return (
+            <div className="py-4 border-t border-[#F0FAF8]">
+              <p className="text-[11px] text-[#AAA] text-center mb-4">分享你的運程解讀</p>
+              <ShareCard name={name} dayStem={dayStem} lifePath={lifePath} zodiac={zodiac?.sign || ''} gender={gender} tags={topMonths} />
+            </div>
+          )
+        })()}
 
         <ExploreMore name={name} date={date} time={time} current="monthly" />
         <FeedbackForm name={name} />
