@@ -64,8 +64,7 @@ function formatReadingEmail(reading: string): string {
   return SHOW.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:6px 0;"/>')
 }
 
-// Text-based logo — SVG images are blocked by Gmail
-const logoHtml = `<table cellpadding="0" cellspacing="0" style="margin-bottom:20px;"><tr><td style="padding-right:10px;vertical-align:middle;"><div style="width:36px;height:36px;background:#059669;border-radius:10px;text-align:center;line-height:36px;font-size:18px;color:white;">✦</div></td><td style="vertical-align:middle;"><div style="font-size:17px;font-weight:500;color:#059669;line-height:1.2;">悟明</div><div style="font-size:11px;color:#AAA;line-height:1.4;">讀懂自己，導航人生</div></td></tr></table>`
+const logoHtml = `<table cellpadding="0" cellspacing="0" style="margin-bottom:20px;"><tr><td style="padding-right:10px;vertical-align:middle;"><img src="https://wumingai.app/logo.png" alt="悟明" width="36" height="36" style="display:block;border-radius:10px;" /></td><td style="vertical-align:middle;"><div style="font-size:17px;font-weight:500;color:#059669;line-height:1.2;">悟明</div><div style="font-size:11px;color:#AAA;line-height:1.4;">讀懂自己，導航人生</div></td></tr></table>`
 
 export async function POST(req: Request) {
   const { email, name, date, type = 'reading', reading, monthly, bazi, lifePath, lifePathInfo, name1, name2, score } = await req.json()
@@ -86,7 +85,7 @@ export async function POST(req: Request) {
     { label: '年柱', stem: bazi.year.stem, branch: bazi.year.branch, isDay: false },
     { label: '月柱', stem: bazi.month.stem, branch: bazi.month.branch, isDay: false },
     { label: '日柱', stem: bazi.day.stem, branch: bazi.day.branch, isDay: true },
-    ...(bazi.hour ? [{ label: '時柱', stem: bazi.hour.stem, branch: bazi.hour.branch, isDay: false }] : []),
+    { label: '時柱', stem: bazi.hour?.stem || '?', branch: bazi.hour?.branch || '?', isDay: false },
   ] : []
 
   const subjects: Record<string, string> = {
