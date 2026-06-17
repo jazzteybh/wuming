@@ -7,7 +7,10 @@ export default function Home() {
   const router = useRouter()
   const [form, setForm] = useState({ name: '', date: '', time: '', noTime: false, gender: 'male' })
   const [loading, setLoading] = useState(false)
+  const [loadingMsg, setLoadingMsg] = useState('')
   const [error, setError] = useState('')
+
+  const LOADING_MSGS = ['正在計算你的命盤...', '分析五行結構...', '對照星座與生命數字...', '準備你的專屬解讀...']
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -20,6 +23,12 @@ export default function Home() {
       return
     }
     setLoading(true)
+    setLoadingMsg(LOADING_MSGS[0])
+    let msgIdx = 0
+    const msgInterval = setInterval(() => {
+      msgIdx = Math.min(msgIdx + 1, LOADING_MSGS.length - 1)
+      setLoadingMsg(LOADING_MSGS[msgIdx])
+    }, 600)
     setError('')
     if (typeof window !== 'undefined') {
       window.gtag?.('event', 'form_submitted', { name: form.name, has_time: !!form.time })
@@ -30,6 +39,7 @@ export default function Home() {
       time: form.time,
       gender: form.gender,
     })
+    clearInterval(msgInterval)
     router.push(`/reading?${params.toString()}`)
   }
 
@@ -163,7 +173,7 @@ export default function Home() {
               {loading ? (
                 <>
                   <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block" />
-                  生成中...
+                  {loadingMsg}
                 </>
               ) : '✦ 解讀我的天賦'}
             </button>

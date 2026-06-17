@@ -162,8 +162,16 @@ function ReadingContent() {
             <span className="text-[18px] font-medium text-[#059669]">悟明</span>
           </div>
 
-          {/* Spinner */}
-          <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />
+          {/* Progress bar */}
+          <div className="w-full bg-[#E5E7EB] rounded-full h-1.5 mb-2 overflow-hidden">
+            <div
+              className="bg-[#059669] h-1.5 rounded-full transition-all duration-700 ease-out"
+              style={{ width: `${Math.round(((loadingStep + 1) / LOADING_STEPS.length) * 100)}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-[#AAA] mb-6">
+            第 {loadingStep + 1} / {LOADING_STEPS.length} 步
+          </p>
 
           {/* Step card */}
           <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-5 mb-4 transition-all duration-500">
@@ -509,7 +517,8 @@ function ReadingContent() {
         </div>
 
         <div className="py-4 border-t border-[#F0FAF8]">
-          <p className="text-[11px] text-[#AAA] text-center mb-4">分享你的天賦解讀</p>
+          <p className="text-[13px] font-medium text-[#0F2027] text-center mb-1">覺得準？分享給朋友測測他 👇</p>
+          <p className="text-[11px] text-[#AAA] text-center mb-4">儲存卡片，分享到 IG / Line</p>
           <ShareCard
             name={name}
             dayStem={data.bazi.dayStem}
