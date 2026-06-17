@@ -63,8 +63,34 @@ export default function Home() {
         <p className="text-[13px] text-[#777] leading-relaxed mb-3">
           30秒天賦分析，完全免費，無需註冊
         </p>
-        <div className="inline-flex items-center gap-2 text-[12px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1.5 mb-5">
+        <div className="inline-flex items-center gap-2 text-[12px] text-[#059669] bg-[#F0FDF4] border border-[#BBF7D0] rounded-full px-3 py-1.5 mb-4">
           <span>八字 × 星座 × 生命數字，三維度讀懂你</span>
+        </div>
+
+        {/* Sample preview card */}
+        <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-4 mb-5">
+          <p className="text-[10px] text-[#059669] mb-3 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#059669] inline-block" />
+            你會得到的解讀（範例）
+          </p>
+          <div className="flex gap-2 mb-3">
+            {[
+              { emoji: '🔥', val: '丙火命', lbl: '五行命格' },
+              { emoji: '🔢', val: '9號人', lbl: '生命數字' },
+              { emoji: '♎', val: '天秤座', lbl: '星座' },
+            ].map(item => (
+              <div key={item.lbl} className="flex-1 bg-white border border-[#BBF7D0] rounded-xl py-2.5 px-1 text-center">
+                <div className="text-[18px]">{item.emoji}</div>
+                <div className="text-[12px] font-medium text-[#059669] mt-1">{item.val}</div>
+                <div className="text-[9px] text-[#AAA] mt-0.5">{item.lbl}</div>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {['影響型', '熱情開朗', '天生領袖', '感染者'].map(tag => (
+              <span key={tag} className="bg-[#DCFCE7] text-[#059669] text-[10px] px-2.5 py-1 rounded-full">{tag}</span>
+            ))}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -205,8 +231,11 @@ export default function Home() {
             >
               <span className="text-[20px]">☯</span>
               <div className="flex-1">
-                <div className="text-[13px] font-medium text-[#0F2027]">緣分指數測試</div>
-                <div className="text-[10px] text-[#888]">輸入兩人生日測緣分</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-medium text-[#0F2027]">緣分指數測試</span>
+                  <span className="text-[9px] bg-[#FFE4E6] text-[#E11D48] px-2 py-0.5 rounded-full font-medium">最熱門</span>
+                </div>
+                <div className="text-[10px] text-[#888]">兩人八字合盤，測緣分深淺</div>
               </div>
               <span className="text-[11px] text-[#E11D48] font-medium">立即試 →</span>
             </button>
@@ -226,7 +255,7 @@ export default function Home() {
               { emoji: '🔢', title: '生命數字怎麼算？1到9完整解讀', sub: '算出你的生命數字', href: '/blog/life-path-number-guide' },
               { emoji: '🛠️', title: '免費八字工具推薦2026：5款比較', sub: '選對工具少走彎路', href: '/blog/free-bazi-tools-guide' },
             ].map(a => (
-              <a key={a.href} href={a.href} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity">
+              <a key={a.href} href={a.href} onClick={() => window.gtag?.('event', 'blog_clicked', { slug: a.href })} className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 active:opacity-70 transition-opacity">
                 <span className="text-[20px]">{a.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-medium text-[#0F2027] truncate">{a.title}</div>

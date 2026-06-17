@@ -60,6 +60,9 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
 
   async function handleShare() {
     setSharing(true)
+    if (typeof window !== 'undefined') {
+      window.gtag?.('event', 'share_card_clicked', { dayStem, gender })
+    }
     try {
       const fileName = `${name}-天賦解讀.png`
 

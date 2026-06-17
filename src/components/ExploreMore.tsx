@@ -29,6 +29,9 @@ export default function ExploreMore({ name, date, time = '', current }: Props) {
   const others = PAGES.filter(p => p.key !== currentKey)
 
   function go(key: string) {
+    if (typeof window !== 'undefined') {
+      window.gtag?.('event', 'explore_more_clicked', { from: current, to: key })
+    }
     const params = new URLSearchParams({ name, date, ...(time ? { time } : {}) })
     router.push(`/${key}?${params.toString()}`)
   }
