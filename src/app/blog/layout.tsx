@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import BlogStickyCta from '@/components/BlogStickyCta'
 
 export const metadata: Metadata = {
   title: '悟明 — 八字命理解讀指南',
@@ -12,5 +13,10 @@ export const metadata: Metadata = {
 }
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      {children}
+      <BlogStickyCta />
+    </>
+  )
 }
