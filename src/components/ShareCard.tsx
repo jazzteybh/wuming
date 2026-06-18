@@ -14,6 +14,15 @@ const DAY_STEM_LABEL: Record<string, string> = {
   '壬': '壬水命', '癸': '癸水命',
 }
 
+const HOLLAND_TYPE_INFO: Record<string, { name: string; icon: string }> = {
+  R: { name: '創造者', icon: '🔨' },
+  I: { name: '探索者', icon: '📚' },
+  A: { name: '表達者', icon: '🎨' },
+  S: { name: '連結者', icon: '🤝' },
+  E: { name: '領導者', icon: '🎯' },
+  C: { name: '規劃者', icon: '📋' },
+}
+
 interface Props {
   name: string
   dayStem: string
@@ -21,9 +30,10 @@ interface Props {
   zodiac: string
   gender: string
   tags: string[]
+  holland?: string
 }
 
-export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tags }: Props) {
+export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tags, holland }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [blob, setBlob] = useState<Blob | null>(null)
   const [ready, setReady] = useState(false)
@@ -142,7 +152,7 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '7px', alignSelf: 'flex-start' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://wumingai.app/logo.png" alt="悟明" width={22} height={22} style={{ borderRadius: '6px', display: 'block' }} />
+          <img src="https://wumingai.app/logo-green.png" alt="悟明" width={22} height={22} style={{ borderRadius: '6px', display: 'block' }} />
           <span style={{ fontSize: '14px', fontWeight: '600', color: '#059669' }}>悟明</span>
           <span style={{ fontSize: '9px', color: '#AAA' }}>讀懂自己，導航人生</span>
         </div>
@@ -168,17 +178,43 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
         </div>
 
         {/* Tags */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px' }}>
-          {displayTags.map(tag => (
-            <span key={tag} style={{
-              background: '#DCFCE7',
-              color: '#059669',
-              fontSize: '10px',
-              padding: '3px 10px',
-              borderRadius: '20px',
-            }}>{tag}</span>
-          ))}
-        </div>
+        {displayTags.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px' }}>
+            {displayTags.map(tag => (
+              <span key={tag} style={{
+                background: '#DCFCE7',
+                color: '#059669',
+                fontSize: '10px',
+                padding: '3px 10px',
+                borderRadius: '20px',
+              }}>{tag}</span>
+            ))}
+          </div>
+        )}
+
+        {/* Holland type */}
+        {holland && (() => {
+          const primary = HOLLAND_TYPE_INFO[holland[0]]
+          const secondary = holland[1] ? HOLLAND_TYPE_INFO[holland[1]] : null
+          if (!primary) return null
+          return (
+            <div style={{
+              background: 'white',
+              border: '1px solid #BBF7D0',
+              borderRadius: '12px',
+              padding: '8px 14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              width: '100%',
+            }}>
+              <span style={{ fontSize: '9px', color: '#AAA', flexShrink: 0 }}>職涯型態</span>
+              <span style={{ fontSize: '12px', fontWeight: '600', color: '#059669' }}>
+                {primary.icon} {primary.name}{secondary ? ` × ${secondary.icon} ${secondary.name}` : ''}
+              </span>
+            </div>
+          )
+        })()}
 
         {/* URL */}
         <div style={{ fontSize: '9px', color: '#CCC', letterSpacing: '0.1em', alignSelf: 'flex-end' }}>wumingai.app</div>

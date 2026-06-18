@@ -434,7 +434,7 @@ function CareerContent() {
           return (
             <div className="py-4 border-t border-[#F0FAF8]">
               <p className="text-[11px] text-[#AAA] text-center mb-4">分享你的職涯天賦解讀</p>
-              <ShareCard name={name} dayStem={dayStem} lifePath={lifePath} zodiac={zodiac?.sign || ''} gender={gender} tags={careerTags} />
+              <ShareCard name={name} dayStem={dayStem} lifePath={lifePath} zodiac={zodiac?.sign || ''} gender={gender} tags={careerTags} holland={h || undefined} />
             </div>
           )
         })()}
