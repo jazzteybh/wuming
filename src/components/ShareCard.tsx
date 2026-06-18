@@ -142,7 +142,7 @@ export default function ShareCard({ name, dayStem, lifePath, zodiac, gender, tag
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '7px', alignSelf: 'flex-start' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="悟明" width={22} height={22} style={{ borderRadius: '6px', display: 'block' }} />
+          <img src="https://wumingai.app/logo.png" alt="悟明" width={22} height={22} style={{ borderRadius: '6px', display: 'block' }} />
           <span style={{ fontSize: '14px', fontWeight: '600', color: '#059669' }}>悟明</span>
           <span style={{ fontSize: '9px', color: '#AAA' }}>讀懂自己，導航人生</span>
         </div>
