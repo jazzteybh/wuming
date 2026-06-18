@@ -31,11 +31,48 @@ function sectionHtml(title: string, content: string, icon = ''): string {
   return `<div style="margin:14px 0;"><p style="font-size:13px;font-weight:600;color:#059669;margin:0 0 5px;">${icon ? icon + ' ' : ''}${title}</p><p style="font-size:14px;color:#555;line-height:1.7;margin:0;">${content}</p></div>`
 }
 
-function formatCareerEmail(reading: string): string {
+const HOLLAND_TYPE_INFO: Record<string, { name: string; icon: string }> = {
+  R: { name: '創造者', icon: '🔨' },
+  I: { name: '探索者', icon: '📚' },
+  A: { name: '表達者', icon: '🎨' },
+  S: { name: '連結者', icon: '🤝' },
+  E: { name: '領導者', icon: '🎯' },
+  C: { name: '規劃者', icon: '📋' },
+}
+
+const HOLLAND_INDUSTRIES: Record<string, string[]> = {
+  R: ['製造 / 工程', '建築 / 空間設計', '科技硬體', '食品 / 餐飲'],
+  I: ['自我成長 / 身心靈', '教育科技', '媒體 / 內容', '醫療 / 研究'],
+  A: ['創意 / 設計', '媒體 / 娛樂', '品牌行銷', '時尚'],
+  S: ['教育 / 培訓', '醫療 / 心理', '非營利', '人資 / 社群'],
+  E: ['新創 / 創業', '行銷 / 業務', '金融投資', '管理顧問'],
+  C: ['金融 / 會計', '法律 / 合規', '科技後台', '政府 / 行政'],
+}
+
+function formatHollandSection(h: string): string {
+  if (!h || h.length < 1) return ''
+  const primary = h[0]
+  const secondary = h[1]
+  const p = HOLLAND_TYPE_INFO[primary]
+  const s = secondary ? HOLLAND_TYPE_INFO[secondary] : null
+  if (!p) return ''
+  const industries = HOLLAND_INDUSTRIES[primary] || []
+  const typeLabel = s ? `${p.icon} ${p.name} × ${s.icon} ${s.name}` : `${p.icon} ${p.name}`
+  return `
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:14px;margin:0 0 14px;">
+      <div style="font-size:10px;color:#059669;font-weight:600;margin-bottom:6px;">悟明職涯型態</div>
+      <div style="font-size:16px;font-weight:600;color:#0F2027;margin-bottom:8px;">${typeLabel}</div>
+      <div style="font-size:10px;color:#AAA;margin-bottom:5px;">適合行業</div>
+      <table cellpadding="0" cellspacing="0"><tr>${industries.map((ind, i) => `<td style="padding-right:5px;padding-bottom:4px;"><span style="display:inline-block;background:white;border:1px solid #BBF7D0;border-radius:20px;padding:3px 9px;font-size:11px;color:#059669;">${i === 0 ? '★ ' : ''}${ind}</span></td>`).join('')}</tr></table>
+    </div>`
+}
+
+function formatCareerEmail(reading: string, h = ''): string {
+  const hollandSection = formatHollandSection(h)
   const SECTIONS = ['天賦優勢', '最適職涯路線', '工作風格', '職涯黃金期', '需要注意的職場盲點', '給你的職涯建議']
   const ICONS: Record<string, string> = { '天賦優勢': '⚡', '最適職涯路線': '🧭', '工作風格': '🎯', '職涯黃金期': '✦', '需要注意的職場盲點': '🔍', '給你的職涯建議': '💬' }
   const parsed = parseSections(reading, SECTIONS)
-  return SECTIONS.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s], ICONS[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:6px 0;"/>')
+  return hollandSection + SECTIONS.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s], ICONS[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:6px 0;"/>')
 }
 
 function formatCompatibilityEmail(reading: string, name1: string, name2: string, score: number): string {
@@ -64,10 +101,10 @@ function formatReadingEmail(reading: string): string {
   return SHOW.filter(s => parsed[s]).map(s => sectionHtml(s, parsed[s])).join('<hr style="border:none;border-top:1px solid #F0F0F0;margin:6px 0;"/>')
 }
 
-const logoHtml = `<table cellpadding="0" cellspacing="0" style="margin-bottom:20px;"><tr><td style="padding-right:10px;vertical-align:middle;"><img src="https://wumingai.app/logo.png" alt="悟明" width="36" height="36" style="display:block;border-radius:10px;" /></td><td style="vertical-align:middle;"><div style="font-size:17px;font-weight:500;color:#059669;line-height:1.2;">悟明</div><div style="font-size:11px;color:#AAA;line-height:1.4;">讀懂自己，導航人生</div></td></tr></table>`
+const logoHtml = `<table cellpadding="0" cellspacing="0" style="margin-bottom:20px;"><tr><td style="padding-right:10px;vertical-align:middle;"><img src="https://wumingai.app/logo-green.png" alt="悟明" width="36" height="36" style="display:block;border-radius:10px;" /></td><td style="vertical-align:middle;"><div style="font-size:17px;font-weight:500;color:#059669;line-height:1.2;">悟明</div><div style="font-size:11px;color:#AAA;line-height:1.4;">讀懂自己，導航人生</div></td></tr></table>`
 
 export async function POST(req: Request) {
-  const { email, name, date, type = 'reading', reading, monthly, bazi, lifePath, lifePathInfo, name1, name2, score } = await req.json()
+  const { email, name, date, type = 'reading', reading, monthly, bazi, lifePath, lifePathInfo, name1, name2, score, h = '' } = await req.json()
 
   if (!email || !name) {
     return Response.json({ error: '缺少必要資料' }, { status: 400 })
@@ -104,7 +141,7 @@ export async function POST(req: Request) {
 
   let mainContent = ''
   if (type === 'career') {
-    mainContent = formatCareerEmail(reading)
+    mainContent = formatCareerEmail(reading, h)
   } else if (type === 'compatibility') {
     mainContent = formatCompatibilityEmail(reading, name1 || name, name2 || '', score || 0)
   } else if (type === 'monthly') {

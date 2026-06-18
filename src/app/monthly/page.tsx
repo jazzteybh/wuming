@@ -68,7 +68,7 @@ function MonthlyContent() {
         <div className="text-center max-w-xs w-full">
           <div className="flex items-center justify-center gap-2 mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="悟明" className="h-8 w-8" />
+            <img src="/logo-green.png" alt="悟明" className="h-8 w-8" />
             <span className="text-[18px] font-medium text-[#059669]">悟明</span>
           </div>
           <div className="w-14 h-14 border-2 border-[#BBF7D0] border-t-[#059669] rounded-full animate-spin mx-auto mb-6" />
@@ -97,7 +97,7 @@ function MonthlyContent() {
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <button onClick={() => router.back()} className="text-left flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="悟明" className="h-8 w-8" />
+          <img src="/logo-green.png" alt="悟明" className="h-8 w-8" />
           <div>
             <div className="text-xl font-medium tracking-wide text-[#059669]">悟明</div>
             <p className="text-[10px] text-[#AAA] leading-none mt-0.5">讀懂自己，導航人生</p>

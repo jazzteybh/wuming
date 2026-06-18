@@ -22,7 +22,7 @@ export default function MonthlyEntryPage() {
       <nav className="flex justify-between items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <button onClick={() => router.back()} className="flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="悟明" className="h-8 w-8" />
+          <img src="/logo-green.png" alt="悟明" className="h-8 w-8" />
           <div className="flex items-baseline gap-1.5">
             <span className="text-[18px] font-medium tracking-wide text-[#059669]">悟明</span>
             <span className="text-[10px] text-[#AAA]">讀懂自己，導航人生</span>
