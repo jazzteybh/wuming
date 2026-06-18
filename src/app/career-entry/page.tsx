@@ -14,7 +14,7 @@ export default function CareerEntryPage() {
     if (!form.date) { setError('請輸入出生日期'); return }
     const params = new URLSearchParams({ name: form.name.trim(), date: form.date, gender: form.gender })
     if (form.time && !form.noTime) params.set('time', form.time)
-    router.push(`/career?${params.toString()}`)
+    router.push(`/career-quiz?${params.toString()}`)
   }
 
   return (
