@@ -132,7 +132,7 @@ export default function BaziLoveFortunePage() {
       <nav className="flex items-center px-5 pt-4 pb-3 border-b border-[#F0FAF8]">
         <a href="/" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/favicon.svg" alt="悟明" className="h-7 w-7" />
+          <img src="/logo.png" alt="悟明" className="h-7 w-7" />
           <span className="text-[16px] font-medium text-[#059669]">悟明</span>
         </a>
         <span className="text-[#CCC] mx-2">·</span>
